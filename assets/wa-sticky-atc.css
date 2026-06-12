@@ -1,0 +1,196 @@
+/* ==========================================================================
+   Wear Active custom code start — wa-sticky-atc.css
+   Sticky Add to Cart bar.
+   Layering: above page content (z-index 100), below modals (101+) and cart drawer (1000).
+   ========================================================================== */
+
+.wa-sticky-atc {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 100;
+  pointer-events: none;
+  transform: translateY(100%);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+}
+
+.wa-sticky-atc--visible {
+  pointer-events: auto;
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.wa-sticky-atc--drawer-hidden {
+  display: none;
+  transform: translateY(100%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: none;
+}
+
+.wa-sticky-atc__bar {
+  border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.06);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background-color: rgb(var(--color-background));
+}
+
+.wa-sticky-atc__inner {
+  display: grid;
+  align-items: center;
+  gap: 1rem 1.2rem;
+  padding: 1.2rem 1.6rem;
+}
+
+.wa-sticky-atc__details--desktop {
+  display: none;
+}
+
+.wa-sticky-atc__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.wa-sticky-atc__price {
+  min-width: 0;
+}
+
+.wa-sticky-atc__price .price {
+  margin: 0;
+}
+
+.wa-sticky-atc__price .price-item--regular,
+.wa-sticky-atc__price .price-item--sale,
+.wa-sticky-atc__price .price__regular .price-item--regular {
+  font-weight: 500;
+}
+
+.wa-sticky-atc__submit {
+  position: relative;
+  width: 100%;
+  min-height: 5.2rem;
+  margin: 0;
+}
+
+.wa-sticky-atc__submit .loading__spinner {
+  position: absolute;
+}
+
+.wa-sticky-atc__submit.loading .wa-sticky-atc__submit-text {
+  opacity: 0;
+}
+
+@media screen and (max-width: 749px) {
+  .wa-sticky-atc__inner {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem 1.6rem calc(1rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .wa-sticky-atc__price {
+    align-self: start;
+  }
+
+  .wa-sticky-atc__price .price {
+    font-size: 1.5rem;
+    letter-spacing: 0.04rem;
+  }
+
+  .wa-sticky-atc__price .price-item--regular,
+  .wa-sticky-atc__price .price-item--sale {
+    font-size: 1.8rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .wa-sticky-atc__price .price__regular .price-item--regular {
+    font-size: 1.8rem;
+  }
+
+  .wa-sticky-atc__submit {
+    width: 100%;
+    min-height: 5.2rem;
+  }
+}
+
+@media screen and (max-width: 749px) and (orientation: landscape) {
+  .wa-sticky-atc__inner {
+    gap: 0.8rem;
+    padding-top: 0.8rem;
+    padding-bottom: calc(0.8rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .wa-sticky-atc__inner {
+    grid-template-columns: minmax(0, 1fr) auto minmax(20rem, 26rem);
+    gap: 1.8rem 2.4rem;
+    padding: 1.6rem 2.4rem;
+  }
+
+  .wa-sticky-atc__details--desktop {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    min-width: 0;
+  }
+
+  .wa-sticky-atc__media {
+    flex-shrink: 0;
+    width: 6.4rem;
+    height: 6.4rem;
+    border-radius: var(--media-radius);
+    overflow: hidden;
+    background-color: rgba(var(--color-foreground), 0.04);
+  }
+
+  .wa-sticky-atc__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .wa-sticky-atc__title {
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    letter-spacing: 0.04rem;
+  }
+
+  .wa-sticky-atc__size {
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1.2rem;
+    letter-spacing: 0.08rem;
+    text-transform: uppercase;
+    color: rgba(var(--color-foreground), 0.62);
+  }
+
+  .wa-sticky-atc__price {
+    justify-self: end;
+    text-align: right;
+  }
+
+  .wa-sticky-atc__submit {
+    min-height: 5.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-sticky-atc,
+  .wa-sticky-atc--drawer-hidden {
+    transition: none;
+  }
+}
