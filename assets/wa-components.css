@@ -92,3 +92,36 @@
     gap: 0.35rem;
   }
 }
+
+/* Product card hover image — desktop fade */
+.wa-product-card__media--hover .wa-product-card__image--secondary {
+  opacity: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .wa-product-card__media--hover .wa-product-card__image {
+    transition: opacity 220ms ease;
+  }
+
+  .card-wrapper:hover .wa-product-card__media--hover .wa-product-card__image--primary {
+    opacity: 0;
+  }
+
+  .card-wrapper:hover .wa-product-card__media--hover .wa-product-card__image--secondary {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-product-card__media--hover .wa-product-card__image {
+    transition: none;
+  }
+
+  .card-wrapper:hover .wa-product-card__media--hover .wa-product-card__image--primary {
+    opacity: 1;
+  }
+
+  .card-wrapper:hover .wa-product-card__media--hover .wa-product-card__image--secondary {
+    opacity: 0;
+  }
+}
