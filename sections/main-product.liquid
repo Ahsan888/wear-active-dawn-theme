@@ -481,6 +481,9 @@
                 {% render 'wa-linked-color-swatches', product: product, mode: 'product', section_id: section.id %}
                 {%- comment -%} Wear Active custom code end {%- endcomment -%}
               {%- when 'buy_buttons' -%}
+                {%- comment -%} Wear Active custom code start {%- endcomment -%}
+                <div data-wa-sticky-atc-sentinel="{{ section.id }}">
+                {%- comment -%} Wear Active custom code end {%- endcomment -%}
                 {%- render 'buy-buttons',
                   block: block,
                   product: product,
@@ -488,6 +491,9 @@
                   section_id: section.id,
                   show_pickup_availability: true
                 -%}
+                {%- comment -%} Wear Active custom code start {%- endcomment -%}
+                </div>
+                {%- comment -%} Wear Active custom code end {%- endcomment -%}
               {%- when 'rating' -%}
                 {%- if product.metafields.reviews.rating.value != blank -%}
                   <div class="rating-wrapper">
@@ -738,6 +744,13 @@
     <script type="application/ld+json">
       {{ product | structured_data }}
     </script>
+
+    {%- comment -%} Wear Active custom code start {%- endcomment -%}
+    {%- assign wa_buy_buttons_block = section.blocks | where: 'type', 'buy_buttons' | first -%}
+    {%- if wa_buy_buttons_block -%}
+      {% render 'wa-sticky-add-to-cart', product: product, section: section, product_form_id: product_form_id %}
+    {%- endif -%}
+    {%- comment -%} Wear Active custom code end {%- endcomment -%}
   </div>
 </product-info>
 
