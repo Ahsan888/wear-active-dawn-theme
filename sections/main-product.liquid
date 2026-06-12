@@ -477,9 +477,6 @@
 
               {%- when 'variant_picker' -%}
                 {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
-                {%- comment -%} Wear Active custom code start {%- endcomment -%}
-                {% render 'wa-size-chart', product: product, section_id: section.id %}
-                {%- comment -%} Wear Active custom code end {%- endcomment -%}
               {%- when 'buy_buttons' -%}
                 {%- render 'buy-buttons',
                   block: block,
