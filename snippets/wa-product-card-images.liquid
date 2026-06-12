@@ -1,0 +1,65 @@
+{% comment %}
+  Wear Active custom code start — wa-product-card-images.liquid
+  Product card images with premium desktop hover fade to second image.
+
+  Accepts:
+  - card_product: {Object} Product Liquid object.
+  - lazy_load: {Boolean} Lazy-load the primary image. Default: true (optional).
+{% endcomment %}
+
+{%- liquid
+  assign wa_card_primary = card_product.featured_media
+  assign wa_card_secondary = card_product.media[1]
+  assign wa_card_has_hover = false
+  if wa_card_secondary != null
+    assign wa_card_has_hover = true
+  endif
+
+  assign wa_card_sizes = '(min-width: ' | append: settings.page_width | append: 'px) ' | append: settings.page_width | minus: 130 | divided_by: 4 | append: 'px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)'
+-%}
+
+<div class="media media--transparent wa-product-card__media{% if wa_card_has_hover %} wa-product-card__media--hover{% endif %}">
+  {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+  <img
+    srcset="
+      {%- if wa_card_primary.width >= 165 -%}{{ wa_card_primary | image_url: width: 165 }} 165w,{%- endif -%}
+      {%- if wa_card_primary.width >= 360 -%}{{ wa_card_primary | image_url: width: 360 }} 360w,{%- endif -%}
+      {%- if wa_card_primary.width >= 533 -%}{{ wa_card_primary | image_url: width: 533 }} 533w,{%- endif -%}
+      {%- if wa_card_primary.width >= 720 -%}{{ wa_card_primary | image_url: width: 720 }} 720w,{%- endif -%}
+      {%- if wa_card_primary.width >= 940 -%}{{ wa_card_primary | image_url: width: 940 }} 940w,{%- endif -%}
+      {%- if wa_card_primary.width >= 1066 -%}{{ wa_card_primary | image_url: width: 1066 }} 1066w,{%- endif -%}
+      {{ wa_card_primary | image_url }} {{ wa_card_primary.width }}w
+    "
+    src="{{ wa_card_primary | image_url: width: 533 }}"
+    sizes="{{ wa_card_sizes }}"
+    alt="{{ wa_card_primary.alt | escape }}"
+    class="wa-product-card__image wa-product-card__image--primary motion-reduce"
+    {% unless lazy_load == false %}
+      loading="lazy"
+    {% endunless %}
+    width="{{ wa_card_primary.width }}"
+    height="{{ wa_card_primary.height }}"
+  >
+  {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
+
+  {%- if wa_card_has_hover -%}
+    <img
+      srcset="
+        {%- if wa_card_secondary.width >= 165 -%}{{ wa_card_secondary | image_url: width: 165 }} 165w,{%- endif -%}
+        {%- if wa_card_secondary.width >= 360 -%}{{ wa_card_secondary | image_url: width: 360 }} 360w,{%- endif -%}
+        {%- if wa_card_secondary.width >= 533 -%}{{ wa_card_secondary | image_url: width: 533 }} 533w,{%- endif -%}
+        {%- if wa_card_secondary.width >= 720 -%}{{ wa_card_secondary | image_url: width: 720 }} 720w,{%- endif -%}
+        {%- if wa_card_secondary.width >= 940 -%}{{ wa_card_secondary | image_url: width: 940 }} 940w,{%- endif -%}
+        {%- if wa_card_secondary.width >= 1066 -%}{{ wa_card_secondary | image_url: width: 1066 }} 1066w,{%- endif -%}
+        {{ wa_card_secondary | image_url }} {{ wa_card_secondary.width }}w
+      "
+      src="{{ wa_card_secondary | image_url: width: 533 }}"
+      sizes="{{ wa_card_sizes }}"
+      alt="{{ wa_card_secondary.alt | escape }}"
+      class="wa-product-card__image wa-product-card__image--secondary motion-reduce"
+      loading="lazy"
+      width="{{ wa_card_secondary.width }}"
+      height="{{ wa_card_secondary.height }}"
+    >
+  {%- endif -%}
+</div>
