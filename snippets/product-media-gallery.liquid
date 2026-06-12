@@ -45,9 +45,7 @@
 <media-gallery
   id="MediaGallery-{{ section.id }}"
   role="region"
-  {% if section.settings.enable_sticky_info %}
-    class="product__column-sticky"
-  {% endif %}
+  class="wa-product-gallery{% if section.settings.enable_sticky_info %} product__column-sticky{% endif %}"
   aria-label="{{ 'products.product.media.gallery_viewer' | t }}"
   data-desktop-layout="{{ section.settings.gallery_layout }}"
 >
@@ -153,6 +151,17 @@
         </span>
       </button>
     </div>
+    {%- comment -%} Wear Active custom code start {%- endcomment -%}
+    {%- if media_count > 1 -%}
+      <div
+        class="wa-product-gallery__progress{% if hide_mobile_slider %} small-hide{% endif %}"
+        aria-hidden="true"
+        style="--wa-gallery-index: 1; --wa-gallery-count: {{ media_count }};"
+      >
+        <span class="wa-product-gallery__progress-fill"></span>
+      </div>
+    {%- endif -%}
+    {%- comment -%} Wear Active custom code end {%- endcomment -%}
   </slider-component>
   {%- if first_3d_model -%}
     <button

@@ -1,0 +1,183 @@
+/* ==========================================================================
+   Wear Active custom code start — wa-product-gallery.css
+   PDP product gallery polish — thumbnails, mobile pagination, transitions.
+   ========================================================================== */
+
+/* Desktop — main image fade on thumbnail switch */
+@media screen and (min-width: 750px) {
+  .product--thumbnail .wa-product-gallery .product__media-item.is-active .product__media,
+  .product--thumbnail_slider .wa-product-gallery .product__media-item.is-active .product__media {
+    animation: wa-gallery-fade-in 0.22s ease;
+  }
+}
+
+@keyframes wa-gallery-fade-in {
+  from {
+    opacity: 0.92;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Desktop — thumbnail list */
+@media screen and (min-width: 750px) {
+  .wa-product-gallery .thumbnail-list {
+    gap: 0.75rem;
+  }
+
+  .wa-product-gallery .thumbnail-list__item {
+    border-radius: var(--media-radius);
+    overflow: hidden;
+    background-color: rgba(var(--color-foreground), 0.03);
+  }
+
+  .wa-product-gallery .thumbnail {
+    opacity: 1;
+    transition: box-shadow 0.2s ease;
+  }
+
+  .wa-product-gallery .thumbnail[aria-current] {
+    box-shadow:
+      0 0 0 0.1rem rgb(var(--color-background)),
+      0 0 0 0.12rem rgba(var(--color-foreground), 0.5);
+  }
+
+  .wa-product-gallery .thumbnail[aria-current]:focus:not(:focus-visible) {
+    box-shadow:
+      0 0 0 0.1rem rgb(var(--color-background)),
+      0 0 0 0.12rem rgba(var(--color-foreground), 0.5);
+  }
+
+  .wa-product-gallery .thumbnail-slider .slider-button {
+    width: 3.2rem;
+    height: 3.2rem;
+    border: 0.1rem solid rgba(var(--color-foreground), 0.1);
+    border-radius: 50%;
+    background-color: rgb(var(--color-background));
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .wa-product-gallery .thumbnail-slider .slider-button:not([disabled]):hover {
+    border-color: rgba(var(--color-foreground), 0.28);
+    background-color: rgba(var(--color-foreground), 0.03);
+  }
+
+  .wa-product-gallery .thumbnail-slider .slider-button:focus-visible {
+    outline: 0.2rem solid rgba(var(--color-foreground), 0.45);
+    outline-offset: 0.15rem;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .wa-product-gallery .thumbnail:not([aria-current]):hover {
+    opacity: 1;
+    box-shadow: inset 0 0 0 0.1rem rgba(var(--color-foreground), 0.18);
+  }
+}
+
+.wa-product-gallery .thumbnail:focus-visible {
+  outline: 0.2rem solid rgba(var(--color-foreground), 0.45);
+  outline-offset: 0.12rem;
+  box-shadow:
+    0 0 0 0.1rem rgb(var(--color-background)),
+    0 0 0 0.12rem rgba(var(--color-foreground), 0.5);
+}
+
+/* Mobile — swipe gallery */
+@media screen and (max-width: 749px) {
+  .wa-product-gallery .product__media-list.slider--mobile {
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 0.4rem;
+  }
+
+  .wa-product-gallery .product__media-list .product__media-item {
+    scroll-snap-align: center;
+  }
+
+  .wa-product-gallery [id^='GalleryViewer-'] .slider-buttons {
+    margin: 0.6rem auto 0;
+    padding: 0.5rem 1rem;
+    width: fit-content;
+    max-width: calc(100% - 3rem);
+    border-radius: 2rem;
+    background-color: rgba(var(--color-background), 0.94);
+    box-shadow: 0 0.1rem 0.6rem rgba(var(--color-foreground), 0.06);
+  }
+
+  .wa-product-gallery .slider-counter {
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 0.08rem;
+    min-width: 5rem;
+  }
+
+  .wa-product-gallery .slider-counter--current {
+    color: rgb(var(--color-foreground));
+  }
+
+  .wa-product-gallery .slider-button {
+    width: 3.6rem;
+    height: 3.6rem;
+  }
+
+  .wa-product-gallery .slider-button:focus-visible {
+    outline: 0.2rem solid rgba(var(--color-foreground), 0.45);
+    outline-offset: 0.1rem;
+  }
+
+  .wa-product-gallery .thumbnail-list__item {
+    border-radius: var(--media-radius);
+    overflow: hidden;
+  }
+
+  .wa-product-gallery .thumbnail[aria-current] {
+    box-shadow:
+      0 0 0 0.1rem rgb(var(--color-background)),
+      0 0 0 0.12rem rgba(var(--color-foreground), 0.45);
+  }
+}
+
+/* Mobile — progress indicator */
+.wa-product-gallery__progress {
+  display: none;
+}
+
+@media screen and (max-width: 749px) {
+  .wa-product-gallery__progress {
+    display: block;
+    height: 0.2rem;
+    margin: 0.4rem 1.5rem 1rem;
+    border-radius: 0.2rem;
+    background-color: rgba(var(--color-foreground), 0.1);
+    overflow: hidden;
+  }
+
+  .wa-product-gallery__progress-fill {
+    display: block;
+    height: 100%;
+    width: calc(var(--wa-gallery-index, 1) / var(--wa-gallery-count, 1) * 100%);
+    background-color: rgba(var(--color-foreground), 0.55);
+    border-radius: inherit;
+    transition: width 0.25s ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-product-gallery .product__media-item.is-active .product__media {
+    animation: none;
+  }
+
+  .wa-product-gallery .thumbnail,
+  .wa-product-gallery .thumbnail-slider .slider-button,
+  .wa-product-gallery__progress-fill {
+    transition: none;
+  }
+
+  .wa-product-gallery .product__media-list.slider--mobile {
+    scroll-behavior: auto;
+  }
+}
