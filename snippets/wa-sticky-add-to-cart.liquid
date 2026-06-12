@@ -1,0 +1,110 @@
+{% comment %}
+  Wear Active custom code start — wa-sticky-add-to-cart.liquid
+  Premium sticky Add to Cart bar for product pages.
+
+  Accepts:
+  - product: {Object} Product object.
+  - section: {Object} Section object.
+  - product_form_id: {String} Main product form ID.
+{% endcomment %}
+
+{%- liquid
+  assign wa_sticky_variant = product.selected_or_first_available_variant
+  assign wa_sticky_image = wa_sticky_variant.featured_media | default: product.featured_media
+
+  assign wa_sticky_check_inventory = true
+  if wa_sticky_variant.inventory_management != 'shopify' or wa_sticky_variant.inventory_policy == 'continue'
+    assign wa_sticky_check_inventory = false
+  endif
+
+  assign wa_sticky_sold_out = false
+  if wa_sticky_variant.quantity_rule.min > wa_sticky_variant.inventory_quantity and wa_sticky_check_inventory
+    assign wa_sticky_sold_out = true
+  endif
+
+  assign wa_sticky_button_label = 'products.product.add_to_cart' | t
+  if wa_sticky_variant == null
+    assign wa_sticky_button_label = 'products.product.unavailable' | t
+  elsif wa_sticky_variant.available == false or wa_sticky_sold_out
+    assign wa_sticky_button_label = 'products.product.sold_out' | t
+  endif
+
+  assign wa_sticky_button_disabled = false
+  if wa_sticky_variant == null or wa_sticky_variant.available == false or wa_sticky_sold_out
+    assign wa_sticky_button_disabled = true
+  endif
+
+  assign wa_sticky_size = ''
+  for option in product.options_with_values
+    assign wa_option_name_down = option.name | downcase
+    if wa_option_name_down == 'size'
+      assign wa_sticky_size = option.selected_value
+      break
+    endif
+  endfor
+-%}
+
+<wa-sticky-atc
+  class="wa-sticky-atc"
+  data-section-id="{{ section.id }}"
+  data-product-form-id="{{ product_form_id }}"
+  aria-hidden="true"
+  inert
+>
+  <div class="wa-sticky-atc__bar color-{{ section.settings.color_scheme }} gradient">
+    <div class="wa-sticky-atc__inner page-width">
+      <div class="wa-sticky-atc__details wa-sticky-atc__details--desktop">
+        {%- if wa_sticky_image != blank -%}
+          <div class="wa-sticky-atc__media">
+            <img
+              id="wa-sticky-atc-image-{{ section.id }}"
+              class="wa-sticky-atc__image"
+              src="{{ wa_sticky_image | image_url: width: 140 }}"
+              alt="{{ wa_sticky_image.alt | default: product.title | escape }}"
+              width="64"
+              height="64"
+              loading="lazy"
+            >
+          </div>
+        {%- endif -%}
+        <div class="wa-sticky-atc__copy">
+          <p class="wa-sticky-atc__title h5">{{ product.title | escape }}</p>
+          <p
+            class="wa-sticky-atc__size"
+            id="wa-sticky-atc-size-{{ section.id }}"
+            {% if wa_sticky_size == blank %}
+              hidden
+            {% endif %}
+          >
+            {%- if wa_sticky_size != blank -%}
+              {{- wa_sticky_size -}}
+            {%- endif -%}
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="wa-sticky-atc__price"
+        id="wa-sticky-atc-price-{{ section.id }}"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {% render 'price', product: product, use_variant: true, show_badges: true, price_class: 'price--large' %}
+      </div>
+
+      <button
+        type="button"
+        id="wa-sticky-atc-submit-{{ section.id }}"
+        class="wa-sticky-atc__submit button button--primary"
+        {% if wa_sticky_button_disabled %}
+          disabled
+        {% endif %}
+        aria-label="{{ wa_sticky_button_label | escape }}"
+      >
+        <span class="wa-sticky-atc__submit-text">{{ wa_sticky_button_label }}</span>
+        {%- render 'loading-spinner' -%}
+      </button>
+    </div>
+  </div>
+</wa-sticky-atc>
