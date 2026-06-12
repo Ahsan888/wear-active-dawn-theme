@@ -1,0 +1,48 @@
+{% comment %}
+  Wear Active custom code start — wa-site-schema.liquid
+  Organization and WebSite JSON-LD with filtered social profiles.
+{% endcomment %}
+
+{%- liquid
+  assign wa_social_raw = settings.social_twitter_link | append: '||' | append: settings.social_facebook_link | append: '||' | append: settings.social_pinterest_link | append: '||' | append: settings.social_instagram_link | append: '||' | append: settings.social_tiktok_link | append: '||' | append: settings.social_tumblr_link | append: '||' | append: settings.social_snapchat_link | append: '||' | append: settings.social_youtube_link | append: '||' | append: settings.social_vimeo_link
+  assign wa_social_links = wa_social_raw | split: '||'
+-%}
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    {%- if settings.logo != blank -%}
+      "logo": {{ settings.logo | image_url: width: 500 | prepend: 'https:' | json }},
+    {%- endif -%}
+    "sameAs": [
+      {%- assign wa_same_as_first = true -%}
+      {%- for wa_social_url in wa_social_links -%}
+        {%- if wa_social_url != blank -%}
+          {%- unless wa_same_as_first -%},{%- endunless -%}
+          {{ wa_social_url | json }}
+          {%- assign wa_same_as_first = false -%}
+        {%- endif -%}
+      {%- endfor -%}
+    ],
+    "url": {{ request.origin | json }}
+  }
+</script>
+
+{%- if request.page_type == 'index' -%}
+  {%- assign potential_action_target = request.origin | append: routes.search_url | append: '?q={search_term_string}' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": {{ shop.name | json }},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {{ potential_action_target | json }},
+        "query-input": "required name=search_term_string"
+      },
+      "url": {{ request.origin | json }}
+    }
+  </script>
+{%- endif -%}

@@ -27,6 +27,10 @@
     {% endif %}
 
     {% render 'meta-tags' %}
+    {%- comment -%} Wear Active custom code start {%- endcomment -%}
+    {% render 'wa-preload-lcp' %}
+    {% render 'wa-structured-data' %}
+    {%- comment -%} Wear Active custom code end {%- endcomment -%}
 
     <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
@@ -311,7 +315,7 @@
     </script>
   </head>
 
-  <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+  <body class="gradient template-{{ template.name }}{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>

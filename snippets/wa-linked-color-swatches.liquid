@@ -22,24 +22,28 @@
   {%- endcapture -%}
   {%- assign wa_current_color_data = wa_current_color_data | strip -%}
 
-  {%- comment -%} Pre-check: render only if current product or at least one sibling has color data. {%- endcomment -%}
-  {%- assign wa_has_any_swatch = false -%}
-  {%- if wa_current_color_data != blank -%}
-    {%- assign wa_has_any_swatch = true -%}
-  {%- else -%}
+  {%- liquid
+    assign wa_has_any_swatch = false
+    if wa_current_color_data != blank
+      assign wa_has_any_swatch = true
+    endif
+  -%}
+
+  {%- comment -%} Lightweight sibling check — avoids duplicate wa-color-from-product renders. {%- endcomment -%}
+  {%- unless wa_has_any_swatch -%}
     {%- for sibling in wa_siblings -%}
       {%- if sibling.id != product.id -%}
-        {%- capture wa_sibling_color_data -%}
-          {%- render 'wa-color-from-product', product: sibling -%}
-        {%- endcapture -%}
-        {%- assign wa_sibling_color_stripped = wa_sibling_color_data | strip -%}
-        {%- if wa_sibling_color_stripped != blank -%}
+        {%- assign wa_sibling_color_mf = sibling.metafields.shopify['color-pattern'] -%}
+        {%- if wa_sibling_color_mf != blank and wa_sibling_color_mf.value != blank -%}
+          {%- assign wa_has_any_swatch = true -%}
+          {%- break -%}
+        {%- elsif sibling.metafields.custom.color_hex != blank -%}
           {%- assign wa_has_any_swatch = true -%}
           {%- break -%}
         {%- endif -%}
       {%- endif -%}
     {%- endfor -%}
-  {%- endif -%}
+  {%- endunless -%}
 
   {%- if wa_has_any_swatch -%}
     {%- assign wa_current_color_parts = wa_current_color_data | split: '|' -%}

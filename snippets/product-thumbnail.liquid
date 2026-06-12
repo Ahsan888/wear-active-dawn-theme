@@ -78,15 +78,33 @@
     </span>
     {%- render 'loading-spinner' -%}
     <div class="product__media media media--transparent">
-      {{
-        media.preview_image
-        | image_url: width: 1946
-        | image_tag:
-          class: image_class,
-          loading: lazy,
-          sizes: sizes,
-          widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
-      }}
+      {%- comment -%} Wear Active: eager LCP image with fetchpriority on first visible media. {%- endcomment -%}
+      {%- if lazy_load == false -%}
+        {{
+          media.preview_image
+          | image_url: width: 1946
+          | image_tag:
+            class: image_class,
+            loading: 'eager',
+            fetchpriority: 'high',
+            sizes: sizes,
+            widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946',
+            width: media.preview_image.width,
+            height: media.preview_image.height
+        }}
+      {%- else -%}
+        {{
+          media.preview_image
+          | image_url: width: 1946
+          | image_tag:
+            class: image_class,
+            loading: lazy,
+            sizes: sizes,
+            widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946',
+            width: media.preview_image.width,
+            height: media.preview_image.height
+        }}
+      {%- endif -%}
     </div>
     <button
       class="product__media-toggle quick-add-hidden product__media-zoom-{{ section.settings.image_zoom }}"
