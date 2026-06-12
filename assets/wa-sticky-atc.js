@@ -47,7 +47,7 @@ class WaStickyAtc extends HTMLElement {
 
     if (this.mainPrice && this.stickyPrice) {
       this.priceObserver = new MutationObserver(this.syncButtonState);
-      this.priceObserver.observe(this.mainPrice, { childList: true, subtree: true, characterData: true });
+      this.priceObserver.observe(this.mainPrice, { childList: true, subtree: true });
     }
 
     if (typeof subscribe === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
@@ -126,7 +126,8 @@ class WaStickyAtc extends HTMLElement {
     if (!this.drawerOpen || this.cartDrawer?.classList.contains('active')) return;
 
     if (!force) {
-      const { transform, visibility } = this.drawerCloseReady;
+      const drawerCloseReady = this.drawerCloseReady || {};
+      const { transform, visibility } = drawerCloseReady;
       if (!transform && !visibility) return;
     }
 

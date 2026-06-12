@@ -50,7 +50,7 @@
         id="{{ wa_swatch_id }}"
         href="{{ swatch_product.url }}"
         class="wa-color-swatch__button wa-color-swatch__link"
-        aria-label="{{ 'View ' | append: wa_swatch_name }}"
+        aria-label="View {{ wa_swatch_name | escape }}"
       >
         <span
           class="wa-color-swatch__circle{% if wa_swatch_is_light %} wa-color-swatch__circle--light{% endif %}{% if wa_swatch_css == blank and wa_swatch_image != blank %} wa-color-swatch__circle--image-only{% endif %}"
