@@ -1,0 +1,63 @@
+{% comment %}
+  Wear Active — renders a single linked color swatch.
+
+  Accepts:
+  - swatch_product: {Object} Product object.
+  - is_active: {Boolean} Whether this is the current product.
+  - mode: {String} product or card.
+  - section_id: {String} Section ID for unique element IDs.
+{% endcomment %}
+{%- capture wa_color_data -%}
+  {%- render 'wa-color-from-product', product: swatch_product -%}
+{%- endcapture -%}
+{%- assign wa_color_data = wa_color_data | strip -%}
+{%- if wa_color_data == blank -%}
+  {%- comment -%} No category color available — skip swatch. {%- endcomment -%}
+{%- else -%}
+  {%- assign wa_color_parts = wa_color_data | split: '|' -%}
+  {%- assign wa_swatch_name = wa_color_parts[0] | strip -%}
+  {%- assign wa_swatch_css = wa_color_parts[1] | strip -%}
+  {%- assign wa_swatch_image = wa_color_parts[2] | strip -%}
+  {%- assign wa_swatch_name_lower = wa_swatch_name | downcase -%}
+  {%- assign wa_swatch_is_light = false -%}
+  {%- if wa_swatch_name_lower == 'white'
+    or wa_swatch_name_lower == 'cream'
+    or wa_swatch_name_lower == 'beige'
+    or wa_swatch_name_lower == 'yellow'
+    or wa_swatch_name_lower == 'ivory'
+  -%}
+    {%- assign wa_swatch_is_light = true -%}
+  {%- endif -%}
+
+  {%- assign wa_swatch_id = 'wa-color-swatch-' | append: section_id | append: '-' | append: swatch_product.id -%}
+
+  <div class="wa-color-swatch{% if is_active %} wa-color-swatch--active{% endif %}{% if wa_swatch_image != blank %} wa-color-swatch--pattern{% endif %}" role="listitem">
+    {%- if is_active -%}
+      <span
+        id="{{ wa_swatch_id }}"
+        class="wa-color-swatch__button"
+        aria-current="true"
+        aria-label="{{ wa_swatch_name }}, selected"
+      >
+        <span
+          class="wa-color-swatch__circle{% if wa_swatch_is_light %} wa-color-swatch__circle--light{% endif %}{% if wa_swatch_css == blank and wa_swatch_image != blank %} wa-color-swatch__circle--image-only{% endif %}"
+          style="{% if wa_swatch_css != blank %}--wa-swatch-color: {{ wa_swatch_css }};{% endif %}{% if wa_swatch_image != blank %} --wa-swatch-image: url({{ wa_swatch_image }});{% endif %}"
+        ></span>
+        <span class="visually-hidden">{{ wa_swatch_name }}</span>
+      </span>
+    {%- else -%}
+      <a
+        id="{{ wa_swatch_id }}"
+        href="{{ swatch_product.url }}"
+        class="wa-color-swatch__button wa-color-swatch__link"
+        aria-label="{{ 'View ' | append: wa_swatch_name }}"
+      >
+        <span
+          class="wa-color-swatch__circle{% if wa_swatch_is_light %} wa-color-swatch__circle--light{% endif %}{% if wa_swatch_css == blank and wa_swatch_image != blank %} wa-color-swatch__circle--image-only{% endif %}"
+          style="{% if wa_swatch_css != blank %}--wa-swatch-color: {{ wa_swatch_css }};{% endif %}{% if wa_swatch_image != blank %} --wa-swatch-image: url({{ wa_swatch_image }});{% endif %}"
+        ></span>
+        <span class="visually-hidden">{{ wa_swatch_name }}</span>
+      </a>
+    {%- endif -%}
+  </div>
+{%- endif -%}

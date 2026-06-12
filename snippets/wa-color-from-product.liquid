@@ -1,0 +1,118 @@
+{% comment %}
+  Wear Active — resolves color name and CSS color from Shopify category metafields.
+
+  Primary source:
+    product.metafields.shopify['color-pattern'].value
+    → shopify--color-pattern metaobject(s) (Standard Product Taxonomy Color)
+
+  Secondary source (linked Color variant option):
+    product.options_with_values → option.selected_value.swatch
+
+  Fallback (hex only, when label exists):
+    product.metafields.custom.color_hex
+
+  Outputs pipe-delimited when a color is available:
+    name|css_color|image_url
+
+  Accepts:
+  - product: {Object} Product object.
+{% endcomment %}
+{%- liquid
+  assign wa_color_name = ''
+  assign wa_color_css = ''
+  assign wa_color_image = ''
+
+  assign wa_color_metafield = product.metafields.shopify['color-pattern']
+  assign wa_color_entry = blank
+
+  if wa_color_metafield != blank and wa_color_metafield.value != blank
+    if wa_color_metafield.list?
+      for wa_color_item in wa_color_metafield.value limit: 1
+        assign wa_color_entry = wa_color_item
+      endfor
+    else
+      assign wa_color_entry = wa_color_metafield.value
+    endif
+  endif
+
+  if wa_color_entry != blank
+    assign wa_color_name = wa_color_entry.label.value | default: wa_color_entry.label | strip
+
+    if wa_color_name == blank
+      assign wa_color_name = wa_color_entry.display_name | default: wa_color_entry.displayName | strip
+    endif
+
+    assign wa_color_field = wa_color_entry.color.value | default: wa_color_entry.color
+
+    if wa_color_field != blank
+      if wa_color_field.rgb != blank
+        assign wa_color_css = 'rgb(' | append: wa_color_field.rgb | append: ')'
+      elsif wa_color_field.count and wa_color_field.count > 0
+        for wa_color_value in wa_color_field limit: 1
+          assign wa_color_css = wa_color_value | strip
+        endfor
+      elsif wa_color_field.size and wa_color_field.size > 0
+        assign wa_color_css = wa_color_field.first | strip
+      else
+        assign wa_color_css = wa_color_field | strip
+      endif
+    endif
+
+    assign wa_colors_list = wa_color_entry.colors.value | default: wa_color_entry.colors
+    if wa_color_css == blank and wa_colors_list != blank
+      if wa_colors_list.count and wa_colors_list.count > 0
+        for wa_color_value in wa_colors_list limit: 1
+          assign wa_color_css = wa_color_value | strip
+        endfor
+      elsif wa_colors_list.size and wa_colors_list.size > 0
+        assign wa_color_css = wa_colors_list.first | strip
+      else
+        assign wa_color_css = wa_colors_list | strip
+      endif
+    endif
+
+    if wa_color_entry.image != blank
+      assign wa_color_image = wa_color_entry.image.value | default: wa_color_entry.image | image_url: width: 80
+    endif
+  endif
+
+  if wa_color_name == blank or wa_color_css == blank and wa_color_image == blank
+    for wa_option in product.options_with_values
+      assign wa_option_name = wa_option.name | downcase
+      if wa_option_name == 'color' or wa_option_name == 'colour'
+        assign wa_color_name = wa_option.selected_value | strip
+
+        if wa_option.selected_value.swatch.image != blank
+          assign wa_color_image = wa_option.selected_value.swatch.image | image_url: width: 80
+        endif
+
+        if wa_option.selected_value.swatch.color != blank
+          if wa_option.selected_value.swatch.color.rgb != blank
+            assign wa_color_css = 'rgb(' | append: wa_option.selected_value.swatch.color.rgb | append: ')'
+          else
+            assign wa_color_css = wa_option.selected_value.swatch.color | strip
+          endif
+        endif
+
+        break
+      endif
+    endfor
+  endif
+
+  if wa_color_css == blank
+    assign wa_custom_hex = product.metafields.custom.color_hex.value | default: product.metafields.custom.color_hex | strip
+    if wa_custom_hex != blank
+      assign wa_color_css = wa_custom_hex
+    endif
+  endif
+
+  if wa_color_name != blank
+    if wa_color_css != blank or wa_color_image != blank
+      echo wa_color_name
+      echo '|'
+      echo wa_color_css
+      echo '|'
+      echo wa_color_image
+    endif
+  endif
+-%}
