@@ -1,0 +1,9 @@
+/* ==========================================================================
+   Wear Active custom code start — wa-base.css
+   Global variables and base-level overrides. Loaded after Dawn base.css.
+   ========================================================================== */
+
+:root {
+  /* Wear Active design tokens */
+  --wa-spacing-unit: 1rem;
+}

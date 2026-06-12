@@ -1,0 +1,315 @@
+/* ==========================================================================
+   Wear Active custom code start — wa-product.css
+   Product template styles (size chart, PDP enhancements, etc.).
+   ========================================================================== */
+
+/* Size Guide trigger */
+.wa-size-chart {
+  margin: 0 0 1.2rem;
+}
+
+.wa-size-chart--relocated {
+  margin: 0;
+}
+
+.wa-size-chart__trigger {
+  font-size: 1.3rem;
+  letter-spacing: 0.06rem;
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+  text-decoration-thickness: 0.1rem;
+  text-decoration-color: rgba(var(--color-foreground), 0.35);
+  color: rgba(var(--color-foreground), 0.75);
+  background: none;
+  border: 0;
+  padding: 0.2rem 0;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.wa-size-chart__trigger:hover,
+.wa-size-chart__trigger:focus-visible {
+  color: rgb(var(--color-foreground));
+  text-decoration-color: currentColor;
+}
+
+.wa-size-chart__legend-action {
+  margin-left: auto;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.product-form__input .form__label:has(.wa-size-chart__legend-action),
+.product-form__input legend.form__label:has(.wa-size-chart__legend-action) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  width: 100%;
+}
+
+/* Size chart modal */
+.wa-size-chart__dialog {
+  width: min(100%, 78rem);
+}
+
+.wa-size-chart__close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  z-index: 2;
+}
+
+.wa-size-chart__content {
+  padding: 2rem 1.2rem 1.6rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.wa-size-chart__title {
+  margin: 0 5.6rem 1.2rem 0;
+  font-size: calc(var(--font-heading-scale) * 2rem);
+  letter-spacing: 0.06rem;
+  line-height: 1.2;
+}
+
+.wa-size-chart__fit-type {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0 0 1.6rem;
+  padding: 0.5rem 1.2rem;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.1);
+  border-radius: var(--badge-corner-radius);
+  font-size: 1.3rem;
+  letter-spacing: 0.04rem;
+  background-color: rgba(var(--color-foreground), 0.02);
+}
+
+.wa-size-chart__fit-type-label {
+  font-weight: var(--font-body-weight-bold);
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  letter-spacing: 0.1rem;
+  color: rgba(var(--color-foreground), 0.5);
+}
+
+.wa-size-chart__fit-type-value {
+  color: rgb(var(--color-foreground));
+}
+
+.wa-size-chart__description {
+  margin-bottom: 2rem;
+  font-size: 1.4rem;
+  line-height: 1.65;
+  color: rgba(var(--color-foreground), 0.78);
+}
+
+.wa-size-chart__description p:first-child {
+  margin-top: 0;
+}
+
+.wa-size-chart__description p:last-child {
+  margin-bottom: 0;
+}
+
+/* Size table */
+.wa-size-chart__table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 0 2.4rem;
+  border-radius: var(--text-boxes-radius);
+  background-color: rgb(var(--color-background));
+}
+
+.wa-size-chart__table-scroll:focus-visible {
+  outline: 0.2rem solid rgba(var(--color-foreground), 0.4);
+  outline-offset: 0.2rem;
+}
+
+.wa-size-chart__table {
+  width: 100%;
+  min-width: 100%;
+  border-collapse: collapse;
+  font-size: 1.3rem;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+
+.wa-size-chart__table th,
+.wa-size-chart__table td {
+  padding: 1.3rem 1.8rem;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.06);
+  white-space: nowrap;
+}
+
+.wa-size-chart__table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding-top: 0.4rem;
+  padding-bottom: 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: rgba(var(--color-foreground), 0.5);
+  background-color: rgb(var(--color-background));
+  border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.08);
+}
+
+.wa-size-chart__table tbody td {
+  font-weight: var(--font-body-weight);
+  color: rgba(var(--color-foreground), 0.85);
+}
+
+.wa-size-chart__table tbody th[scope='row'] {
+  font-weight: var(--font-body-weight-bold);
+  color: rgb(var(--color-foreground));
+  background-color: transparent;
+}
+
+.wa-size-chart__table tbody tr:last-child th,
+.wa-size-chart__table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.wa-size-chart__image-wrap {
+  margin: 0;
+}
+
+.wa-size-chart__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--media-radius);
+}
+
+/* Tablet */
+@media screen and (min-width: 750px) {
+  .wa-size-chart__content {
+    padding: 2.8rem 2.4rem 2.4rem;
+    max-height: none;
+  }
+
+  .wa-size-chart__close {
+    top: 1.6rem;
+    right: 1.6rem;
+  }
+
+  .wa-size-chart__title {
+    margin-bottom: 1.6rem;
+    font-size: calc(var(--font-heading-scale) * 2.2rem);
+  }
+
+  .wa-size-chart__fit-type {
+    margin-bottom: 2rem;
+  }
+
+  .wa-size-chart__description {
+    margin-bottom: 2.4rem;
+    font-size: 1.5rem;
+  }
+
+  .wa-size-chart__table th,
+  .wa-size-chart__table td {
+    padding: 1.5rem 2.2rem;
+  }
+
+  .wa-size-chart__table thead th {
+    font-size: 1.05rem;
+    padding-bottom: 1.4rem;
+  }
+
+  .wa-size-chart__table {
+    font-size: 1.4rem;
+  }
+}
+
+/* Desktop */
+@media screen and (min-width: 990px) {
+  .wa-size-chart__content {
+    padding: 3.2rem 2.8rem 2.8rem;
+  }
+
+  .wa-size-chart__table-scroll {
+    margin-bottom: 2.8rem;
+  }
+}
+
+/* Mobile */
+@media screen and (max-width: 749px) {
+  .wa-size-chart__content {
+    flex: 1;
+    min-height: 0;
+    padding: 1.6rem 1rem 1.2rem;
+  }
+
+  .wa-size-chart__title {
+    margin: 0 5.2rem 1rem 0;
+    font-size: calc(var(--font-heading-scale) * 1.8rem);
+  }
+
+  .wa-size-chart__fit-type {
+    margin-bottom: 1.2rem;
+    font-size: 1.2rem;
+  }
+
+  .wa-size-chart__description {
+    margin-bottom: 1.6rem;
+    font-size: 1.3rem;
+    line-height: 1.55;
+  }
+
+  .wa-size-chart__table-scroll {
+    margin-bottom: 1.6rem;
+    border-radius: calc(var(--text-boxes-radius) * 0.75);
+  }
+
+  .wa-size-chart__table {
+    font-size: 1.2rem;
+    min-width: max(100%, 28rem);
+  }
+
+  .wa-size-chart__table th,
+  .wa-size-chart__table td {
+    padding: 1.1rem 1.5rem;
+  }
+
+  .wa-size-chart__table thead th {
+    font-size: 0.95rem;
+    letter-spacing: 0.08rem;
+  }
+
+  .wa-size-chart__trigger {
+    min-height: 4.4rem;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* Landscape phones */
+@media screen and (max-width: 749px) and (orientation: landscape) {
+  .wa-size-chart__content {
+    padding-top: 1.2rem;
+    padding-bottom: 1rem;
+  }
+
+  .wa-size-chart__title {
+    font-size: calc(var(--font-heading-scale) * 1.6rem);
+    margin-bottom: 0.8rem;
+  }
+
+  .wa-size-chart__fit-type,
+  .wa-size-chart__description {
+    margin-bottom: 1rem;
+  }
+
+  .wa-size-chart__table-scroll {
+    margin-bottom: 1.2rem;
+  }
+}
