@@ -1,0 +1,98 @@
+{% comment %}
+  Wear Active custom code start — wa-linked-color-swatches.liquid
+  Linked product color swatches via custom.color_siblings metafield.
+
+  Color name and swatch values are read from:
+  product.metafields.shopify['color-pattern'].value (Shopify category Color field)
+
+  Accepts:
+  - product: {Object} Product object.
+  - mode: {String} product (PDP) or card (collection grid). Default: product.
+  - section_id: {String} Section ID for unique element IDs.
+{% endcomment %}
+
+{%- liquid
+  assign wa_mode = mode | default: 'product'
+  assign wa_siblings = product.metafields.custom.color_siblings.value
+-%}
+
+{%- if wa_siblings != blank and wa_siblings.size > 0 -%}
+  {%- capture wa_current_color_data -%}
+    {%- render 'wa-color-from-product', product: product -%}
+  {%- endcapture -%}
+  {%- assign wa_current_color_data = wa_current_color_data | strip -%}
+
+  {%- comment -%} Pre-check: render only if current product or at least one sibling has color data. {%- endcomment -%}
+  {%- assign wa_has_any_swatch = false -%}
+  {%- if wa_current_color_data != blank -%}
+    {%- assign wa_has_any_swatch = true -%}
+  {%- else -%}
+    {%- for sibling in wa_siblings -%}
+      {%- if sibling.id != product.id -%}
+        {%- capture wa_sibling_color_data -%}
+          {%- render 'wa-color-from-product', product: sibling -%}
+        {%- endcapture -%}
+        {%- assign wa_sibling_color_stripped = wa_sibling_color_data | strip -%}
+        {%- if wa_sibling_color_stripped != blank -%}
+          {%- assign wa_has_any_swatch = true -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+
+  {%- if wa_has_any_swatch -%}
+    {%- assign wa_current_color_parts = wa_current_color_data | split: '|' -%}
+    {%- assign wa_current_color_name = wa_current_color_parts[0] | strip -%}
+
+    <div class="wa-linked-colors wa-linked-colors--{{ wa_mode }}">
+      {%- if wa_mode == 'product' -%}
+        <fieldset class="wa-linked-colors__fieldset product-form__input">
+          <legend class="form__label wa-linked-colors__legend">
+            Color:
+            {% if wa_current_color_name != blank %}
+              <span class="wa-linked-colors__value" data-wa-linked-color-value>{{ wa_current_color_name | escape }}</span>
+            {% endif %}
+          </legend>
+          <div class="wa-linked-colors__list" role="list">
+            {%- render 'wa-linked-color-swatch',
+              swatch_product: product,
+              is_active: true,
+              mode: wa_mode,
+              section_id: section_id
+            -%}
+            {%- for sibling in wa_siblings -%}
+              {%- if sibling.id != product.id -%}
+                {%- render 'wa-linked-color-swatch',
+                  swatch_product: sibling,
+                  is_active: false,
+                  mode: wa_mode,
+                  section_id: section_id
+                -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </fieldset>
+      {%- else -%}
+        <div class="wa-linked-colors__list" role="list" aria-label="Available colors">
+          {%- render 'wa-linked-color-swatch',
+            swatch_product: product,
+            is_active: true,
+            mode: wa_mode,
+            section_id: section_id
+          -%}
+          {%- for sibling in wa_siblings -%}
+            {%- if sibling.id != product.id -%}
+              {%- render 'wa-linked-color-swatch',
+                swatch_product: sibling,
+                is_active: false,
+                mode: wa_mode,
+                section_id: section_id
+              -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+{%- endif -%}

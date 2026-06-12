@@ -1,0 +1,94 @@
+/* ==========================================================================
+   Wear Active custom code start — wa-components.css
+   Shared Wear Active component styles.
+   ========================================================================== */
+
+/* Linked color swatches — shared */
+.wa-color-swatch__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem;
+  border: 0;
+  background: transparent;
+  border-radius: 50%;
+  line-height: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.wa-color-swatch--active .wa-color-swatch__button {
+  cursor: default;
+}
+
+.wa-color-swatch__circle {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: var(--wa-swatch-color, transparent);
+  background-image: var(--wa-swatch-image, none);
+  background-size: cover;
+  background-position: center;
+  box-shadow: inset 0 0 0 0.1rem rgba(var(--color-foreground), 0.1);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.wa-color-swatch__circle--light {
+  box-shadow: inset 0 0 0 0.1rem rgba(var(--color-foreground), 0.18);
+}
+
+.wa-color-swatch__link:hover .wa-color-swatch__circle,
+.wa-color-swatch__link:focus-visible .wa-color-swatch__circle {
+  transform: scale(1.06);
+}
+
+.wa-color-swatch--active .wa-color-swatch__circle {
+  box-shadow:
+    0 0 0 0.1rem rgb(var(--color-background)),
+    0 0 0 0.2rem rgba(var(--color-foreground), 0.75);
+}
+
+.wa-color-swatch__link:focus-visible {
+  outline: 0.2rem solid rgba(var(--color-foreground), 0.45);
+  outline-offset: 0.15rem;
+}
+
+.wa-linked-colors__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Card mode */
+.wa-linked-colors--card {
+  position: relative;
+  z-index: 2;
+  margin-top: 0.6rem;
+}
+
+.wa-linked-colors--card .wa-linked-colors__list {
+  gap: 0.4rem;
+}
+
+.wa-linked-colors--card .wa-color-swatch__circle {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.wa-linked-colors--card .wa-color-swatch__button {
+  min-width: 3rem;
+  min-height: 3rem;
+  padding: 0.1rem;
+}
+
+@media screen and (max-width: 749px) {
+  .wa-linked-colors--card {
+    margin-top: 0.5rem;
+  }
+
+  .wa-linked-colors--card .wa-linked-colors__list {
+    gap: 0.35rem;
+  }
+}
