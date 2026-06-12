@@ -1,0 +1,113 @@
+{% comment %}
+  Wear Active custom code start — wa-structured-data.liquid
+  Supplemental JSON-LD: BreadcrumbList and CollectionPage.
+  Product and Article schemas are output by Shopify native structured_data filters.
+{% endcomment %}
+
+{%- liquid
+  assign wa_schema_items = ''
+  assign wa_schema_position = 0
+-%}
+
+{%- capture wa_breadcrumb_json -%}
+  {%- assign wa_schema_position = wa_schema_position | plus: 1 -%}
+  {
+    "@type": "ListItem",
+    "position": {{ wa_schema_position }},
+    "name": "Home",
+    "item": {{ request.origin | json }}
+  }
+{%- endcapture -%}
+{%- assign wa_schema_items = wa_breadcrumb_json -%}
+
+{%- if request.page_type == 'product' -%}
+  {%- liquid
+    assign wa_breadcrumb_collection = collection
+    if wa_breadcrumb_collection == blank
+      assign wa_breadcrumb_collection = product.collections.first
+    endif
+  -%}
+
+  {%- if wa_breadcrumb_collection != blank -%}
+    {%- capture wa_breadcrumb_json -%}
+      {%- assign wa_schema_position = wa_schema_position | plus: 1 -%}
+      {
+        "@type": "ListItem",
+        "position": {{ wa_schema_position }},
+        "name": {{ wa_breadcrumb_collection.title | json }},
+        "item": {{ request.origin | append: wa_breadcrumb_collection.url | json }}
+      }
+    {%- endcapture -%}
+    {%- assign wa_schema_items = wa_schema_items | append: ',' | append: wa_breadcrumb_json -%}
+  {%- endif -%}
+
+  {%- capture wa_breadcrumb_json -%}
+    {%- assign wa_schema_position = wa_schema_position | plus: 1 -%}
+    {
+      "@type": "ListItem",
+      "position": {{ wa_schema_position }},
+      "name": {{ product.title | json }},
+      "item": {{ request.origin | append: product.url | json }}
+    }
+  {%- endcapture -%}
+  {%- assign wa_schema_items = wa_schema_items | append: ',' | append: wa_breadcrumb_json -%}
+
+{%- elsif request.page_type == 'collection' -%}
+  {%- capture wa_breadcrumb_json -%}
+    {%- assign wa_schema_position = wa_schema_position | plus: 1 -%}
+    {
+      "@type": "ListItem",
+      "position": {{ wa_schema_position }},
+      "name": {{ collection.title | json }},
+      "item": {{ request.origin | append: collection.url | json }}
+    }
+  {%- endcapture -%}
+  {%- assign wa_schema_items = wa_schema_items | append: ',' | append: wa_breadcrumb_json -%}
+
+{%- elsif request.page_type == 'article' -%}
+  {%- capture wa_breadcrumb_json -%}
+    {%- assign wa_schema_position = wa_schema_position | plus: 1 -%}
+    {
+      "@type": "ListItem",
+      "position": {{ wa_schema_position }},
+      "name": {{ blog.title | json }},
+      "item": {{ request.origin | append: blog.url | json }}
+    }
+  {%- endcapture -%}
+  {%- assign wa_schema_items = wa_schema_items | append: ',' | append: wa_breadcrumb_json -%}
+
+  {%- capture wa_breadcrumb_json -%}
+    {%- assign wa_schema_position = wa_schema_position | plus: 1 -%}
+    {
+      "@type": "ListItem",
+      "position": {{ wa_schema_position }},
+      "name": {{ article.title | json }},
+      "item": {{ request.origin | append: article.url | json }}
+    }
+  {%- endcapture -%}
+  {%- assign wa_schema_items = wa_schema_items | append: ',' | append: wa_breadcrumb_json -%}
+{%- endif -%}
+
+{%- if wa_schema_position > 1 -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{{ wa_schema_items }}]
+    }
+  </script>
+{%- endif -%}
+
+{%- if request.page_type == 'collection' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": {{ collection.title | json }},
+      {%- if collection.description != blank -%}
+        "description": {{ collection.description | strip_html | truncate: 320 | json }},
+      {%- endif -%}
+      "url": {{ request.origin | append: collection.url | json }}
+    }
+  </script>
+{%- endif -%}

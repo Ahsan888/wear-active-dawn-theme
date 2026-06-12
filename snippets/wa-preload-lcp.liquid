@@ -1,0 +1,35 @@
+{% comment %}
+  Wear Active custom code start — wa-preload-lcp.liquid
+  Preloads the likely LCP image on product pages to improve Largest Contentful Paint.
+{% endcomment %}
+
+{%- if request.page_type == 'product' -%}
+  {%- liquid
+    assign wa_lcp_variant = product.selected_or_first_available_variant
+    assign wa_lcp_media = wa_lcp_variant.featured_media | default: product.featured_media
+    assign wa_lcp_image = wa_lcp_media.preview_image | default: wa_lcp_media
+  -%}
+
+  {%- if wa_lcp_image != blank -%}
+    {%- liquid
+      assign wa_lcp_sizes = '(min-width: 990px) calc(55vw - 5rem), 100vw'
+      assign wa_lcp_href = wa_lcp_image | image_url: width: 1100
+    -%}
+    {% comment %}theme-check-disable AssetPreload{% endcomment %}
+    <link
+      rel="preload"
+      as="image"
+      href="{{ wa_lcp_href }}"
+      imagesrcset="
+        {%- if wa_lcp_image.width >= 493 -%}{{ wa_lcp_image | image_url: width: 493 }} 493w,{%- endif -%}
+        {%- if wa_lcp_image.width >= 600 -%}{{ wa_lcp_image | image_url: width: 600 }} 600w,{%- endif -%}
+        {%- if wa_lcp_image.width >= 713 -%}{{ wa_lcp_image | image_url: width: 713 }} 713w,{%- endif -%}
+        {%- if wa_lcp_image.width >= 823 -%}{{ wa_lcp_image | image_url: width: 823 }} 823w,{%- endif -%}
+        {%- if wa_lcp_image.width >= 990 -%}{{ wa_lcp_image | image_url: width: 990 }} 990w,{%- endif -%}
+        {%- if wa_lcp_image.width >= 1100 -%}{{ wa_lcp_image | image_url: width: 1100 }} 1100w{%- endif -%}
+      "
+      imagesizes="{{ wa_lcp_sizes }}"
+    >
+    {% comment %}theme-check-enable AssetPreload{% endcomment %}
+  {%- endif -%}
+{%- endif -%}

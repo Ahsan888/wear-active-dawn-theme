@@ -108,6 +108,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .wa-color-swatch__circle {
+    transition: none;
+  }
+
   .wa-product-card__media--hover .wa-product-card__image {
     transition: none;
   }
