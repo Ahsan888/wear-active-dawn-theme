@@ -262,7 +262,9 @@
     {{ 'wa-components.css' | asset_url | stylesheet_tag }}
     {%- if template.name == 'product' -%}
       {{ 'wa-product.css' | asset_url | stylesheet_tag }}
+      {{ 'wa-product-gallery.css' | asset_url | stylesheet_tag }}
       {{ 'wa-sticky-atc.css' | asset_url | stylesheet_tag }}
+      <script src="{{ 'wa-product-gallery.js' | asset_url }}" defer="defer"></script>
       <script src="{{ 'wa-sticky-atc.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
     {%- comment -%} Wear Active custom code end {%- endcomment -%}
