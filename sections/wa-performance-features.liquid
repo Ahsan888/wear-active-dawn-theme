@@ -18,6 +18,8 @@
     min-height: 48rem;
     padding-top: {{ section.settings.padding_top | times: 0.6667 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.6667 | round: 0 }}px;
+    padding-left: 2.4rem;
+    padding-right: 2.4rem;
     overflow: hidden;
     background-color: #1a1a1a;
     color: #ffffff;
@@ -47,28 +49,44 @@
     position: absolute;
     inset: 0;
     z-index: -1;
-    background-color: #000000;
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.42)),
+      #000000;
     opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
   }
 
   .wa-performance-features--{{ section.id }} .wa-performance-features__content {
-    width: min(100% - 4rem, 82rem);
+    position: relative;
+    width: min(100%, 52rem);
     margin: 0 auto;
+    text-align: center;
+  }
+
+  .wa-performance-features--{{ section.id }} .wa-performance-features__content::before {
+    content: 'WA ATHLEISURE';
+    display: block;
+    margin-bottom: 1.8rem;
+    font-size: var(--wa-text-xs);
+    font-weight: var(--wa-weight-medium);
+    letter-spacing: 0.2em;
+    line-height: var(--wa-leading-snug);
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.78);
   }
 
   .wa-performance-features--{{ section.id }} .wa-performance-features__heading {
-    max-width: 78rem;
+    max-width: 52rem;
     margin: 0 auto;
-    font-size: clamp(3.6rem, 8vw, calc(var(--font-heading-scale) * 7.2rem));
+    font-size: clamp(3.8rem, 12vw, calc(var(--font-heading-scale) * 6.4rem));
     font-weight: 700;
-    letter-spacing: 0.08em;
-    line-height: 0.98;
+    letter-spacing: 0.06em;
+    line-height: 0.96;
     text-transform: uppercase;
     color: inherit;
   }
 
   .wa-performance-features--{{ section.id }} .wa-performance-features__subheading {
-    max-width: 65rem;
+    max-width: 48rem;
     margin: 2.4rem auto 0;
     font-size: var(--wa-text-md);
     font-weight: var(--wa-weight-regular);
@@ -164,16 +182,37 @@
 
   @media screen and (min-width: 750px) {
     .wa-performance-features--{{ section.id }} .wa-performance-features__editorial {
+      justify-content: flex-start;
       min-height: 64rem;
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-left: clamp(5.6rem, 8vw, 12.8rem);
+      padding-right: 50%;
+      text-align: left;
     }
 
     .wa-performance-features--{{ section.id }} .wa-performance-features__content {
-      width: min(100% - 10rem, 82rem);
+      width: min(100%, 52rem);
+      margin: 0;
+      text-align: left;
+    }
+
+    .wa-performance-features--{{ section.id }} .wa-performance-features__overlay {
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.52) 32%, rgba(0, 0, 0, 0.18) 62%, rgba(0, 0, 0, 0.08) 100%),
+        #000000;
+    }
+
+    .wa-performance-features--{{ section.id }} .wa-performance-features__heading {
+      margin-left: 0;
+      margin-right: 0;
+      font-size: clamp(4.8rem, 6vw, calc(var(--font-heading-scale) * 7.2rem));
+      line-height: 0.95;
     }
 
     .wa-performance-features--{{ section.id }} .wa-performance-features__subheading {
+      margin-left: 0;
+      margin-right: 0;
       font-size: var(--wa-text-lg);
     }
 
@@ -188,8 +227,19 @@
   }
 
   @media screen and (min-width: 990px) {
+    .wa-performance-features--{{ section.id }} .wa-performance-features__editorial {
+      padding-left: clamp(7.2rem, 8vw, 15.2rem);
+      padding-right: 54%;
+    }
+
     .wa-performance-features--{{ section.id }} .wa-performance-features__strip-inner {
       padding: 0 6rem;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .wa-performance-features--{{ section.id }} .wa-performance-features__content {
+      padding: 2.8rem 0;
     }
   }
 
