@@ -9,6 +9,25 @@
   {% render 'product-media-modal' %}
 {% endcomment %}
 
+{%- liquid
+  capture wa_view_context
+    render 'wa-product-view-context'
+  endcapture
+  assign wa_view_context = wa_view_context | strip
+  assign wa_contextual_gallery_images = blank
+  if wa_view_context == 'women' and product.metafields.custom.womens_gallery_images.value != blank
+    assign wa_contextual_gallery_images = product.metafields.custom.womens_gallery_images.value
+  elsif wa_view_context == 'men' and product.metafields.custom.mens_gallery_images.value != blank
+    assign wa_contextual_gallery_images = product.metafields.custom.mens_gallery_images.value
+  endif
+
+  assign wa_has_contextual_gallery = false
+  for wa_image in wa_contextual_gallery_images
+    assign wa_has_contextual_gallery = true
+    break
+  endfor
+-%}
+
 <product-modal id="ProductModal-{{ section.id }}" class="product-media-modal media-modal">
   <div
     class="product-media-modal__dialog color-{{ section.settings.color_scheme }} gradient"
@@ -32,26 +51,41 @@
       aria-label="{{ 'products.modal.label' | t }}"
       tabindex="0"
     >
-      {%- liquid
-        if product.selected_or_first_available_variant.featured_media != null
-          assign media = product.selected_or_first_available_variant.featured_media
-          render 'product-media', media: media, loop: section.settings.enable_video_looping, variant_image: section.settings.hide_variants
-        endif
-      -%}
-
-      {%- for media in product.media -%}
+      {%- if wa_has_contextual_gallery -%}
+        {%- for wa_image in wa_contextual_gallery_images -%}
+          {%- liquid
+            assign wa_media_id = section.id | append: '-wa-contextual-' | append: forloop.index
+            assign wa_gallery_image = wa_image
+            if wa_image.image != blank
+              assign wa_gallery_image = wa_image.image
+            elsif wa_image.preview_image != blank
+              assign wa_gallery_image = wa_image.preview_image
+            endif
+          -%}
+          {%- render 'wa-contextual-product-modal-image', image: wa_gallery_image, media_id: wa_media_id, product: product -%}
+        {%- endfor -%}
+      {%- else -%}
         {%- liquid
-          if section.settings.hide_variants and variant_images contains media.src or variant_images contains media.id
-            assign variant_image = true
-          else
-            assign variant_image = false
+          if product.selected_or_first_available_variant.featured_media != null
+            assign media = product.selected_or_first_available_variant.featured_media
+            render 'product-media', media: media, loop: section.settings.enable_video_looping, variant_image: section.settings.hide_variants
           endif
-
-          unless media.id == product.selected_or_first_available_variant.featured_media.id
-            render 'product-media', media: media, loop: section.settings.enable_video_looping, variant_image: variant_image
-          endunless
         -%}
-      {%- endfor -%}
+
+        {%- for media in product.media -%}
+          {%- liquid
+            if section.settings.hide_variants and variant_images contains media.src or variant_images contains media.id
+              assign variant_image = true
+            else
+              assign variant_image = false
+            endif
+
+            unless media.id == product.selected_or_first_available_variant.featured_media.id
+              render 'product-media', media: media, loop: section.settings.enable_video_looping, variant_image: variant_image
+            endunless
+          -%}
+        {%- endfor -%}
+      {%- endif -%}
     </div>
   </div>
 </product-modal>

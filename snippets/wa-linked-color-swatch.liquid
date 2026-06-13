@@ -3,6 +3,7 @@
 
   Accepts:
   - swatch_product: {Object} Product object.
+  - card_collection: {Object} Collection object for contextual card image and URL selection (optional).
   - is_active: {Boolean} Whether this is the current product.
   - mode: {String} product or card.
   - section_id: {String} Section ID for unique element IDs.
@@ -30,6 +31,35 @@
   {%- endif -%}
 
   {%- assign wa_swatch_id = 'wa-color-swatch-' | append: section_id | append: '-' | append: swatch_product.id -%}
+  {%- liquid
+    assign wa_swatch_product_url = swatch_product.url
+    if mode == 'card' and card_collection != blank
+      assign wa_swatch_product_url = swatch_product.url | within: card_collection
+    endif
+    assign wa_swatch_url_separator = '?'
+    if wa_swatch_product_url contains '?'
+      assign wa_swatch_url_separator = '&'
+    endif
+    capture wa_card_context
+      render 'wa-contextual-card-image', card_collection: card_collection
+    endcapture
+    assign wa_card_context = wa_card_context | strip
+    if mode == 'card' and wa_card_context == 'womens'
+      assign wa_swatch_product_url = wa_swatch_product_url | append: wa_swatch_url_separator | append: 'view_context=women'
+    elsif mode == 'card' and wa_card_context == 'mens'
+      assign wa_swatch_product_url = wa_swatch_product_url | append: wa_swatch_url_separator | append: 'view_context=men'
+    elsif mode == 'product'
+      capture wa_view_context
+        render 'wa-product-view-context'
+      endcapture
+      assign wa_view_context = wa_view_context | strip
+      if wa_view_context == 'women'
+        assign wa_swatch_product_url = wa_swatch_product_url | append: wa_swatch_url_separator | append: 'view_context=women'
+      elsif wa_view_context == 'men'
+        assign wa_swatch_product_url = wa_swatch_product_url | append: wa_swatch_url_separator | append: 'view_context=men'
+      endif
+    endif
+  -%}
 
   <div class="wa-color-swatch{% if is_active %} wa-color-swatch--active{% endif %}{% if wa_swatch_image != blank %} wa-color-swatch--pattern{% endif %}" role="listitem">
     {%- if is_active -%}
@@ -50,6 +80,16 @@
         assign wa_preview_media = blank
         if mode == 'card'
           assign wa_preview_media = swatch_product.featured_media
+          if wa_card_context == 'womens' and swatch_product.metafields.custom.womens_card_image.value != blank
+            assign wa_preview_media = swatch_product.metafields.custom.womens_card_image.value
+          elsif wa_card_context == 'mens' and swatch_product.metafields.custom.mens_card_image.value != blank
+            assign wa_preview_media = swatch_product.metafields.custom.mens_card_image.value
+          endif
+        endif
+        if wa_preview_media.image != blank
+          assign wa_preview_media = wa_preview_media.image
+        elsif wa_preview_media.preview_image != blank
+          assign wa_preview_media = wa_preview_media.preview_image
         endif
         if wa_preview_media != blank
           assign wa_card_sizes = '(min-width: ' | append: settings.page_width | append: 'px) ' | append: settings.page_width | minus: 130 | divided_by: 4 | append: 'px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)'
@@ -68,7 +108,7 @@
       {%- endif -%}
       <a
         id="{{ wa_swatch_id }}"
-        href="{{ swatch_product.url }}"
+        href="{{ wa_swatch_product_url }}"
         class="wa-color-swatch__button wa-color-swatch__link"
         aria-label="View {{ wa_swatch_name | escape }}"
         {%- if wa_preview_media != blank %}
