@@ -1,1 +1,205 @@
-{"sections":{"slideshow_LtamGJ":{"type":"slideshow","blocks":{"slide_cYQCt9":{"type":"slide","settings":{"image":"shopify:\/\/shop_images\/Banner2.webp","image_overlay_opacity":0,"heading":"","heading_size":"h1","subheading":"","button_label":"","link":"","button_style_secondary":false,"show_text_box":false,"box_align":"middle-center","text_alignment":"center","text_alignment_mobile":"center","color_scheme":""}},"slide_zW3mcQ":{"type":"slide","settings":{"image":"shopify:\/\/shop_images\/Banner3.webp","image_overlay_opacity":0,"heading":"","heading_size":"h1","subheading":"","button_label":"","link":"","button_style_secondary":false,"show_text_box":false,"box_align":"middle-center","text_alignment":"center","text_alignment_mobile":"center","color_scheme":""}}},"block_order":["slide_cYQCt9","slide_zW3mcQ"],"name":"t:sections.slideshow.presets.name","settings":{"layout":"full_bleed","slide_height":"adapt_image","slider_visual":"dots","auto_rotate":false,"change_slides_speed":5,"image_behavior":"none","show_text_below":false,"accessibility_info":""}},"image_banner":{"type":"image-banner","disabled":true,"settings":{"image":"shopify:\/\/shop_images\/Banner2.webp","image_overlay_opacity":0,"image_height":"adapt","image_behavior":"none","desktop_content_position":"bottom-center","desktop_content_alignment":"center","show_text_box":false,"color_scheme":"scheme-3","stack_images_on_mobile":false,"mobile_content_alignment":"center","show_text_below":false}},"featured_collection":{"type":"featured-collection","settings":{"collection":"shirts","products_to_show":10,"title":"Shirts","heading_size":"h1","description":"","show_description":false,"description_style":"body","columns_desktop":5,"enable_desktop_slider":true,"full_width":true,"show_view_all":true,"view_all_style":"solid","color_scheme":"scheme-1","image_ratio":"portrait","image_shape":"default","show_secondary_image":true,"show_vendor":false,"show_rating":false,"quick_add":"none","columns_mobile":"2","swipe_on_mobile":true,"padding_top":44,"padding_bottom":36}},"featured_collection_T6zxV3":{"type":"featured-collection","name":"t:sections.featured-collection.presets.name","settings":{"collection":"trousers","products_to_show":10,"title":"Trousers","heading_size":"h1","description":"","show_description":false,"description_style":"body","columns_desktop":5,"enable_desktop_slider":true,"full_width":true,"show_view_all":true,"view_all_style":"solid","color_scheme":"","image_ratio":"portrait","image_shape":"default","show_secondary_image":true,"show_vendor":false,"show_rating":false,"quick_add":"none","columns_mobile":"2","swipe_on_mobile":true,"padding_top":36,"padding_bottom":36}},"wa_performance_features":{"type":"wa-performance-features","settings":{"heading":"BUILT FOR\nEVERY REP.\nDESIGNED FOR\nEVERY DAY.","subheading":"Premium activewear engineered for movement, training and everyday performance.","cta_text":"Shop Collection →","cta_link":"/collections/all","overlay_opacity":45,"padding_top":120,"padding_bottom":120,"enable_feature_1":true,"feature_1_title":"Moisture-Wicking","feature_1_description":"Keeps you dry during training and daily movement.","enable_feature_2":true,"feature_2_title":"4-Way Stretch","feature_2_description":"Moves naturally with your body without restriction.","enable_feature_3":true,"feature_3_title":"Breathable Fabric","feature_3_description":"Designed to maximize airflow and lasting comfort.","enable_feature_4":true,"feature_4_title":"Everyday Comfort","feature_4_description":"Made for the gym, work, travel, and everything in between."}},"featured_collection_NMabDU":{"type":"featured-collection","name":"t:sections.featured-collection.presets.name","settings":{"collection":"✨-best-selling-collection-✨","products_to_show":10,"title":"Best Selling","heading_size":"h1","description":"","show_description":false,"description_style":"body","columns_desktop":5,"enable_desktop_slider":true,"full_width":true,"show_view_all":true,"view_all_style":"solid","color_scheme":"","image_ratio":"adapt","image_shape":"default","show_secondary_image":true,"show_vendor":false,"show_rating":false,"quick_add":"none","columns_mobile":"2","swipe_on_mobile":false,"padding_top":36,"padding_bottom":36}}},"order":["slideshow_LtamGJ","image_banner","featured_collection","featured_collection_T6zxV3","wa_performance_features","featured_collection_NMabDU"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "slideshow_LtamGJ": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_cYQCt9": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Banner2.webp",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": ""
+          }
+        },
+        "slide_zW3mcQ": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Banner3.webp",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_cYQCt9",
+        "slide_zW3mcQ"
+      ],
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "adapt_image",
+        "slider_visual": "dots",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "show_text_below": false,
+        "accessibility_info": ""
+      }
+    },
+    "image_banner": {
+      "type": "image-banner",
+      "disabled": true,
+      "settings": {
+        "image": "shopify://shop_images/Banner2.webp",
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "image_behavior": "none",
+        "desktop_content_position": "bottom-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": false,
+        "color_scheme": "scheme-3",
+        "stack_images_on_mobile": false,
+        "mobile_content_alignment": "center",
+        "show_text_below": false
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "shirts",
+        "products_to_show": 10,
+        "title": "Shirts",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 5,
+        "enable_desktop_slider": true,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "scheme-1",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 44,
+        "padding_bottom": 36
+      }
+    },
+    "featured_collection_T6zxV3": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "collection": "trousers",
+        "products_to_show": 10,
+        "title": "Trousers",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 5,
+        "enable_desktop_slider": true,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "wa_performance_features": {
+      "type": "wa-performance-features",
+      "settings": {
+        "background_image": "shopify://shop_images/updated-banner.webp",
+        "heading": "BUILT FOR\nEVERY REP.\nDESIGNED FOR\nEVERY DAY.",
+        "subheading": "Premium activewear engineered for movement, training and everyday performance.",
+        "cta_text": "Shop Collection →",
+        "cta_link": "/collections/all",
+        "overlay_opacity": 45,
+        "padding_top": 120,
+        "padding_bottom": 120,
+        "enable_feature_1": true,
+        "feature_1_title": "Moisture-Wicking",
+        "feature_1_description": "Keeps you dry during training and daily movement.",
+        "enable_feature_2": true,
+        "feature_2_title": "4-Way Stretch",
+        "feature_2_description": "Moves naturally with your body without restriction.",
+        "enable_feature_3": true,
+        "feature_3_title": "Breathable Fabric",
+        "feature_3_description": "Designed to maximize airflow and lasting comfort.",
+        "enable_feature_4": true,
+        "feature_4_title": "Everyday Comfort",
+        "feature_4_description": "Made for the gym, work, travel, and everything in between."
+      }
+    },
+    "featured_collection_NMabDU": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "collection": "✨-best-selling-collection-✨",
+        "products_to_show": 10,
+        "title": "Best Selling",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 5,
+        "enable_desktop_slider": true,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "slideshow_LtamGJ",
+    "image_banner",
+    "featured_collection",
+    "featured_collection_T6zxV3",
+    "wa_performance_features",
+    "featured_collection_NMabDU"
+  ]
+}
