@@ -1,0 +1,37 @@
+{% comment %}
+  Wear Active — formats a measurement value for display.
+  Appends " when the value is numeric and has no unit.
+
+  Accepts:
+  - value: {String} Raw field value.
+{% endcomment %}
+{%- liquid
+  assign wa_val = value | strip
+
+  if wa_val == blank
+    echo '&mdash;'
+  else
+    assign wa_has_unit = false
+    if wa_val contains '"' or wa_val contains '″' or wa_val contains 'cm' or wa_val contains 'in' or wa_val contains 'mm' or wa_val contains "'"
+      assign wa_has_unit = true
+    endif
+
+    unless wa_has_unit
+      assign wa_num = wa_val | plus: 0
+      assign wa_num_str = wa_num | append: ''
+
+      if wa_val == wa_num_str
+        assign wa_val = wa_val | append: '"'
+      elsif wa_val contains '.'
+        assign wa_decimal = wa_val | times: 1
+        assign wa_decimal_str = wa_decimal | append: ''
+
+        if wa_val == wa_decimal_str
+          assign wa_val = wa_val | append: '"'
+        endif
+      endif
+    endunless
+
+    echo wa_val | escape
+  endif
+-%}
