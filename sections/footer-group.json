@@ -1,1 +1,54 @@
-{"name":"t:sections.footer.name","type":"footer","sections":{"footer":{"type":"footer","settings":{"color_scheme":"scheme-4","newsletter_enable":true,"newsletter_heading":"Subscribe to our emails","enable_follow_on_shop":true,"show_social":true,"enable_country_selector":true,"enable_language_selector":true,"payment_enable":true,"show_policy":true,"margin_top":0,"padding_top":36,"padding_bottom":36}}},"order":["footer"]}
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "wa-footer-brand": {
+          "type": "brand_information",
+          "settings": {
+            "show_social": false
+          }
+        },
+        "wa-footer-support": {
+          "type": "wa_footer_menu",
+          "settings": {
+            "heading": "Support",
+            "menu_group": "support"
+          }
+        },
+        "wa-footer-about": {
+          "type": "wa_footer_menu",
+          "settings": {
+            "heading": "About",
+            "menu_group": "about"
+          }
+        }
+      },
+      "block_order": [
+        "wa-footer-brand",
+        "wa-footer-support",
+        "wa-footer-about"
+      ],
+      "settings": {
+        "color_scheme": "scheme-4",
+        "newsletter_enable": true,
+        "newsletter_heading": "Join our community",
+        "newsletter_subtext": "Subscribe to receive updates, new drops, and exclusive offers.",
+        "copyright_text": "© 2026 WA ATHLEISURE",
+        "show_powered_by": false,
+        "enable_follow_on_shop": false,
+        "show_social": true,
+        "enable_country_selector": false,
+        "enable_language_selector": false,
+        "payment_enable": false,
+        "show_policy": false,
+        "margin_top": 0,
+        "padding_top": 48,
+        "padding_bottom": 28
+      }
+    }
+  },
+  "order": ["footer"]
+}
