@@ -4,7 +4,7 @@
 
   Accepts:
   - card_product: {Object} Product Liquid object.
-  - lazy_load: {Boolean} Lazy-load the primary image. Default: true (optional).
+  - enable_swatch_preview: {Boolean} Include swatch preview image layer. Default: false (optional).
 {% endcomment %}
 
 {%- liquid
@@ -16,6 +16,10 @@
   endif
 
   assign wa_card_sizes = '(min-width: ' | append: settings.page_width | append: 'px) ' | append: settings.page_width | minus: 130 | divided_by: 4 | append: 'px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)'
+  assign wa_card_show_swatch_preview = false
+  if enable_swatch_preview
+    assign wa_card_show_swatch_preview = true
+  endif
 -%}
 
 <div class="media media--transparent wa-product-card__media{% if wa_card_has_hover %} wa-product-card__media--hover{% endif %}">
@@ -60,6 +64,17 @@
       loading="lazy"
       width="{{ wa_card_secondary.width }}"
       height="{{ wa_card_secondary.height }}"
+    >
+  {%- endif -%}
+
+  {%- if wa_card_show_swatch_preview -%}
+    <img
+      class="wa-product-card__image wa-product-card__image--swatch-preview motion-reduce"
+      alt=""
+      width="{{ wa_card_primary.width }}"
+      height="{{ wa_card_primary.height }}"
+      hidden
+      decoding="async"
     >
   {%- endif -%}
 </div>
