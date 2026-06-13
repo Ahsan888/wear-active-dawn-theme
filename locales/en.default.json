@@ -202,12 +202,12 @@
       "show_less": "Show less",
       "max_price": "The highest price is {{ price }}",
       "product_count": {
-        "one": "{{ product_count }} of {{ count }} product",
-        "other": "{{ product_count }} of {{ count }} products"
+        "one": "Showing {{ product_count }} of {{ count }} product",
+        "other": "Showing {{ product_count }} of {{ count }} products"
       },
       "product_count_simple": {
-        "one": "{{ count }} product",
-        "other": "{{ count }} products"
+        "one": "Showing {{ count }} product",
+        "other": "Showing {{ count }} products"
       },
       "reset": "Reset",
       "sort_button": "Sort",
