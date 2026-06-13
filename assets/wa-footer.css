@@ -13,9 +13,10 @@
 
 .wa-footer .footer-block__heading {
   margin-bottom: 1.4rem;
-  font-size: 1.3rem;
-  font-weight: 500;
-  letter-spacing: 0.1rem;
+  font-size: var(--wa-text-sm);
+  font-weight: var(--wa-weight-medium);
+  letter-spacing: var(--wa-tracking-widest);
+  line-height: var(--wa-leading-snug);
   text-transform: uppercase;
   color: rgb(var(--color-foreground));
 }
@@ -27,8 +28,10 @@
 .wa-footer .footer-block__brand-info .rte,
 .wa-footer .footer-block__details-content {
   color: rgba(var(--color-foreground), 0.62);
-  font-size: 1.35rem;
-  line-height: 1.65;
+  font-size: var(--wa-text-sm);
+  font-weight: var(--wa-weight-regular);
+  line-height: var(--wa-leading-relaxed);
+  letter-spacing: var(--wa-tracking-snug);
 }
 
 .wa-footer .footer-block__brand-info .rte p {
@@ -63,8 +66,10 @@
 
 .wa-footer .footer-block--menu .link--text {
   color: rgba(var(--color-foreground), 0.62);
-  font-size: 1.35rem;
-  line-height: 1.5;
+  font-size: var(--wa-text-sm);
+  font-weight: var(--wa-weight-regular);
+  line-height: var(--wa-leading-normal);
+  letter-spacing: var(--wa-tracking-snug);
   padding-top: 0.45rem;
   padding-bottom: 0.45rem;
   transition: color 0.2s ease;
@@ -82,8 +87,10 @@
 .wa-footer .wa-footer__newsletter-text {
   margin: 0 0 1.6rem;
   color: rgba(var(--color-foreground), 0.62);
-  font-size: 1.35rem;
-  line-height: 1.6;
+  font-size: var(--wa-text-sm);
+  font-weight: var(--wa-weight-regular);
+  line-height: var(--wa-leading-relaxed);
+  letter-spacing: var(--wa-tracking-snug);
 }
 
 .wa-footer .footer-block__newsletter {
@@ -122,8 +129,10 @@
 
 .wa-footer .wa-footer__copyright {
   color: rgba(var(--color-foreground), 0.45);
-  font-size: 1.2rem;
-  letter-spacing: 0.08rem;
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-regular);
+  letter-spacing: var(--wa-tracking-wider);
+  line-height: var(--wa-leading-snug);
   text-transform: uppercase;
 }
 
