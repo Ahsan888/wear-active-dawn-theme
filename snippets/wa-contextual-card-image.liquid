@@ -1,0 +1,26 @@
+{% comment %}
+  Wear Active custom code start - wa-contextual-card-image.liquid
+  Resolves the card image context key for product listing cards.
+
+  Outputs:
+  - "womens" when the collection handle clearly indicates a women's context.
+  - "mens" when the collection handle clearly indicates a men's context.
+  - blank when context is unclear.
+
+  Accepts:
+  - card_collection: {Object} Collection object for the listing context.
+{% endcomment %}
+
+{%- liquid
+  assign wa_context = ''
+  assign wa_collection_handle = card_collection.handle | default: '' | downcase
+
+  if wa_collection_handle contains 'women' or wa_collection_handle contains 'womens'
+    assign wa_context = 'womens'
+  elsif wa_collection_handle contains 'men' or wa_collection_handle contains 'mens'
+    assign wa_context = 'mens'
+  elsif wa_collection_handle == 'shirts' or wa_collection_handle == 'trousers'
+    assign wa_context = 'mens'
+  endif
+-%}
+{{- wa_context -}}

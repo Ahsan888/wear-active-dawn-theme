@@ -1,10 +1,23 @@
+{%- liquid
+  capture wa_view_context
+    render 'wa-product-view-context'
+  endcapture
+  assign wa_view_context = wa_view_context | strip
+  assign wa_product_data_url = product.url
+  if wa_view_context == 'women'
+    assign wa_product_data_url = wa_product_data_url | append: '?view_context=women'
+  elsif wa_view_context == 'men'
+    assign wa_product_data_url = wa_product_data_url | append: '?view_context=men'
+  endif
+-%}
+
 <product-info
   id="MainProduct-{{ section.id }}"
   class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}"
   data-section="{{ section.id }}"
   data-product-id="{{ product.id }}"
   data-update-url="true"
-  data-url="{{ product.url }}"
+  data-url="{{ wa_product_data_url }}"
   {% if section.settings.image_zoom == 'hover' %}
     data-zoom-on-hover
   {% endif %}

@@ -1,15 +1,64 @@
 {% comment %}
-  Wear Active custom code start — wa-product-card-images.liquid
+  Wear Active custom code start - wa-product-card-images.liquid
   Product card images with premium desktop hover fade to second image.
 
   Accepts:
   - card_product: {Object} Product Liquid object.
+  - card_collection: {Object} Collection object for contextual card image selection (optional).
+  - card_primary_image: {Object} Resolved primary image for contextual card rendering (optional).
   - enable_swatch_preview: {Boolean} Include swatch preview image layer. Default: false (optional).
 {% endcomment %}
 
 {%- liquid
-  assign wa_card_primary = card_product.featured_media
+  assign wa_card_primary = card_primary_image | default: card_product.featured_media
+  capture wa_card_context
+    render 'wa-contextual-card-image', card_collection: card_collection
+  endcapture
+  assign wa_card_context = wa_card_context | strip
+
+  if card_primary_image == blank and wa_card_context == 'womens' and card_product.metafields.custom.womens_card_image.value != blank
+    assign wa_card_primary = card_product.metafields.custom.womens_card_image.value
+  elsif card_primary_image == blank and wa_card_context == 'mens' and card_product.metafields.custom.mens_card_image.value != blank
+    assign wa_card_primary = card_product.metafields.custom.mens_card_image.value
+  endif
+
+  if wa_card_primary.image != blank
+    assign wa_card_primary = wa_card_primary.image
+  elsif wa_card_primary.preview_image != blank
+    assign wa_card_primary = wa_card_primary.preview_image
+  endif
+
   assign wa_card_secondary = card_product.media[1]
+  if wa_card_context == 'womens'
+    if card_product.metafields.custom.womens_hover_image.value != blank
+      assign wa_card_secondary = card_product.metafields.custom.womens_hover_image.value
+    elsif card_product.metafields.custom.womens_gallery_images.value != blank
+      for wa_gallery_image in card_product.metafields.custom.womens_gallery_images.value
+        if forloop.index == 2
+          assign wa_card_secondary = wa_gallery_image
+          break
+        endif
+      endfor
+    endif
+  elsif wa_card_context == 'mens'
+    if card_product.metafields.custom.mens_hover_image.value != blank
+      assign wa_card_secondary = card_product.metafields.custom.mens_hover_image.value
+    elsif card_product.metafields.custom.mens_gallery_images.value != blank
+      for wa_gallery_image in card_product.metafields.custom.mens_gallery_images.value
+        if forloop.index == 2
+          assign wa_card_secondary = wa_gallery_image
+          break
+        endif
+      endfor
+    endif
+  endif
+
+  if wa_card_secondary.image != blank
+    assign wa_card_secondary = wa_card_secondary.image
+  elsif wa_card_secondary.preview_image != blank
+    assign wa_card_secondary = wa_card_secondary.preview_image
+  endif
+
   assign wa_card_has_hover = false
   if wa_card_secondary != null
     assign wa_card_has_hover = true
@@ -36,7 +85,7 @@
     "
     src="{{ wa_card_primary | image_url: width: 533 }}"
     sizes="{{ wa_card_sizes }}"
-    alt="{{ wa_card_primary.alt | escape }}"
+    alt="{{ wa_card_primary.alt | default: card_product.title | escape }}"
     class="wa-product-card__image wa-product-card__image--primary motion-reduce"
     {% unless lazy_load == false %}
       loading="lazy"
