@@ -1,0 +1,153 @@
+/* ==========================================================================
+   Wear Active custom code start — wa-header.css
+   Premium minimal black header polish.
+   ========================================================================== */
+
+/* Announcement bar */
+.announcement-bar-section .announcement-bar__message {
+  font-size: 1.2rem;
+  font-weight: 400;
+  letter-spacing: 0.06rem;
+  text-transform: none;
+}
+
+.announcement-bar-section .utility-bar {
+  min-height: 3.6rem;
+}
+
+@media screen and (min-width: 750px) {
+  .announcement-bar-section .announcement-bar__message {
+    font-size: 1.25rem;
+    letter-spacing: 0.08rem;
+  }
+}
+
+/* Header — solid black foundation, desktop polish */
+.section-header .header-wrapper.wa-header-wrapper {
+  background-color: rgb(var(--color-background));
+}
+
+.wa-header .header__heading-logo-wrapper {
+  width: auto !important;
+  max-width: none;
+}
+
+.wa-header .header__heading-logo {
+  display: block;
+  width: auto;
+  max-width: none;
+  height: 4.6rem;
+  object-fit: contain;
+}
+
+@media screen and (min-width: 990px) {
+  .wa-header.header--middle-left {
+    column-gap: 3.2rem;
+  }
+
+  .wa-header .header__heading-link {
+    display: inline-flex;
+    align-items: center;
+    margin-left: -1.6rem;
+    margin-right: 2.4rem;
+    padding: 0.2rem 0;
+  }
+
+  .wa-header .header__heading-logo-wrapper {
+    display: inline-flex;
+    align-items: center;
+    width: auto !important;
+  }
+
+  .wa-header .header__heading-logo {
+    height: 5.2rem;
+  }
+
+  .wa-header .header__inline-menu {
+    margin-left: 1.6rem;
+  }
+
+  .wa-header .header__inline-menu .list-menu--inline {
+    gap: 0.4rem 2.4rem;
+    justify-content: center;
+  }
+
+  .wa-header .header__menu-item {
+    font-size: 1.35rem;
+    font-weight: 400;
+    letter-spacing: 0.08rem;
+    text-transform: uppercase;
+    padding: 0.8rem 0;
+    border-radius: 0;
+    background: none;
+    color: rgba(var(--color-foreground), 0.82);
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+
+  .wa-header .header__menu-item span {
+    display: inline-block;
+  }
+
+  .wa-header .header__active-menu-item {
+    font-weight: 500;
+    color: rgb(var(--color-foreground));
+    text-decoration: underline;
+    text-underline-offset: 0.35rem;
+    text-decoration-thickness: 0.1rem;
+  }
+
+  .wa-header .header__menu-item:hover,
+  .wa-header .header__menu-item:focus-visible {
+    color: rgb(var(--color-foreground));
+    background: none;
+  }
+
+  .wa-header .header__menu-item:hover span,
+  .wa-header .header__menu-item:focus-visible span {
+    opacity: 0.72;
+  }
+
+  .wa-header .header__menu-item[aria-current='page']:hover span,
+  .wa-header .header__menu-item[aria-current='page']:focus-visible span,
+  .wa-header .header__menu-item:has(.header__active-menu-item):hover span,
+  .wa-header .header__menu-item:has(.header__active-menu-item):focus-visible span {
+    opacity: 1;
+  }
+
+  .wa-header .header__icons {
+    gap: 0.4rem;
+    justify-self: end;
+  }
+
+  .wa-header .header__icon {
+    width: 4.2rem;
+    height: 4.2rem;
+    border-radius: 0;
+    background: none;
+  }
+
+  .wa-header .header__icon:hover,
+  .wa-header .header__icon:focus-visible {
+    background: none;
+    opacity: 0.72;
+  }
+
+  .wa-header .header__icon .svg-wrapper {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-header .header__menu-item,
+  .wa-header .header__icon {
+    transition: none;
+  }
+
+  .wa-header .header__menu-item:hover span,
+  .wa-header .header__menu-item:focus-visible span,
+  .wa-header .header__icon:hover,
+  .wa-header .header__icon:focus-visible {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,104 @@
+{% comment %}
+  Wear Active custom code start — wa-footer-menu-links.liquid
+  Curated footer links for Support and About columns.
+
+  Accepts:
+  - menu_group: {String} support or about.
+{% endcomment %}
+
+{%- liquid
+  assign wa_footer_contact_url = routes.root_url
+  if pages.contact != blank
+    assign wa_footer_contact_url = pages.contact.url
+  elsif pages['contact-us'] != blank
+    assign wa_footer_contact_url = pages['contact-us'].url
+  endif
+
+  assign wa_footer_about_url = routes.root_url
+  if pages.about != blank
+    assign wa_footer_about_url = pages.about.url
+  elsif pages['about-us'] != blank
+    assign wa_footer_about_url = pages['about-us'].url
+  endif
+
+  assign wa_footer_exchange_url = blank
+  if pages['exchange-return-policy'] != blank
+    assign wa_footer_exchange_url = pages['exchange-return-policy'].url
+  elsif pages.returns != blank
+    assign wa_footer_exchange_url = pages.returns.url
+  elsif pages['return-policy'] != blank
+    assign wa_footer_exchange_url = pages['return-policy'].url
+  endif
+  if wa_footer_exchange_url == blank
+    for policy in shop.policies
+      if policy.handle == 'refund-policy' or policy.handle == 'return-policy'
+        assign wa_footer_exchange_url = policy.url
+        break
+      endif
+    endfor
+  endif
+  if wa_footer_exchange_url == blank
+    assign wa_footer_exchange_url = '/policies/refund-policy'
+  endif
+
+  assign wa_footer_privacy_url = blank
+  for policy in shop.policies
+    if policy.handle == 'privacy-policy'
+      assign wa_footer_privacy_url = policy.url
+      break
+    endif
+  endfor
+  if wa_footer_privacy_url == blank
+    assign wa_footer_privacy_url = '/policies/privacy-policy'
+  endif
+
+  assign wa_footer_shirts_url = routes.collections_url | append: '/shirts'
+  if collections.shirts != blank
+    assign wa_footer_shirts_url = collections.shirts.url
+  elsif collections['shirts'] != blank
+    assign wa_footer_shirts_url = collections['shirts'].url
+  endif
+
+  assign wa_footer_trousers_url = routes.collections_url | append: '/trousers'
+  if collections.trousers != blank
+    assign wa_footer_trousers_url = collections.trousers.url
+  elsif collections['trousers'] != blank
+    assign wa_footer_trousers_url = collections['trousers'].url
+  endif
+-%}
+
+<ul class="footer-block__details-content list-unstyled wa-footer__menu-links">
+  {%- if menu_group == 'support' -%}
+    <li>
+      <a href="{{ wa_footer_contact_url }}" class="link link--text list-menu__item list-menu__item--link">
+        Contact &amp; Help
+      </a>
+    </li>
+    <li>
+      <a href="{{ wa_footer_privacy_url }}" class="link link--text list-menu__item list-menu__item--link">
+        Privacy Policy
+      </a>
+    </li>
+    <li>
+      <a href="{{ wa_footer_exchange_url }}" class="link link--text list-menu__item list-menu__item--link">
+        Exchange &amp; Return Policy
+      </a>
+    </li>
+  {%- elsif menu_group == 'about' -%}
+    <li>
+      <a href="{{ wa_footer_about_url }}" class="link link--text list-menu__item list-menu__item--link">
+        About Us
+      </a>
+    </li>
+    <li>
+      <a href="{{ wa_footer_shirts_url }}" class="link link--text list-menu__item list-menu__item--link">
+        Shirts
+      </a>
+    </li>
+    <li>
+      <a href="{{ wa_footer_trousers_url }}" class="link link--text list-menu__item list-menu__item--link">
+        Trousers
+      </a>
+    </li>
+  {%- endif -%}
+</ul>
