@@ -1,0 +1,29 @@
+{% comment %}
+  Wear Active custom code start — wa-product-trust-block.liquid
+  PDP delivery and trust reassurance items.
+
+  Accepts:
+  - block: {Object} Theme editor block with trust item settings.
+{% endcomment %}
+
+{%- if block.settings.enable -%}
+  <div class="wa-product-trust" {{ block.shopify_attributes }}>
+    <ul class="wa-product-trust__list" role="list">
+      {%- for wa_trust_index in (1..4) -%}
+        {%- assign wa_trust_key = 'item_' | append: wa_trust_index -%}
+        {%- assign wa_trust_text = block.settings[wa_trust_key] -%}
+        {%- if wa_trust_text != blank -%}
+          <li class="wa-product-trust__item" role="listitem">
+            <span class="wa-product-trust__icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" focusable="false">
+                <circle cx="8" cy="8" r="7.25" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M5.25 8.1 7 9.85 10.75 6.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="wa-product-trust__text">{{ wa_trust_text | escape }}</span>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+{%- endif -%}
