@@ -65,23 +65,6 @@
         "accessibility_info": ""
       }
     },
-    "image_banner": {
-      "type": "image-banner",
-      "disabled": true,
-      "settings": {
-        "image": "shopify://shop_images/Banner2.webp",
-        "image_overlay_opacity": 0,
-        "image_height": "adapt",
-        "image_behavior": "none",
-        "desktop_content_position": "bottom-center",
-        "desktop_content_alignment": "center",
-        "show_text_box": false,
-        "color_scheme": "scheme-3",
-        "stack_images_on_mobile": false,
-        "mobile_content_alignment": "center",
-        "show_text_below": false
-      }
-    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -194,6 +177,7 @@
         "category_womens": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/women-banner.webp",
             "title": "Women's",
             "collection": "womens",
             "link": "shopify://collections/women-s-performance-collection",
@@ -239,7 +223,7 @@
       "settings": {
         "heading": "Shop by Category",
         "subheading": "Explore performance essentials by category.",
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-4",
         "image_radius": 8,
         "padding_top": 56,
         "padding_bottom": 56
@@ -280,7 +264,6 @@
   },
   "order": [
     "slideshow_LtamGJ",
-    "image_banner",
     "featured_collection",
     "featured_collection_T6zxV3",
     "wa_performance_features",
