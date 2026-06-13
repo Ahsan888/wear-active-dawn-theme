@@ -192,11 +192,15 @@
                   {%- endif -%}
                 </p>
               {%- when 'description' -%}
-                {%- if product.description != blank -%}
-                  <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
-                    {{ product.description }}
-                  </div>
-                {%- endif -%}
+                {%- comment -%} Wear Active: skip when product info accordion block is enabled. {%- endcomment -%}
+                {%- assign wa_product_info_block = section.blocks | where: 'type', 'wa_product_info' | first -%}
+                {%- unless wa_product_info_block and wa_product_info_block.settings.enable -%}
+                  {%- if product.description != blank -%}
+                    <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
+                      {{ product.description }}
+                    </div>
+                  {%- endif -%}
+                {%- endunless -%}
               {%- when 'sku' -%}
                 <p
                   class="product__sku{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}{% if product.selected_or_first_available_variant.sku.size == 0 %} visibility-hidden{% endif %}"
@@ -493,6 +497,14 @@
                 -%}
                 {%- comment -%} Wear Active custom code start {%- endcomment -%}
                 </div>
+                {%- comment -%} Wear Active custom code end {%- endcomment -%}
+              {%- when 'wa_trust_block' -%}
+                {%- comment -%} Wear Active custom code start {%- endcomment -%}
+                {% render 'wa-product-trust-block', block: block %}
+                {%- comment -%} Wear Active custom code end {%- endcomment -%}
+              {%- when 'wa_product_info' -%}
+                {%- comment -%} Wear Active custom code start {%- endcomment -%}
+                {% render 'wa-product-info-accordion', block: block, product: product, section: section %}
                 {%- comment -%} Wear Active custom code end {%- endcomment -%}
               {%- when 'rating' -%}
                 {%- if product.metafields.reviews.rating.value != blank -%}
@@ -941,6 +953,86 @@
           "default": true,
           "label": "t:sections.main-product.blocks.buy_buttons.settings.show_gift_card_recipient.label",
           "info": "t:sections.main-product.blocks.buy_buttons.settings.show_gift_card_recipient.info"
+        }
+      ]
+    },
+    {
+      "type": "wa_trust_block",
+      "name": "Delivery & trust",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enable",
+          "default": true,
+          "label": "Show delivery and trust block"
+        },
+        {
+          "type": "text",
+          "id": "item_1",
+          "default": "Free delivery across Pakistan",
+          "label": "Trust item 1"
+        },
+        {
+          "type": "text",
+          "id": "item_2",
+          "default": "Estimated delivery: 2–4 working days",
+          "label": "Trust item 2"
+        },
+        {
+          "type": "text",
+          "id": "item_3",
+          "default": "Easy size exchange",
+          "label": "Trust item 3"
+        },
+        {
+          "type": "text",
+          "id": "item_4",
+          "default": "Secure checkout",
+          "label": "Trust item 4"
+        }
+      ]
+    },
+    {
+      "type": "wa_product_info",
+      "name": "Product information",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enable",
+          "default": true,
+          "label": "Show product information accordions"
+        },
+        {
+          "type": "text",
+          "id": "description_heading",
+          "default": "Description",
+          "label": "Description heading"
+        },
+        {
+          "type": "text",
+          "id": "exchange_heading",
+          "default": "Exchange & Return Policy",
+          "label": "Exchange & return heading"
+        },
+        {
+          "type": "textarea",
+          "id": "exchange_policy",
+          "default": "Size exchanges are available within 7 days of delivery if the item is unused, unwashed, and in its original condition with tags attached. Customers are responsible for return shipping unless the item received is incorrect or defective. Sale or clearance items may not be eligible for exchange unless faulty.",
+          "label": "Exchange & return policy"
+        },
+        {
+          "type": "text",
+          "id": "care_heading",
+          "default": "Care Instructions",
+          "label": "Care instructions heading"
+        },
+        {
+          "type": "textarea",
+          "id": "care_instructions",
+          "default": "Machine wash cold with similar colors. Do not bleach. Do not tumble dry on high heat. Iron on low if needed. Do not dry clean.",
+          "label": "Care instructions"
         }
       ]
     },
