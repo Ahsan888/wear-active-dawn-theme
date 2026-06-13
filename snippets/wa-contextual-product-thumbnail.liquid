@@ -1,0 +1,99 @@
+{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+{% comment %}
+  Wear Active custom code start - wa-contextual-product-thumbnail.liquid
+  Renders a contextual PDP gallery image using Dawn's media-gallery/modal contract.
+
+  Accepts:
+  - image: {Object} Shopify image object
+  - media_id: {String} Stable contextual media id
+  - media_count: {Number} Number of rendered gallery images
+  - position: {Number} Position of the media for accessible labels
+  - desktop_layout: {String} Layout of the media for desktop
+  - mobile_layout: {String} Layout of the media for mobile
+  - modal_id: {String} Product modal id
+  - media_width: {Float} Width percentage that the media column occupies on desktop
+  - media_fit: {String} Method ("contain" or "cover") to fit image into container
+  - constrain_to_viewport: {Boolean} Force media height to fit within viewport
+  - lazy_load: {Boolean} Image should be lazy loaded. Default: true (optional)
+  - product: {Object} Product liquid object
+{% endcomment %}
+
+{%- liquid
+  unless lazy_load == false
+    assign lazy = 'lazy'
+  endunless
+
+  assign desktop_columns = 1
+  if desktop_layout == 'columns' and media_count > 1
+    assign desktop_columns = 2
+  endif
+
+  assign mobile_columns = 1
+  if mobile_layout == 'columns' and media_count > 1
+    assign mobile_columns = 2
+  endif
+
+  assign image_class = 'image-magnify-' | append: section.settings.image_zoom
+  assign image_alt = image.alt | default: product.title | escape
+-%}
+
+{%- capture sizes -%}
+  (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | times: media_width | divided_by: desktop_columns | round }}px, (min-width: 990px) calc({{ media_width | times: 100 | divided_by: desktop_columns }}vw - 10rem), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw / {{ mobile_columns }} - 4rem)
+{%- endcapture -%}
+
+<div
+  class="product-media-container media-type-image media-fit-{{ media_fit }} global-media-settings gradient{% if constrain_to_viewport %} constrain-height{% endif %}"
+  style="--ratio: {{ image.aspect_ratio | default: 1.0 }}; --preview-ratio: {{ image.aspect_ratio | default: 1.0 }};"
+>
+  <modal-opener class="product__modal-opener product__modal-opener--image" data-modal="#ProductModal-{{ modal_id }}">
+    <span
+      class="product__media-icon motion-reduce quick-add-hidden product__media-icon--{{ section.settings.image_zoom }}"
+      aria-hidden="true"
+    >
+      <span class="svg-wrapper">
+        {{- 'icon-zoom.svg' | inline_asset_content -}}
+      </span>
+    </span>
+    {%- render 'loading-spinner' -%}
+    <div class="product__media media media--transparent">
+      {%- if lazy_load == false -%}
+        {{
+          image
+          | image_url: width: 1946
+          | image_tag:
+            class: image_class,
+            loading: 'eager',
+            fetchpriority: 'high',
+            sizes: sizes,
+            widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946',
+            width: image.width,
+            height: image.height,
+            alt: image_alt
+        }}
+      {%- else -%}
+        {{
+          image
+          | image_url: width: 1946
+          | image_tag:
+            class: image_class,
+            loading: lazy,
+            sizes: sizes,
+            widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946',
+            width: image.width,
+            height: image.height,
+            alt: image_alt
+        }}
+      {%- endif -%}
+    </div>
+    <button
+      class="product__media-toggle quick-add-hidden product__media-zoom-{{ section.settings.image_zoom }}"
+      type="button"
+      aria-haspopup="dialog"
+      data-media-id="{{ media_id }}"
+    >
+      <span class="visually-hidden">
+        {{ 'products.product.media.open_media' | t: index: position }}
+      </span>
+    </button>
+  </modal-opener>
+</div>

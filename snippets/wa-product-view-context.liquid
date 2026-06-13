@@ -1,0 +1,28 @@
+{% comment %}
+  Wear Active custom code start - wa-product-view-context.liquid
+  Resolves PDP gallery context from Shopify request params first, then collection context.
+
+  Outputs:
+  - "women"
+  - "men"
+  - blank
+{% endcomment %}
+
+{%- liquid
+  assign wa_view_context = request.params.view_context | default: '' | downcase
+
+  if wa_view_context == blank and collection != blank
+    capture wa_collection_context
+      render 'wa-contextual-card-image', card_collection: collection
+    endcapture
+    assign wa_collection_context = wa_collection_context | strip
+
+    if wa_collection_context == 'womens'
+      assign wa_view_context = 'women'
+    elsif wa_collection_context == 'mens'
+      assign wa_view_context = 'men'
+    endif
+  endif
+-%}
+
+{{- wa_view_context -}}

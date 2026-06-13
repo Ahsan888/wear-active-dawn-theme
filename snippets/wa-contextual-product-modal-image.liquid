@@ -1,0 +1,35 @@
+{% comment %}
+  Wear Active custom code start - wa-contextual-product-modal-image.liquid
+  Renders a contextual PDP modal image using Dawn's product-modal data-media-id behavior.
+
+  Accepts:
+  - image: {Object} Shopify image object
+  - media_id: {String} Stable contextual media id
+  - product: {Object} Product liquid object
+{% endcomment %}
+
+{%- liquid
+  assign image_alt = image.alt | default: product.title | escape
+-%}
+
+<img
+  class="global-media-settings global-media-settings--no-shadow"
+  srcset="
+    {%- if image.width >= 550 -%}{{ image | image_url: width: 550 }} 550w,{%- endif -%}
+    {%- if image.width >= 1100 -%}{{ image | image_url: width: 1100 }} 1100w,{%- endif -%}
+    {%- if image.width >= 1445 -%}{{ image | image_url: width: 1445 }} 1445w,{%- endif -%}
+    {%- if image.width >= 1680 -%}{{ image | image_url: width: 1680 }} 1680w,{%- endif -%}
+    {%- if image.width >= 2048 -%}{{ image | image_url: width: 2048 }} 2048w,{%- endif -%}
+    {%- if image.width >= 2200 -%}{{ image | image_url: width: 2200 }} 2200w,{%- endif -%}
+    {%- if image.width >= 2890 -%}{{ image | image_url: width: 2890 }} 2890w,{%- endif -%}
+    {%- if image.width >= 4096 -%}{{ image | image_url: width: 4096 }} 4096w,{%- endif -%}
+    {{ image | image_url }} {{ image.width }}w
+  "
+  sizes="(min-width: 750px) calc(100vw - 22rem), 1100px"
+  src="{{ image | image_url: width: 1445 }}"
+  alt="{{ image_alt }}"
+  loading="lazy"
+  width="1100"
+  height="{{ 1100 | divided_by: image.aspect_ratio | ceil }}"
+  data-media-id="{{ media_id }}"
+>
