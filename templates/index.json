@@ -178,6 +178,7 @@
           "settings": {
             "title": "Shirts",
             "collection": "shirts",
+            "link": "",
             "cta_text": "Shop Now"
           }
         },
@@ -186,6 +187,7 @@
           "settings": {
             "title": "Trousers",
             "collection": "trousers",
+            "link": "",
             "cta_text": "Shop Now"
           }
         },
@@ -194,6 +196,7 @@
           "settings": {
             "title": "Women's",
             "collection": "womens",
+            "link": "shopify://collections/women-s-performance-collection",
             "cta_text": "Shop Now"
           }
         },
@@ -202,6 +205,7 @@
           "settings": {
             "title": "Shorts",
             "collection": "shorts",
+            "link": "",
             "cta_text": "Shop Now"
           }
         },
@@ -210,6 +214,7 @@
           "settings": {
             "title": "Hoodies",
             "collection": "hoodies",
+            "link": "",
             "cta_text": "Shop Now"
           }
         },
@@ -218,6 +223,7 @@
           "settings": {
             "title": "Jackets",
             "collection": "jackets",
+            "link": "",
             "cta_text": "Shop Now"
           }
         }
