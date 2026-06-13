@@ -1,0 +1,70 @@
+{% comment %}
+  Wear Active custom code start — wa-product-info-accordion.liquid
+  Collapsible product information sections below the trust block.
+
+  Accepts:
+  - block: {Object} Theme editor block with section copy settings.
+  - product: {Object} Product object.
+  - section: {Object} Section object.
+{% endcomment %}
+
+{%- if block.settings.enable -%}
+  {%- liquid
+    assign wa_info_description_id = 'WaProductInfo-Description-' | append: section.id
+    assign wa_info_exchange_id = 'WaProductInfo-Exchange-' | append: section.id
+    assign wa_info_care_id = 'WaProductInfo-Care-' | append: section.id
+    assign wa_info_description_content_id = 'WaProductInfo-Description-Content-' | append: section.id
+    assign wa_info_exchange_content_id = 'WaProductInfo-Exchange-Content-' | append: section.id
+    assign wa_info_care_content_id = 'WaProductInfo-Care-Content-' | append: section.id
+  -%}
+
+  <div class="wa-product-info quick-add-hidden" {{ block.shopify_attributes }}>
+    {%- if product.description != blank -%}
+      <div class="wa-product-info__accordion accordion product__accordion">
+        <details id="{{ wa_info_description_id }}" open>
+          <summary aria-controls="{{ wa_info_description_content_id }}">
+            <div class="summary__title">
+              <h2 class="h4 accordion__title">{{ block.settings.description_heading | escape }}</h2>
+            </div>
+            {{- 'icon-caret.svg' | inline_asset_content -}}
+          </summary>
+          <div class="accordion__content rte" id="{{ wa_info_description_content_id }}">
+            {{ product.description }}
+          </div>
+        </details>
+      </div>
+    {%- endif -%}
+
+    {%- if block.settings.exchange_policy != blank -%}
+      <div class="wa-product-info__accordion accordion product__accordion">
+        <details id="{{ wa_info_exchange_id }}">
+          <summary aria-controls="{{ wa_info_exchange_content_id }}">
+            <div class="summary__title">
+              <h2 class="h4 accordion__title">{{ block.settings.exchange_heading | escape }}</h2>
+            </div>
+            {{- 'icon-caret.svg' | inline_asset_content -}}
+          </summary>
+          <div class="accordion__content rte" id="{{ wa_info_exchange_content_id }}">
+            <p>{{ block.settings.exchange_policy | escape }}</p>
+          </div>
+        </details>
+      </div>
+    {%- endif -%}
+
+    {%- if block.settings.care_instructions != blank -%}
+      <div class="wa-product-info__accordion accordion product__accordion">
+        <details id="{{ wa_info_care_id }}">
+          <summary aria-controls="{{ wa_info_care_content_id }}">
+            <div class="summary__title">
+              <h2 class="h4 accordion__title">{{ block.settings.care_heading | escape }}</h2>
+            </div>
+            {{- 'icon-caret.svg' | inline_asset_content -}}
+          </summary>
+          <div class="accordion__content rte" id="{{ wa_info_care_content_id }}">
+            <p>{{ block.settings.care_instructions | escape }}</p>
+          </div>
+        </details>
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}

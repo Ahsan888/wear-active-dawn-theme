@@ -69,3 +69,164 @@
     height: 2.8rem;
   }
 }
+
+/* Delivery & trust block */
+.wa-product-trust {
+  margin-top: 1.6rem;
+  padding-top: 1.6rem;
+  border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
+}
+
+.wa-product-trust__list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wa-product-trust__item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.wa-product-trust__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.15rem;
+  height: 1.15rem;
+  color: #2e7d52;
+}
+
+.wa-product-trust__icon svg {
+  display: block;
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.wa-product-trust__text {
+  flex: 1;
+  min-width: 0;
+  font-size: 1.3rem;
+  line-height: 1.5rem;
+  letter-spacing: 0.02rem;
+  color: rgba(var(--color-foreground), 0.72);
+}
+
+@media screen and (min-width: 750px) {
+  .wa-product-trust {
+    margin-top: 1.8rem;
+    padding-top: 1.8rem;
+  }
+
+  .wa-product-trust__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    column-gap: 2rem;
+    row-gap: 1.1rem;
+  }
+
+  .wa-product-trust__item {
+    align-items: flex-start;
+    height: 100%;
+  }
+
+  .wa-product-trust__icon {
+    margin-top: 0.18rem;
+  }
+
+  .wa-product-trust__text {
+    font-size: 1.35rem;
+    line-height: 1.5rem;
+  }
+}
+
+/* Product information accordions — extends Dawn component-accordion.css */
+.wa-product-info {
+  margin-top: 2.2rem;
+}
+
+.wa-product-info .wa-product-info__accordion.accordion {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.wa-product-info .accordion details {
+  width: 100%;
+}
+
+.wa-product-info .accordion summary {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 1.6rem;
+  padding: 1.8rem 0;
+}
+
+.wa-product-info .accordion summary:focus-visible {
+  outline: 0.2rem solid rgba(var(--color-foreground), 0.45);
+  outline-offset: 0.15rem;
+}
+
+.wa-product-info .accordion .summary__title {
+  flex: 1 1 auto;
+  align-items: center;
+  min-width: 0;
+}
+
+.wa-product-info .accordion .accordion__title {
+  max-width: none;
+  font-weight: 500;
+  letter-spacing: 0.03rem;
+}
+
+.wa-product-info .accordion summary .icon-caret {
+  position: static;
+  flex: 0 0 auto;
+  margin-left: auto;
+  margin-right: 0;
+  height: 0.6rem;
+  width: 1rem;
+  opacity: 0.5;
+  transition: transform 200ms ease;
+}
+
+.wa-product-info .accordion .accordion__content {
+  padding: 0 0 1.8rem;
+  color: rgba(var(--color-foreground), 0.76);
+  font-size: 1.4rem;
+  line-height: 1.65;
+}
+
+.wa-product-info .accordion .accordion__content p {
+  margin: 0;
+}
+
+/* Share — separate component spacing on PDP */
+.product__info-container .share-button {
+  margin-top: 3.2rem;
+}
+
+@media screen and (min-width: 750px) {
+  .wa-product-info .accordion summary {
+    padding: 2rem 0;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .wa-product-info .accordion .accordion__content {
+    font-size: 1.35rem;
+    line-height: 1.6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-product-info .accordion summary .icon-caret {
+    transition: none;
+  }
+}
