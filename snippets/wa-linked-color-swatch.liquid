@@ -46,11 +46,37 @@
         <span class="visually-hidden">{{ wa_swatch_name }}</span>
       </span>
     {%- else -%}
+      {%- liquid
+        assign wa_preview_media = blank
+        if mode == 'card'
+          assign wa_preview_media = swatch_product.featured_media
+        endif
+        if wa_preview_media != blank
+          assign wa_card_sizes = '(min-width: ' | append: settings.page_width | append: 'px) ' | append: settings.page_width | minus: 130 | divided_by: 4 | append: 'px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)'
+        endif
+      -%}
+      {%- if wa_preview_media != blank -%}
+        {%- capture wa_preview_srcset -%}
+          {%- if wa_preview_media.width >= 165 -%}{{ wa_preview_media | image_url: width: 165 }} 165w,{%- endif -%}
+          {%- if wa_preview_media.width >= 360 -%}{{ wa_preview_media | image_url: width: 360 }} 360w,{%- endif -%}
+          {%- if wa_preview_media.width >= 533 -%}{{ wa_preview_media | image_url: width: 533 }} 533w,{%- endif -%}
+          {%- if wa_preview_media.width >= 720 -%}{{ wa_preview_media | image_url: width: 720 }} 720w,{%- endif -%}
+          {%- if wa_preview_media.width >= 940 -%}{{ wa_preview_media | image_url: width: 940 }} 940w,{%- endif -%}
+          {%- if wa_preview_media.width >= 1066 -%}{{ wa_preview_media | image_url: width: 1066 }} 1066w,{%- endif -%}
+          {{ wa_preview_media | image_url }} {{ wa_preview_media.width }}w
+        {%- endcapture -%}
+      {%- endif -%}
       <a
         id="{{ wa_swatch_id }}"
         href="{{ swatch_product.url }}"
         class="wa-color-swatch__button wa-color-swatch__link"
         aria-label="View {{ wa_swatch_name | escape }}"
+        {%- if wa_preview_media != blank %}
+          data-wa-swatch-preview-src="{{ wa_preview_media | image_url: width: 533 }}"
+          data-wa-swatch-preview-srcset="{{ wa_preview_srcset | strip }}"
+          data-wa-swatch-preview-sizes="{{ wa_card_sizes }}"
+          data-wa-swatch-preview-alt="{{ wa_preview_media.alt | default: swatch_product.title | escape }}"
+        {%- endif -%}
       >
         <span
           class="wa-color-swatch__circle{% if wa_swatch_is_light %} wa-color-swatch__circle--light{% endif %}{% if wa_swatch_css == blank and wa_swatch_image != blank %} wa-color-swatch__circle--image-only{% endif %}"

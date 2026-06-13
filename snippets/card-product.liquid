@@ -60,7 +60,18 @@
         {%- if card_product.featured_media -%}
           <div class="card__media{% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ settings.card_color_scheme }} gradient{% endif %}">
             {%- comment -%} Wear Active custom code start {%- endcomment -%}
-            {% render 'wa-product-card-images', card_product: card_product, lazy_load: lazy_load %}
+            {%- liquid
+              assign wa_card_swatch_preview = false
+              assign wa_card_siblings = card_product.metafields.custom.color_siblings.value
+              if wa_card_siblings != blank and wa_card_siblings.size > 0
+                assign wa_card_swatch_preview = true
+              endif
+            -%}
+            {% render 'wa-product-card-images',
+              card_product: card_product,
+              lazy_load: lazy_load,
+              enable_swatch_preview: wa_card_swatch_preview
+            %}
             {%- comment -%} Wear Active custom code end {%- endcomment -%}
           </div>
         {%- endif -%}

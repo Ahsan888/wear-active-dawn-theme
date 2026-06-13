@@ -125,6 +125,34 @@
   }
 }
 
+/* Product card swatch image preview — desktop only */
+@media (hover: hover) and (pointer: fine) {
+  .wa-product-card__image--swatch-preview {
+    opacity: 0;
+    z-index: 2;
+    transition: opacity 220ms ease;
+  }
+
+  .wa-product-card__media--swatch-preview .wa-product-card__image--primary,
+  .wa-product-card__media--swatch-preview .wa-product-card__image--secondary {
+    opacity: 0;
+  }
+
+  .wa-product-card__media--swatch-preview .wa-product-card__image--swatch-preview {
+    opacity: 1;
+  }
+
+  .card-wrapper:hover .wa-product-card__media--swatch-preview.wa-product-card__media--hover .wa-product-card__image--secondary {
+    opacity: 0;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: reduce) {
+  .wa-product-card__image--swatch-preview {
+    transition: none;
+  }
+}
+
 /* ==========================================================================
    Product card polish — collection, featured, related, search grids
    ========================================================================== */

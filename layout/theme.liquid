@@ -264,6 +264,7 @@
     {%- comment -%} Wear Active custom code start {%- endcomment -%}
     {{ 'wa-base.css' | asset_url | stylesheet_tag }}
     {{ 'wa-components.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'wa-card-swatch-preview.js' | asset_url }}" defer="defer"></script>
     {%- if template.name == 'product' -%}
       {{ 'wa-product.css' | asset_url | stylesheet_tag }}
       {{ 'wa-product-gallery.css' | asset_url | stylesheet_tag }}
