@@ -1,0 +1,191 @@
+/* ==========================================================================
+   Wear Active custom code start — wa-footer.css
+   Premium dark footer layout.
+   ========================================================================== */
+
+.wa-footer {
+  border-top: 0;
+}
+
+.wa-footer .footer__content-top {
+  padding-bottom: 4rem;
+}
+
+.wa-footer .footer-block__heading {
+  margin-bottom: 1.4rem;
+  font-size: 1.3rem;
+  font-weight: 500;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground));
+}
+
+.wa-footer .footer-block__brand-info .footer-block__heading {
+  display: none;
+}
+
+.wa-footer .footer-block__brand-info .rte,
+.wa-footer .footer-block__details-content {
+  color: rgba(var(--color-foreground), 0.62);
+  font-size: 1.35rem;
+  line-height: 1.65;
+}
+
+.wa-footer .footer-block__brand-info .rte p {
+  margin: 0;
+}
+
+.wa-footer .footer-block__brand-info .footer-block__image-wrapper,
+.wa-footer .wa-footer__logo {
+  margin-bottom: 1.6rem;
+  overflow: visible !important;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.wa-footer .footer-block__brand-info .footer-block__image-wrapper img,
+.wa-footer .wa-footer__logo-image {
+  display: block;
+  width: auto;
+  height: auto;
+  max-height: 3.6rem;
+  max-width: 10rem;
+  object-fit: contain;
+}
+
+@media screen and (min-width: 750px) {
+  .wa-footer .footer-block__brand-info .footer-block__image-wrapper img,
+  .wa-footer .wa-footer__logo-image {
+    max-height: 4rem;
+    max-width: 11rem;
+  }
+}
+
+.wa-footer .footer-block--menu .link--text {
+  color: rgba(var(--color-foreground), 0.62);
+  font-size: 1.35rem;
+  line-height: 1.5;
+  padding-top: 0.45rem;
+  padding-bottom: 0.45rem;
+  transition: color 0.2s ease;
+}
+
+.wa-footer .footer-block--menu .link--text:hover,
+.wa-footer .footer-block--menu .link--text:focus-visible {
+  color: rgb(var(--color-foreground));
+}
+
+.wa-footer .footer-block--menu .list-menu__item--active {
+  color: rgb(var(--color-foreground));
+}
+
+.wa-footer .wa-footer__newsletter-text {
+  margin: 0 0 1.6rem;
+  color: rgba(var(--color-foreground), 0.62);
+  font-size: 1.35rem;
+  line-height: 1.6;
+}
+
+.wa-footer .footer-block__newsletter {
+  text-align: left;
+}
+
+.wa-footer .footer-block--newsletter {
+  margin-top: 3.2rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.6rem;
+}
+
+.wa-footer .newsletter-form__field-wrapper {
+  max-width: none;
+}
+
+.wa-footer .footer__list-social {
+  margin-top: 0.4rem;
+}
+
+.wa-footer .footer__list-social .list-social__link {
+  padding: 0.8rem;
+}
+
+.wa-footer .footer__content-bottom {
+  border-top: 0.1rem solid rgba(var(--color-foreground), 0.12);
+  padding-top: 2rem;
+  margin-top: 0.4rem;
+}
+
+.wa-footer .footer__copyright {
+  width: 100%;
+  text-align: center;
+}
+
+.wa-footer .wa-footer__copyright {
+  color: rgba(var(--color-foreground), 0.45);
+  font-size: 1.2rem;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+}
+
+@media screen and (min-width: 990px) {
+  .wa-footer .footer__content-top {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.75fr) minmax(0, 0.75fr) minmax(0, 1fr);
+    column-gap: 4rem;
+    row-gap: 0;
+    align-items: start;
+    padding-bottom: 4.8rem;
+  }
+
+  .wa-footer .footer__blocks-wrapper {
+    display: contents;
+  }
+
+  .wa-footer .footer-block.grid__item {
+    margin: 0;
+    width: auto;
+  }
+
+  .wa-footer .footer-block--newsletter {
+    margin-top: 0;
+    align-self: start;
+  }
+
+  .wa-footer .footer-block__brand-info .rte {
+    max-width: 36rem;
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .wa-footer .footer__content-top {
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+  }
+
+  .wa-footer .footer-block.grid__item {
+    margin: 2.8rem 0;
+  }
+
+  .wa-footer .footer-block.grid__item:first-child {
+    margin-top: 0;
+  }
+
+  .wa-footer .footer-block--newsletter {
+    margin-top: 2.4rem;
+  }
+
+  .wa-footer .footer-block__newsletter,
+  .wa-footer .newsletter-form__field-wrapper {
+    width: 100%;
+  }
+
+  .wa-footer .footer__list-social {
+    justify-content: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-footer .footer-block--menu .link--text {
+    transition: none;
+  }
+}
