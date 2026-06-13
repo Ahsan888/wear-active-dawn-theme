@@ -36,7 +36,9 @@
   }
 {%- endstyle -%}
 
-<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
+<div class="wa-collection-grid section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
+  {%- comment -%} Wear Active: subtle divider between collection intro and shopping area. {%- endcomment -%}
+  <div class="wa-collection-grid__divider" aria-hidden="true"></div>
   {%- paginate collection.products by section.settings.products_per_page -%}
     {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
     {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
@@ -167,6 +169,7 @@
                 >
                   {% render 'card-product',
                     card_product: product,
+                    card_collection: collection,
                     media_aspect_ratio: section.settings.image_ratio,
                     image_shape: section.settings.image_shape,
                     show_secondary_image: section.settings.show_secondary_image,

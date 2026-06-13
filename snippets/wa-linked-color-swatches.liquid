@@ -1,12 +1,13 @@
 {% comment %}
   Wear Active custom code start — wa-linked-color-swatches.liquid
-  Linked product color swatches via custom.color_siblings metafield.
+  Linked product color swatches via contextual Wear Active color metafields.
 
   Color name and swatch values are read from:
   product.metafields.shopify['color-pattern'].value (Shopify category Color field)
 
   Accepts:
   - product: {Object} Product object.
+  - card_collection: {Object} Collection object for contextual card image and URL selection (optional).
   - mode: {String} product (PDP) or card (collection grid). Default: product.
   - section_id: {String} Section ID for unique element IDs.
 {% endcomment %}
@@ -14,6 +15,28 @@
 {%- liquid
   assign wa_mode = mode | default: 'product'
   assign wa_siblings = product.metafields.custom.color_siblings.value
+  assign wa_context = ''
+
+  if wa_mode == 'card'
+    capture wa_card_context
+      render 'wa-contextual-card-image', card_collection: card_collection
+    endcapture
+    assign wa_card_context = wa_card_context | strip
+    if wa_card_context == 'womens'
+      assign wa_context = 'women'
+    elsif wa_card_context == 'mens'
+      assign wa_context = 'men'
+    endif
+  else
+    capture wa_view_context
+      render 'wa-product-view-context'
+    endcapture
+    assign wa_context = wa_view_context | strip
+  endif
+
+  if wa_context == 'women' and product.metafields.custom.linked_color_products.value != blank
+    assign wa_siblings = product.metafields.custom.linked_color_products.value
+  endif
 -%}
 
 {%- if wa_siblings != blank and wa_siblings.size > 0 -%}
@@ -61,6 +84,7 @@
           <div class="wa-linked-colors__list" role="list">
             {%- render 'wa-linked-color-swatch',
               swatch_product: product,
+              card_collection: card_collection,
               is_active: true,
               mode: wa_mode,
               section_id: section_id
@@ -69,6 +93,7 @@
               {%- if sibling.id != product.id -%}
                 {%- render 'wa-linked-color-swatch',
                   swatch_product: sibling,
+                  card_collection: card_collection,
                   is_active: false,
                   mode: wa_mode,
                   section_id: section_id
@@ -81,6 +106,7 @@
         <div class="wa-linked-colors__list" role="list" aria-label="Available colors">
           {%- render 'wa-linked-color-swatch',
             swatch_product: product,
+            card_collection: card_collection,
             is_active: true,
             mode: wa_mode,
             section_id: section_id
@@ -89,6 +115,7 @@
             {%- if sibling.id != product.id -%}
               {%- render 'wa-linked-color-swatch',
                 swatch_product: sibling,
+                card_collection: card_collection,
                 is_active: false,
                 mode: wa_mode,
                 section_id: section_id

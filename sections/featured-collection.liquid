@@ -65,18 +65,28 @@
 -%}
 
 <div
-  class="color-{{ section.settings.color_scheme }} isolate gradient"
+  class="wa-featured-collection wa-featured-collection--bg-{{ section.settings.wa_background }} color-{{ section.settings.color_scheme }} isolate gradient"
 >
   <div
-    class="collection{% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %} section-{{ section.id }}-padding{% if section.settings.full_width %} collection--full-width{% endif %}"
+    class="collection wa-featured-collection__section{% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %} section-{{ section.id }}-padding{% if section.settings.full_width %} collection--full-width{% endif %}"
     id="collection-{{ section.id }}"
     data-id="{{ section.id }}"
   >
-    <div class="collection__title title-wrapper title-wrapper--no-top-margin page-width{% if show_mobile_slider %} title-wrapper--self-padded-tablet-down{% endif %}{% if show_desktop_slider %} collection__title--desktop-slider{% endif %}">
+    <div class="collection__title wa-featured-collection__header title-wrapper title-wrapper--no-top-margin page-width{% if show_mobile_slider %} title-wrapper--self-padded-tablet-down{% endif %}{% if show_desktop_slider %} collection__title--desktop-slider{% endif %}">
+      {%- if section.settings.wa_eyebrow != blank -%}
+        <p class="wa-featured-collection__eyebrow">
+          {{ section.settings.wa_eyebrow | escape }}
+        </p>
+      {%- endif -%}
       {%- if section.settings.title != blank -%}
         <h2 class="title inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
           {{ section.settings.title }}
         </h2>
+      {%- endif -%}
+      {%- if section.settings.wa_subtitle != blank -%}
+        <p class="wa-featured-collection__subtitle">
+          {{ section.settings.wa_subtitle | escape }}
+        </p>
       {%- endif -%}
       {%- if section.settings.description != blank
         or section.settings.show_description
@@ -92,7 +102,7 @@
       {%- endif -%}
     </div>
 
-    <slider-component class="slider-mobile-gutter{% if section.settings.full_width %} slider-component-full-width{% endif %}{% if show_mobile_slider == false %} page-width{% endif %}{% if show_desktop_slider == false and section.settings.full_width == false %} page-width-desktop{% endif %}{% if show_desktop_slider %} slider-component-desktop{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    <slider-component class="wa-featured-collection__slider slider-mobile-gutter{% if section.settings.full_width %} slider-component-full-width{% endif %}{% if show_mobile_slider == false %} page-width{% endif %}{% if show_desktop_slider == false and section.settings.full_width == false %} page-width-desktop{% endif %}{% if show_desktop_slider %} slider-component-desktop{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
       <ul
         id="Slider-{{ section.id }}"
         data-id="{{ section.id }}"
@@ -119,6 +129,7 @@
               >
                 {% render 'card-product',
                   card_product: product,
+                  card_collection: section.settings.collection,
                   media_aspect_ratio: section.settings.image_ratio,
                   image_shape: section.settings.image_shape,
                   lazy_load: lazy_load,
@@ -198,13 +209,14 @@
     </slider-component>
 
     {%- if section.settings.show_view_all and more_in_collection -%}
-      <div class="center collection__view-all{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+      <div class="center collection__view-all wa-featured-collection__view-all{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         <a
           href="{{ section.settings.collection.url }}"
-          class="{% if section.settings.view_all_style == 'link' %}link underlined-link{% elsif section.settings.view_all_style == 'solid' %}button{% else %}button button--secondary{% endif %}"
+          class="wa-featured-collection__view-all-link {% if section.settings.view_all_style == 'link' %}link underlined-link{% elsif section.settings.view_all_style == 'solid' %}button{% else %}button button--secondary{% endif %}"
           aria-label="{{ 'sections.featured_collection.view_all_label' | t: collection_name: section.settings.collection.title | escape }}"
         >
-          {{ 'sections.featured_collection.view_all' | t }}
+          <span>{{ 'sections.featured_collection.view_all' | t }}</span>
+          <span class="wa-featured-collection__view-all-arrow" aria-hidden="true">→</span>
         </a>
       </div>
     {%- endif -%}
@@ -242,6 +254,11 @@
       "content": "t:sections.featured-collection.settings.header_text.content"
     },   
     {
+      "type": "text",
+      "id": "wa_eyebrow",
+      "label": "Eyebrow"
+    },
+    {
       "type": "inline_richtext",
       "id": "title",
       "default": "t:sections.featured-collection.settings.title.default",
@@ -274,6 +291,11 @@
       ],
       "default": "h1",
       "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "text",
+      "id": "wa_subtitle",
+      "label": "Subtitle"
     },
     {
       "type": "richtext",
@@ -364,6 +386,26 @@
       "label": "t:sections.all.colors.label",
       "info": "t:sections.all.colors.has_cards_info",
       "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "wa_background",
+      "label": "Section background",
+      "options": [
+        {
+          "value": "white",
+          "label": "White"
+        },
+        {
+          "value": "soft-gray",
+          "label": "Soft gray"
+        },
+        {
+          "value": "black",
+          "label": "Black"
+        }
+      ],
+      "default": "white"
     },
     {
       "type": "header",

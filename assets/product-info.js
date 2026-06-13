@@ -151,7 +151,7 @@ if (!customElements.get('product-info')) {
           params.push(`option_values=${optionValues.join(',')}`);
         }
 
-        return `${url}?${params.join('&')}`;
+        return `${url}${url.includes('?') ? '&' : '?'}${params.join('&')}`;
       }
 
       updateOptionValues(html) {
@@ -222,12 +222,13 @@ if (!customElements.get('product-info')) {
       }
 
       updateURL(url, variantId) {
+        const separator = url.includes('?') ? '&' : '?';
         this.querySelector('share-button')?.updateUrl(
-          `${window.shopUrl}${url}${variantId ? `?variant=${variantId}` : ''}`
+          `${window.shopUrl}${url}${variantId ? `${separator}variant=${variantId}` : ''}`
         );
 
         if (this.dataset.updateUrl === 'false') return;
-        window.history.replaceState({}, '', `${url}${variantId ? `?variant=${variantId}` : ''}`);
+        window.history.replaceState({}, '', `${url}${variantId ? `${separator}variant=${variantId}` : ''}`);
       }
 
       setUnavailable() {
