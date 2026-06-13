@@ -177,8 +177,9 @@
 
 .wa-product-card .card__heading {
   font-size: calc(var(--font-heading-scale) * 1.3rem);
-  font-weight: 500;
-  letter-spacing: 0.02rem;
+  font-weight: var(--wa-weight-medium);
+  letter-spacing: var(--wa-tracking-snug);
+  line-height: var(--wa-leading-snug);
 }
 
 .wa-product-card .card__heading a {
@@ -186,15 +187,10 @@
 }
 
 .wa-product-card .card-information .price {
-  font-size: 1.5rem;
-  font-weight: 500;
-  letter-spacing: 0.04rem;
-  line-height: 1.25;
-}
-
-.wa-product-card .card-information .price .price-item--regular,
-.wa-product-card .card-information .price .price-item--sale {
-  font-weight: 500;
+  font-size: var(--wa-text-base);
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: var(--wa-tracking-snug);
+  line-height: var(--wa-leading-snug);
 }
 
 .wa-product-card .wa-linked-colors--card {
@@ -242,7 +238,7 @@
   }
 
   .wa-product-card .card-information .price {
-    font-size: 1.6rem;
+    font-size: var(--wa-text-md);
   }
 
   .wa-product-card .wa-linked-colors--card {
@@ -257,7 +253,6 @@
 
   .wa-product-card .card__heading {
     font-size: calc(var(--font-heading-scale) * 1.4rem);
-    line-height: 1.35;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -269,7 +264,7 @@
   }
 
   .wa-product-card .card-information .price {
-    font-size: 1.45rem;
+    font-size: var(--wa-text-base);
   }
 
   .wa-product-card .wa-linked-colors--card {

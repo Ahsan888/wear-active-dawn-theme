@@ -5,9 +5,10 @@
 
 /* Announcement bar */
 .announcement-bar-section .announcement-bar__message {
-  font-size: 1.2rem;
-  font-weight: 400;
-  letter-spacing: 0.06rem;
+  font-size: var(--wa-text-sm);
+  font-weight: var(--wa-weight-regular);
+  letter-spacing: var(--wa-tracking-wider);
+  line-height: var(--wa-leading-snug);
   text-transform: none;
 }
 
@@ -17,8 +18,7 @@
 
 @media screen and (min-width: 750px) {
   .announcement-bar-section .announcement-bar__message {
-    font-size: 1.25rem;
-    letter-spacing: 0.08rem;
+    letter-spacing: var(--wa-tracking-widest);
   }
 }
 
@@ -73,10 +73,11 @@
   }
 
   .wa-header .header__menu-item {
-    font-size: 1.35rem;
-    font-weight: 400;
-    letter-spacing: 0.08rem;
+    font-size: var(--wa-text-sm);
+    font-weight: var(--wa-weight-medium);
+    letter-spacing: var(--wa-tracking-widest);
     text-transform: uppercase;
+    line-height: var(--wa-leading-snug);
     padding: 0.8rem 0;
     border-radius: 0;
     background: none;
@@ -89,7 +90,6 @@
   }
 
   .wa-header .header__active-menu-item {
-    font-weight: 500;
     color: rgb(var(--color-foreground));
     text-decoration: underline;
     text-underline-offset: 0.35rem;
