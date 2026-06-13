@@ -170,6 +170,75 @@
         "feature_4_description": "Made for the gym, work, travel, and everything in between."
       }
     },
+    "wa_shop_by_category": {
+      "type": "wa-shop-by-category",
+      "blocks": {
+        "category_shirts": {
+          "type": "category",
+          "settings": {
+            "title": "Shirts",
+            "collection": "shirts",
+            "cta_text": "Shop Now"
+          }
+        },
+        "category_trousers": {
+          "type": "category",
+          "settings": {
+            "title": "Trousers",
+            "collection": "trousers",
+            "cta_text": "Shop Now"
+          }
+        },
+        "category_womens": {
+          "type": "category",
+          "settings": {
+            "title": "Women's",
+            "collection": "womens",
+            "cta_text": "Shop Now"
+          }
+        },
+        "category_shorts": {
+          "type": "category",
+          "settings": {
+            "title": "Shorts",
+            "collection": "shorts",
+            "cta_text": "Shop Now"
+          }
+        },
+        "category_hoodies": {
+          "type": "category",
+          "settings": {
+            "title": "Hoodies",
+            "collection": "hoodies",
+            "cta_text": "Shop Now"
+          }
+        },
+        "category_jackets": {
+          "type": "category",
+          "settings": {
+            "title": "Jackets",
+            "collection": "jackets",
+            "cta_text": "Shop Now"
+          }
+        }
+      },
+      "block_order": [
+        "category_shirts",
+        "category_trousers",
+        "category_womens",
+        "category_shorts",
+        "category_hoodies",
+        "category_jackets"
+      ],
+      "settings": {
+        "heading": "Shop by Category",
+        "subheading": "Explore performance essentials by category.",
+        "color_scheme": "scheme-1",
+        "image_radius": 8,
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
     "featured_collection_NMabDU": {
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
@@ -209,6 +278,7 @@
     "featured_collection",
     "featured_collection_T6zxV3",
     "wa_performance_features",
+    "wa_shop_by_category",
     "featured_collection_NMabDU"
   ]
 }
