@@ -1,0 +1,49 @@
+{%- comment -%}
+  Wear Active custom code start — wa-collection-description.liquid
+  Collapsible collection description. Full HTML remains in DOM for SEO.
+{%- endcomment -%}
+{%- liquid
+  assign wa_desc_plain = description | strip_html | strip
+  assign wa_desc_show_toggle = false
+
+  if wa_desc_plain.size > 180
+    assign wa_desc_show_toggle = true
+  elsif description contains '</p>'
+    assign wa_desc_paragraph_count = description | split: '</p>' | size
+    if wa_desc_paragraph_count > 2
+      assign wa_desc_show_toggle = true
+    endif
+  endif
+
+  if description contains '<ul' or description contains '<ol' or description contains '<li'
+    assign wa_desc_show_toggle = true
+  endif
+-%}
+
+<div
+  class="wa-collection-description{% unless wa_desc_show_toggle %} wa-collection-description--static{% endunless %}"
+  data-wa-collection-description
+>
+  <div
+    class="wa-collection-description__viewport"
+    id="WaCollectionDescription-{{ collection_id }}"
+  >
+    <div class="wa-collection-description__content collection-hero__description rte{% if wa_desc_show_toggle %} wa-collection-description__content--clamped{% endif %}">
+      {{ description }}
+    </div>
+  </div>
+
+  {%- if wa_desc_show_toggle -%}
+    <button
+      type="button"
+      class="wa-collection-description__toggle link animate-arrow"
+      aria-expanded="false"
+      aria-controls="WaCollectionDescription-{{ collection_id }}"
+      data-wa-collection-description-toggle
+    >
+      <span data-wa-collection-description-more>Read more</span>
+      <span data-wa-collection-description-less hidden>Read less</span>
+    </button>
+  {%- endif -%}
+</div>
+{%- comment -%} Wear Active custom code end {%- endcomment -%}
