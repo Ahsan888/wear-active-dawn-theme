@@ -1,7 +1,106 @@
 /* ==========================================================================
    Wear Active custom code start — wa-base.css
+   Typography tokens and global type refinements.
    ========================================================================== */
 
 :root {
   --wa-spacing-unit: 1rem;
+
+  /* Font weights */
+  --wa-weight-regular: 400;
+  --wa-weight-medium: 500;
+  --wa-weight-semibold: 600;
+
+  /* Letter spacing */
+  --wa-tracking-tighter: -0.03em;
+  --wa-tracking-tight: -0.02em;
+  --wa-tracking-snug: -0.01em;
+  --wa-tracking-normal: 0;
+  --wa-tracking-wide: 0.04em;
+  --wa-tracking-wider: 0.06em;
+  --wa-tracking-widest: 0.1em;
+
+  /* Line heights */
+  --wa-leading-tight: 1.15;
+  --wa-leading-snug: 1.25;
+  --wa-leading-normal: 1.5;
+  --wa-leading-relaxed: 1.65;
+  --wa-leading-loose: 1.75;
+
+  /* Type scale */
+  --wa-text-2xs: 1.1rem;
+  --wa-text-xs: 1.2rem;
+  --wa-text-sm: 1.3rem;
+  --wa-text-base: 1.5rem;
+  --wa-text-md: 1.6rem;
+  --wa-text-lg: 1.8rem;
+  --wa-text-xl: 2rem;
+}
+
+/* Body — comfortable reading rhythm */
+body {
+  line-height: var(--wa-leading-normal);
+  letter-spacing: var(--wa-tracking-snug);
+}
+
+/* Section headings — collection, homepage, content blocks */
+.title,
+.title.h0,
+.title.h1,
+.title.h2,
+.title.hxl,
+.title.hxxl,
+.collection-hero__title,
+.banner__heading,
+.banner__heading.h0,
+.banner__heading.h1,
+.banner__heading.h2 {
+  font-weight: var(--wa-weight-medium);
+  letter-spacing: var(--wa-tracking-tight);
+  line-height: var(--wa-leading-tight);
+}
+
+.title.h0,
+.title.hxxl,
+.banner__heading.h0 {
+  letter-spacing: var(--wa-tracking-tighter);
+}
+
+.title.h2,
+.banner__heading.h2 {
+  letter-spacing: var(--wa-tracking-snug);
+  line-height: var(--wa-leading-snug);
+}
+
+@media screen and (max-width: 749px) {
+  .title,
+  .title.h0,
+  .title.h1,
+  .title.h2,
+  .collection-hero__title,
+  .banner__heading {
+    line-height: var(--wa-leading-snug);
+  }
+}
+
+/* Buttons — athletic, clean, not heavy */
+.button,
+.customer button,
+.shopify-challenge__button,
+button.shopify-payment-button__button--unbranded {
+  font-weight: var(--wa-weight-medium);
+  letter-spacing: var(--wa-tracking-wide);
+  line-height: var(--wa-leading-snug);
+}
+
+/* Form labels — product and shared UI */
+.form__label,
+.caption-with-letter-spacing {
+  letter-spacing: var(--wa-tracking-wider);
+}
+
+/* Subtitle utility */
+.subtitle {
+  line-height: var(--wa-leading-relaxed);
+  letter-spacing: var(--wa-tracking-snug);
 }
