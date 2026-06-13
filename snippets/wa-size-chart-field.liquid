@@ -1,0 +1,25 @@
+{% comment %}
+  Wear Active — returns a single Size Chart Row field value.
+
+  Accepts:
+  - row: {Object} Size Chart Row metaobject.
+  - field: {String} size, chest, waist, hips, length, or inseam.
+{% endcomment %}
+{%- case field -%}
+  {%- when 'size' -%}
+    {%- liquid
+      assign wa_size_value = row.size.value | default: row.size | strip
+      assign wa_size_label = wa_size_value | split: ' - ' | first | strip
+    -%}
+    {{- wa_size_label -}}
+  {%- when 'chest' -%}
+    {{- row.chest.value | default: row.chest -}}
+  {%- when 'waist' -%}
+    {{- row.waist.value | default: row.waist -}}
+  {%- when 'hips' -%}
+    {{- row.hips.value | default: row.hips -}}
+  {%- when 'length' -%}
+    {{- row.length.value | default: row.length -}}
+  {%- when 'inseam' -%}
+    {{- row.inseam.value | default: row.inseam -}}
+{%- endcase -%}
