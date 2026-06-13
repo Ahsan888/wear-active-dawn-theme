@@ -267,6 +267,10 @@
     {{ 'wa-header.css' | asset_url | stylesheet_tag }}
     {{ 'wa-footer.css' | asset_url | stylesheet_tag }}
     <script src="{{ 'wa-card-swatch-preview.js' | asset_url }}" defer="defer"></script>
+    {%- if template.name == 'collection' -%}
+      {{ 'wa-collection.css' | asset_url | stylesheet_tag }}
+      <script src="{{ 'wa-collection-description.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
     {%- if template.name == 'product' -%}
       {{ 'wa-product.css' | asset_url | stylesheet_tag }}
       {{ 'wa-product-gallery.css' | asset_url | stylesheet_tag }}
