@@ -31,7 +31,7 @@
           "type": "wa_footer_menu",
           "settings": {
             "heading": "About",
-            "menu_group": "about"
+            "menu_group": "support"
           }
         }
       },
