@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.footer.name",
   "type": "footer",
@@ -36,7 +45,7 @@
         "newsletter_enable": true,
         "newsletter_heading": "Join our community",
         "newsletter_subtext": "Subscribe to receive updates, new drops, and exclusive offers.",
-        "copyright_text": "© 2026 WA ATHLEISURE",
+        "copyright_text": "© 2026 Wear Active",
         "show_powered_by": false,
         "enable_follow_on_shop": false,
         "show_social": true,
@@ -50,5 +59,7 @@
       }
     }
   },
-  "order": ["footer"]
+  "order": [
+    "footer"
+  ]
 }
