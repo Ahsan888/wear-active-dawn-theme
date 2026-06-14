@@ -143,6 +143,54 @@
       }
     },
     "content_for_index": [],
+    "blocks": {
+      "5685434155906765400": {
+        "type": "shopify://apps/whatflow-chat-automation/blocks/whatsapp_chat_button/ea957967-ac26-4ed9-a3f0-e749fab355ab",
+        "disabled": true,
+        "settings": {
+          "hide_on_desktop": false,
+          "hide_on_mobile": false,
+          "show_on_home": true,
+          "show_on_product": true,
+          "show_on_collection": true,
+          "show_on_cart": true,
+          "show_on_other": true,
+          "show_singleagent_popup": true,
+          "popup_store_name": "default",
+          "popup_header_color": "#242833",
+          "popup_background_color": "#f3f3f3",
+          "popup_text_box_color": "#ffffff",
+          "popup_text": "Hello! How can I help you today?",
+          "live_chat_prefill_message": "Tell me more about [PRODUCT_NAME]",
+          "whatsapp_button_bg_color": "#242833",
+          "show_button_text": false,
+          "button_text": "Chat Now",
+          "button_shape": "circle",
+          "button_size": "medium",
+          "logo_type": "whatsapp",
+          "button_background_color": "#25D366",
+          "button_position_horizontal": 97,
+          "button_position_vertical": 97,
+          "welcome_message": "Hi! I have a question"
+        }
+      },
+      "8208493610395315515": {
+        "type": "shopify://apps/dondy-whatsapp/blocks/app-block/7f5a70cb-e171-4cc7-ac02-e2220203abd6",
+        "disabled": false,
+        "settings": {}
+      },
+      "6159598353363395418": {
+        "type": "shopify://apps/google-youtube/blocks/store_widget/14ec7bd0-ac77-49a9-9417-90752398bdff",
+        "disabled": true,
+        "settings": {
+          "widget_position": "LEFT_BOTTOM",
+          "side_margin": 36,
+          "bottom_margin": 36,
+          "mobile_side_margin": 16,
+          "mobile_bottom_margin": 46
+        }
+      }
+    },
     "color_schemes": {
       "scheme-1": {
         "settings": {
