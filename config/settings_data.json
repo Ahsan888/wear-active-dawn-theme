@@ -177,7 +177,7 @@
       },
       "5493738229337669960": {
         "type": "shopify://apps/bon-loyalty/blocks/app-embed/63496a04-c097-48d1-8c11-475aec24b12e",
-        "disabled": false,
+        "disabled": true,
         "settings": {
           "type": "fade",
           "duration": 0.5
