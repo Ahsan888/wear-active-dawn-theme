@@ -1,0 +1,75 @@
+.wa-load-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 3.2rem;
+}
+
+.wa-load-more[hidden] {
+  display: none;
+}
+
+.wa-load-more__button {
+  align-items: center;
+  appearance: none;
+  background: rgb(var(--color-foreground));
+  border: 0.1rem solid rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-size: 1.2rem;
+  font-weight: 600;
+  justify-content: center;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  min-height: 4.6rem;
+  min-width: 16rem;
+  padding: 1.5rem 2.8rem;
+  text-transform: uppercase;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    opacity 180ms ease;
+}
+
+.wa-load-more__button:hover,
+.wa-load-more__button:focus-visible {
+  background: transparent;
+  color: rgb(var(--color-foreground));
+}
+
+.wa-load-more__button[aria-busy='true'] {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.wa-load-more__item {
+  animation: wa-load-more-fade-in 180ms ease both;
+}
+
+@keyframes wa-load-more-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.8rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .wa-load-more {
+    margin-top: 4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-load-more__button,
+  .wa-load-more__item {
+    animation: none;
+    transition: none;
+  }
+}
