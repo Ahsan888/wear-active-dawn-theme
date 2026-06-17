@@ -1,6 +1,8 @@
 {{ 'template-collection.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'wa-load-more.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'wa-load-more.js' | asset_url }}" defer="defer"></script>
 
 {% if section.settings.image_shape == 'blob' %}
   {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
@@ -186,7 +188,25 @@
             </ul>
 
             {%- if paginate.pages > 1 -%}
-              {% render 'pagination', paginate: paginate, anchor: '' %}
+              <div data-wa-pagination-fallback>
+                {% render 'pagination', paginate: paginate, anchor: '' %}
+              </div>
+
+              <wa-load-more
+                class="wa-load-more"
+                data-section-id="{{ section.id }}"
+                data-current-page="{{ paginate.current_page }}"
+                data-total-pages="{{ paginate.pages }}"
+                {% if paginate.next %}
+                  data-next-url="{{ paginate.next.url | escape }}"
+                {% endif %}
+                hidden
+              >
+                <button class="wa-load-more__button" type="button">
+                  <span class="wa-load-more__label">Load More</span>
+                  <span class="wa-load-more__loading" hidden>Loading...</span>
+                </button>
+              </wa-load-more>
             {%- endif -%}
           </div>
         {%- endif -%}
