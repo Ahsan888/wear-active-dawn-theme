@@ -196,8 +196,8 @@
         "category_hoodies": {
           "type": "category",
           "settings": {
-            "title": "Hoodies",
-            "collection": "hoodies",
+            "title": "All Products",
+            "collection": "all-products",
             "link": "",
             "cta_text": "Shop Now"
           }
@@ -205,8 +205,8 @@
         "category_jackets": {
           "type": "category",
           "settings": {
-            "title": "Jackets",
-            "collection": "jackets",
+            "title": "Hoodies",
+            "collection": "hoodies",
             "link": "",
             "cta_text": "Shop Now"
           }
