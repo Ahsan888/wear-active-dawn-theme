@@ -144,11 +144,6 @@
     },
     "content_for_index": [],
     "blocks": {
-      "8208493610395315515": {
-        "type": "shopify://apps/dondy-whatsapp/blocks/app-block/7f5a70cb-e171-4cc7-ac02-e2220203abd6",
-        "disabled": false,
-        "settings": {}
-      },
       "6159598353363395418": {
         "type": "shopify://apps/google-youtube/blocks/store_widget/14ec7bd0-ac77-49a9-9417-90752398bdff",
         "disabled": true,
@@ -182,6 +177,11 @@
           "type": "flip",
           "duration": 2
         }
+      },
+      "8208493610395315515": {
+        "type": "shopify://apps/dondy-whatsapp/blocks/app-block/7f5a70cb-e171-4cc7-ac02-e2220203abd6",
+        "disabled": true,
+        "settings": {}
       }
     },
     "color_schemes": {
