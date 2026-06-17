@@ -17,10 +17,15 @@
   endcapture
   assign wa_view_context = wa_view_context | strip
   assign wa_contextual_gallery_images = blank
+  assign wa_contextual_fallback_image = blank
   if wa_view_context == 'women' and product.metafields.custom.womens_gallery_images.value != blank
     assign wa_contextual_gallery_images = product.metafields.custom.womens_gallery_images.value
   elsif wa_view_context == 'men' and product.metafields.custom.mens_gallery_images.value != blank
     assign wa_contextual_gallery_images = product.metafields.custom.mens_gallery_images.value
+  elsif wa_view_context == 'women' and product.metafields.custom.womens_card_image.value != blank
+    assign wa_contextual_fallback_image = product.metafields.custom.womens_card_image.value
+  elsif wa_view_context == 'men' and product.metafields.custom.mens_card_image.value != blank
+    assign wa_contextual_fallback_image = product.metafields.custom.mens_card_image.value
   endif
 
   assign wa_has_contextual_gallery = false
@@ -29,6 +34,15 @@
     assign wa_has_contextual_gallery = true
     assign wa_contextual_gallery_count = wa_contextual_gallery_count | plus: 1
   endfor
+  if wa_has_contextual_gallery == false and wa_contextual_fallback_image != blank
+    if wa_contextual_fallback_image.image != blank
+      assign wa_contextual_fallback_image = wa_contextual_fallback_image.image
+    elsif wa_contextual_fallback_image.preview_image != blank
+      assign wa_contextual_fallback_image = wa_contextual_fallback_image.preview_image
+    endif
+    assign wa_has_contextual_gallery = true
+    assign wa_contextual_gallery_count = 1
+  endif
 
   if section.settings.hide_variants and variant_images.size == product.media.size
     assign single_media_visible = true
@@ -83,24 +97,16 @@
       role="list"
     >
       {%- if wa_has_contextual_gallery -%}
-        {%- for wa_image in wa_contextual_gallery_images -%}
+        {%- if wa_contextual_fallback_image != blank -%}
           {%- liquid
-            assign media_position = forloop.index
-            assign wa_media_id = section.id | append: '-wa-contextual-' | append: forloop.index
-            assign wa_gallery_image = wa_image
-            if wa_image.image != blank
-              assign wa_gallery_image = wa_image.image
-            elsif wa_image.preview_image != blank
-              assign wa_gallery_image = wa_image.preview_image
-            endif
+            assign media_position = 1
+            assign wa_media_id = section.id | append: '-wa-contextual-1'
+            assign wa_gallery_image = wa_contextual_fallback_image
             assign lazy_load = false
-            if forloop.index > 1
-              assign lazy_load = true
-            endif
           -%}
           <li
             id="Slide-{{ wa_media_id }}"
-            class="product__media-item grid__item slider__slide{% if forloop.first %} is-active{% endif %}{% if single_media_visible %} product__media-item--single{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+            class="product__media-item grid__item slider__slide is-active{% if single_media_visible %} product__media-item--single{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
             data-media-id="{{ wa_media_id }}"
           >
             {% render 'wa-contextual-product-thumbnail',
@@ -118,7 +124,44 @@
               product: product
             %}
           </li>
-        {%- endfor -%}
+        {%- else -%}
+          {%- for wa_image in wa_contextual_gallery_images -%}
+            {%- liquid
+              assign media_position = forloop.index
+              assign wa_media_id = section.id | append: '-wa-contextual-' | append: forloop.index
+              assign wa_gallery_image = wa_image
+              if wa_image.image != blank
+                assign wa_gallery_image = wa_image.image
+              elsif wa_image.preview_image != blank
+                assign wa_gallery_image = wa_image.preview_image
+              endif
+              assign lazy_load = false
+              if forloop.index > 1
+                assign lazy_load = true
+              endif
+            -%}
+            <li
+              id="Slide-{{ wa_media_id }}"
+              class="product__media-item grid__item slider__slide{% if forloop.first %} is-active{% endif %}{% if single_media_visible %} product__media-item--single{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+              data-media-id="{{ wa_media_id }}"
+            >
+              {% render 'wa-contextual-product-thumbnail',
+                image: wa_gallery_image,
+                media_id: wa_media_id,
+                media_count: media_count,
+                position: media_position,
+                desktop_layout: section.settings.gallery_layout,
+                mobile_layout: section.settings.mobile_thumbnails,
+                modal_id: section.id,
+                media_width: media_width,
+                media_fit: section.settings.media_fit,
+                constrain_to_viewport: section.settings.constrain_to_viewport,
+                lazy_load: lazy_load,
+                product: product
+              %}
+            </li>
+          {%- endfor -%}
+        {%- endif -%}
       {%- elsif product.selected_or_first_available_variant.featured_media != null -%}
         {%- assign featured_media = product.selected_or_first_available_variant.featured_media -%}
         <li
