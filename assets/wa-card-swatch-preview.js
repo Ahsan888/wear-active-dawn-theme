@@ -47,10 +47,14 @@
   };
 
   const initCard = (card) => {
+    if (card.dataset.waSwatchPreviewInitialized === 'true') return;
+
     const links = card.querySelectorAll(
       '.wa-linked-colors--card .wa-color-swatch__link[data-wa-swatch-preview-src]'
     );
     if (!links.length || !card.querySelector('.wa-product-card__image--swatch-preview')) return;
+
+    card.dataset.waSwatchPreviewInitialized = 'true';
 
     links.forEach((link) => {
       link.addEventListener('mouseenter', () => showPreview(card, link));
@@ -60,14 +64,21 @@
     });
   };
 
-  const init = () => {
+  const init = (root = document) => {
     if (!window.matchMedia(DESKTOP_QUERY).matches) return;
-    document.querySelectorAll('.wa-product-card').forEach(initCard);
+    root.querySelectorAll('.wa-product-card').forEach(initCard);
   };
 
+  window.WA = window.WA || {};
+  window.WA.initCardSwatchPreview = init;
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', () => init());
   } else {
     init();
   }
+
+  document.addEventListener('wa:products-appended', (event) => {
+    init(event.detail?.container || document);
+  });
 })();

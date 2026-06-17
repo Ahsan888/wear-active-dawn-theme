@@ -1,6 +1,6 @@
 {% comment %}
   Wear Active custom code start - wa-product-view-context.liquid
-  Resolves PDP gallery context from Shopify request params first, then collection context.
+  Resolves PDP gallery context from Shopify request params first, then collection/path context.
 
   Outputs:
   - "women"
@@ -21,6 +21,20 @@
       assign wa_view_context = 'women'
     elsif wa_collection_context == 'mens'
       assign wa_view_context = 'men'
+    endif
+  endif
+
+  if wa_view_context == blank
+    assign wa_request_path = request.path | default: '' | downcase
+    if wa_request_path contains '/collections/'
+      assign wa_collection_path_part = wa_request_path | split: '/collections/' | last | split: '/products/' | first
+      if wa_collection_path_part contains 'women' or wa_collection_path_part contains 'womens'
+        assign wa_view_context = 'women'
+      elsif wa_collection_path_part contains 'men' or wa_collection_path_part contains 'mens'
+        assign wa_view_context = 'men'
+      elsif wa_collection_path_part == 'shirts' or wa_collection_path_part == 'trousers'
+        assign wa_view_context = 'men'
+      endif
     endif
   endif
 -%}
