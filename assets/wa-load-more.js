@@ -16,6 +16,8 @@ if (!customElements.get('wa-load-more')) {
         this.fallbackPagination = this.closest('.collection')?.querySelector('[data-wa-pagination-fallback]');
         this.nextUrl = this.dataset.nextUrl;
         this.isLoading = false;
+        this.abortController = null;
+        this.requestId = 0;
 
         if (!this.button || !this.nextUrl) {
           this.hideControl();
@@ -27,27 +29,40 @@ if (!customElements.get('wa-load-more')) {
         this.button.addEventListener('click', this.onClick.bind(this));
       }
 
+      disconnectedCallback() {
+        if (this.abortController) this.abortController.abort();
+      }
+
       async onClick() {
         if (this.isLoading || !this.nextUrl) return;
 
         this.setLoading(true);
+        this.requestId += 1;
+        const requestId = this.requestId;
+        const requestPath = `${window.location.pathname}${window.location.search}`;
+        const requestGrid = document.querySelector('#ProductGridContainer #product-grid');
+        this.abortController = new AbortController();
 
         try {
           const nextPageUrl = new URL(this.nextUrl, window.location.origin);
           const response = await fetch(nextPageUrl.href, {
             headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            signal: this.abortController.signal,
           });
 
           if (!response.ok) throw new Error(`Load more request failed: ${response.status}`);
 
           const html = await response.text();
+          if (!this.isCurrentRequest(requestId, requestPath, requestGrid)) return;
+
           const parsedDocument = new DOMParser().parseFromString(html, 'text/html');
           const sourceGrid = parsedDocument.querySelector('#ProductGridContainer #product-grid');
           const targetGrid = document.querySelector('#ProductGridContainer #product-grid');
 
+          if (!this.isCurrentRequest(requestId, requestPath, requestGrid) || targetGrid !== requestGrid) return;
           if (!sourceGrid || !targetGrid) throw new Error('Product grid was not found in the next page response.');
 
-          const newItems = Array.from(sourceGrid.children);
+          const newItems = Array.from(sourceGrid.children).filter((item) => !this.hasDuplicateItem(targetGrid, item));
           if (!newItems.length) {
             this.hideControl();
             return;
@@ -65,10 +80,30 @@ if (!customElements.get('wa-load-more')) {
           this.updateHistory(nextPageUrl);
           this.dispatchProductsAppended(newItems);
         } catch (error) {
+          if (error.name === 'AbortError') return;
           console.error(error);
         } finally {
-          this.setLoading(false);
+          if (this.isConnected && this.requestId === requestId) {
+            this.setLoading(false);
+            this.abortController = null;
+          }
         }
+      }
+
+      isCurrentRequest(requestId, requestPath, requestGrid) {
+        const currentPath = `${window.location.pathname}${window.location.search}`;
+        return this.isConnected && this.requestId === requestId && currentPath === requestPath && requestGrid?.isConnected;
+      }
+
+      hasDuplicateItem(targetGrid, item) {
+        const productLink = item.querySelector('.card__heading a[href], .full-unstyled-link[href]');
+        const productPath = productLink ? new URL(productLink.href, window.location.origin).pathname : '';
+
+        if (!productPath) return false;
+
+        return Array.from(targetGrid.querySelectorAll('.card__heading a[href], .full-unstyled-link[href]')).some(
+          (existingLink) => new URL(existingLink.href, window.location.origin).pathname === productPath
+        );
       }
 
       updateStateFromNextPage(parsedDocument) {
@@ -84,7 +119,7 @@ if (!customElements.get('wa-load-more')) {
 
       updateHistory(nextPageUrl) {
         const nextPath = `${nextPageUrl.pathname}${nextPageUrl.search}`;
-        history.replaceState({ path: nextPath }, '', nextPath);
+        history.replaceState({ searchParams: nextPageUrl.search.slice(1), path: nextPath }, '', nextPath);
       }
 
       dispatchProductsAppended(items) {
