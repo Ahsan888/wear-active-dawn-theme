@@ -34,6 +34,26 @@
             "swatch_shape": "circle"
           }
         },
+        "wa_bundle_save": {
+          "type": "wa_bundle_save",
+          "settings": {
+            "enable": true,
+            "heading": "Bundle & Save",
+            "regular_price_label": "Regular Price",
+            "save_prefix": "Save ",
+            "checkout_note": "Bundle discount automatically applied at checkout",
+            "tee_save_2": "Rs. 200",
+            "tee_save_3": "Rs. 500",
+            "tee_highlight_badge": "Most Popular",
+            "tee_cta_text": "Shop more tees",
+            "tee_collection_url": "/collections/t-shirts",
+            "trouser_save_2": "Rs. 300",
+            "trouser_highlight_badge": "Most Popular",
+            "trouser_cta_text": "Shop more trousers",
+            "trouser_collection_url": "/collections/trousers",
+            "show_cta": true
+          }
+        },
         "quantity_selector": {
           "type": "quantity_selector",
           "settings": {}
@@ -49,10 +69,14 @@
           "type": "wa_trust_block",
           "settings": {
             "enable": true,
-            "item_1": "Free delivery across Pakistan",
-            "item_2": "Estimated delivery: 2–4 working days",
-            "item_3": "Easy size exchange",
-            "item_4": "Secure checkout"
+            "item_1": "Free Delivery",
+            
+            "item_2": "Easy Size Exchange",
+            
+            "item_3": "Premium Fabric",
+            
+            "item_4": "Secure Checkout"
+            
           }
         },
         "wa_product_info": {
@@ -78,6 +102,7 @@
         "title",
         "price",
         "variant_picker",
+        "wa_bundle_save",
         "quantity_selector",
         "buy_buttons",
         "wa_trust_block",
