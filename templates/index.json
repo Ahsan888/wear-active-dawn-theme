@@ -209,9 +209,8 @@
         "category_womens": {
           "type": "category",
           "settings": {
-            "image": "shopify://shop_images/women-banner.webp",
             "title": "Women's",
-            "collection": "womens",
+            "collection": "women-s-performance-collection",
             "link": "shopify://collections/women-s-performance-collection",
             "cta_text": "Shop Now"
           }
