@@ -15,25 +15,7 @@
         "slide_cYQCt9": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Banner2.webp",
-            "image_overlay_opacity": 0,
-            "heading": "",
-            "heading_size": "h1",
-            "subheading": "",
-            "button_label": "",
-            "link": "",
-            "button_style_secondary": false,
-            "show_text_box": false,
-            "box_align": "middle-center",
-            "text_alignment": "center",
-            "text_alignment_mobile": "center",
-            "color_scheme": ""
-          }
-        },
-        "slide_zW3mcQ": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/Banner3.webp",
+            "image": "shopify://shop_images/Bannerredo.webp",
             "image_overlay_opacity": 0,
             "heading": "",
             "heading_size": "h1",
@@ -50,8 +32,7 @@
         }
       },
       "block_order": [
-        "slide_cYQCt9",
-        "slide_zW3mcQ"
+        "slide_cYQCt9"
       ],
       "name": "t:sections.slideshow.presets.name",
       "settings": {
