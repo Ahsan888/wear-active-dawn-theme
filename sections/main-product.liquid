@@ -512,6 +512,10 @@
                 {%- comment -%} Wear Active custom code start {%- endcomment -%}
                 </div>
                 {%- comment -%} Wear Active custom code end {%- endcomment -%}
+              {%- when 'wa_bundle_save' -%}
+                {%- comment -%} Wear Active custom code start {%- endcomment -%}
+                {% render 'wa-bundle-save', block: block, product: product, section_id: section.id %}
+                {%- comment -%} Wear Active custom code end {%- endcomment -%}
               {%- when 'wa_trust_block' -%}
                 {%- comment -%} Wear Active custom code start {%- endcomment -%}
                 {% render 'wa-product-trust-block', block: block %}
@@ -971,6 +975,115 @@
       ]
     },
     {
+      "type": "wa_bundle_save",
+      "name": "Bundle & Save",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enable",
+          "default": true,
+          "label": "Show Bundle & Save block"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Bundle & Save",
+          "label": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "regular_price_label",
+          "default": "Regular Price",
+          "label": "Single item price label"
+        },
+        {
+          "type": "text",
+          "id": "save_prefix",
+          "default": "Save ",
+          "label": "Save amount prefix"
+        },
+        {
+          "type": "text",
+          "id": "checkout_note",
+          "default": "Bundle discount automatically applied at checkout",
+          "label": "Checkout note"
+        },
+        {
+          "type": "header",
+          "content": "Tee bundle"
+        },
+        {
+          "type": "text",
+          "id": "tee_save_2",
+          "default": "Rs. 200",
+          "label": "2 tees save amount"
+        },
+        {
+          "type": "text",
+          "id": "tee_save_3",
+          "default": "Rs. 500",
+          "label": "3 tees save amount"
+        },
+        {
+          "type": "text",
+          "id": "tee_highlight_badge",
+          "default": "Most Popular",
+          "label": "Tee highlight badge"
+        },
+        {
+          "type": "text",
+          "id": "tee_cta_text",
+          "default": "Shop more tees",
+          "label": "Tee CTA text"
+        },
+        {
+          "type": "text",
+          "id": "tee_collection_url",
+          "default": "/collections/t-shirts",
+          "label": "Tee collection link"
+        },
+        {
+          "type": "header",
+          "content": "Trouser bundle"
+        },
+        {
+          "type": "text",
+          "id": "trouser_save_2",
+          "default": "Rs. 300",
+          "label": "2 trousers save amount"
+        },
+        {
+          "type": "text",
+          "id": "trouser_highlight_badge",
+          "default": "Most Popular",
+          "label": "Trouser highlight badge"
+        },
+        {
+          "type": "text",
+          "id": "trouser_cta_text",
+          "default": "Shop more trousers",
+          "label": "Trouser CTA text"
+        },
+        {
+          "type": "text",
+          "id": "trouser_collection_url",
+          "default": "/collections/trousers",
+          "label": "Trouser collection link"
+        },
+        {
+          "type": "header",
+          "content": "CTA"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_cta",
+          "default": true,
+          "label": "Show collection CTA link"
+        }
+      ]
+    },
+    {
       "type": "wa_trust_block",
       "name": "Delivery & trust",
       "limit": 1,
@@ -984,27 +1097,32 @@
         {
           "type": "text",
           "id": "item_1",
-          "default": "Free delivery across Pakistan",
+          "default": "Free Delivery Across Pakistan",
           "label": "Trust item 1"
         },
+
         {
           "type": "text",
           "id": "item_2",
-          "default": "Estimated delivery: 2–4 working days",
+          "default": "Easy Size Exchange",
           "label": "Trust item 2"
         },
+
         {
           "type": "text",
           "id": "item_3",
-          "default": "Easy size exchange",
+          "default": "Premium Performance Fabric",
           "label": "Trust item 3"
         },
+
         {
           "type": "text",
           "id": "item_4",
-          "default": "Secure checkout",
+          "default": "Secure Checkout",
+          
           "label": "Trust item 4"
-        }
+        },
+
       ]
     },
     {
