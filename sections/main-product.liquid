@@ -514,7 +514,7 @@
                 {%- comment -%} Wear Active custom code end {%- endcomment -%}
               {%- when 'wa_bundle_save' -%}
                 {%- comment -%} Wear Active custom code start {%- endcomment -%}
-                {% render 'wa-bundle-save', block: block, product: product, section_id: section.id %}
+                {% render 'wa-bundle-save', block: block, product: product %}
                 {%- comment -%} Wear Active custom code end {%- endcomment -%}
               {%- when 'wa_trust_block' -%}
                 {%- comment -%} Wear Active custom code start {%- endcomment -%}
@@ -1006,7 +1006,7 @@
         {
           "type": "text",
           "id": "checkout_note",
-          "default": "Bundle discount automatically applied at checkout",
+          "default": "Discount automatically applied at checkout",
           "label": "Checkout note"
         },
         {
@@ -1040,7 +1040,7 @@
         {
           "type": "text",
           "id": "tee_collection_url",
-          "default": "/collections/t-shirts",
+          "default": "/collections/shirts",
           "label": "Tee collection link"
         },
         {
@@ -1056,7 +1056,7 @@
         {
           "type": "text",
           "id": "trouser_highlight_badge",
-          "default": "Most Popular",
+          "default": "Best Value",
           "label": "Trouser highlight badge"
         },
         {
