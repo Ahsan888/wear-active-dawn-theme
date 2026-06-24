@@ -1,18 +1,20 @@
 {% comment %}
   Wear Active custom code start — wa-bundle-save.liquid
-  Displays native Shopify bundle discount offers on eligible PDPs.
-  Row selection updates the PDP quantity input; discounts apply at checkout.
+  Informational Bundle & Save offers for eligible PDPs.
+  Discounts are applied by Shopify automatic discounts at checkout.
 
   Accepts:
   - block: {Object} Theme editor block settings.
   - product: {Object} Current product.
-  - section_id: {String} Main product section id for quantity input sync.
 {% endcomment %}
 
 {%- if block.settings.enable -%}
   {%- liquid
     assign wa_bundle_kind = blank
     assign wa_bundle_from_tag = false
+    assign wa_tee_terms = 'tee,t-shirt,shirt' | split: ','
+    assign wa_trouser_terms = 'trouser' | split: ','
+    assign wa_exclude_terms = 'hoodie,hoody,zipper,zip-up,zip up,winter,therma,jacket' | split: ','
 
     if product.tags contains 'bundle-tee'
       assign wa_bundle_kind = 'tee'
@@ -26,8 +28,6 @@
       assign wa_type_lower = product.type | downcase
       assign wa_title_lower = product.title | downcase
       assign wa_exclude = false
-
-      assign wa_exclude_terms = 'winter,hoodie,hoody,zipper,zip-up,zip up' | split: ','
 
       for wa_exclude_term in wa_exclude_terms
         if wa_type_lower contains wa_exclude_term or wa_title_lower contains wa_exclude_term
@@ -52,9 +52,6 @@
       endunless
 
       unless wa_exclude
-        assign wa_tee_terms = 'tee,t-shirt,shirt' | split: ','
-        assign wa_trouser_terms = 'trouser' | split: ','
-
         for wa_term in wa_tee_terms
           if wa_type_lower contains wa_term
             assign wa_bundle_kind = 'tee'
@@ -105,7 +102,6 @@
   {%- if wa_bundle_kind != blank -%}
     {%- liquid
       if wa_bundle_kind == 'tee'
-        assign wa_item_singular = 'Tee'
         assign wa_item_plural = 'Tees'
         assign wa_highlight_badge = block.settings.tee_highlight_badge
         assign wa_save_2 = block.settings.tee_save_2
@@ -113,7 +109,6 @@
         assign wa_cta_text = block.settings.tee_cta_text
         assign wa_cta_url = block.settings.tee_collection_url
       else
-        assign wa_item_singular = 'Trouser'
         assign wa_item_plural = 'Trousers'
         assign wa_highlight_badge = block.settings.trouser_highlight_badge
         assign wa_save_2 = block.settings.trouser_save_2
@@ -126,96 +121,65 @@
       assign wa_checkout_note = block.settings.checkout_note
     -%}
 
-    <div
-      class="wa-bundle-save quick-add-hidden"
-      data-wa-bundle-save
-      data-section-id="{{ section_id }}"
-      {{ block.shopify_attributes }}
-    >
-      {%- if wa_heading != blank -%}
-        <h3 class="wa-bundle-save__heading">{{ wa_heading | escape }}</h3>
-      {%- endif -%}
-
-      <div
-        class="wa-bundle-save__card"
-        role="radiogroup"
-        aria-label="{{ wa_heading | default: 'Bundle and save options' | escape }}"
-      >
-        <button
-          type="button"
-          class="wa-bundle-save__option"
-          data-quantity="1"
-          role="radio"
-          aria-checked="false"
-        >
-          <span class="wa-bundle-save__indicator" aria-hidden="true"></span>
-          <span class="wa-bundle-save__content">
-            <span class="wa-bundle-save__label">1 {{ wa_item_singular }}</span>
-            <span class="wa-bundle-save__detail">{{ block.settings.regular_price_label | escape }}</span>
-          </span>
-        </button>
-
-        <button
-          type="button"
-          class="wa-bundle-save__option wa-bundle-save__option--recommended"
-          data-quantity="2"
-          role="radio"
-          aria-checked="false"
-        >
-          <span class="wa-bundle-save__indicator" aria-hidden="true"></span>
-          <span class="wa-bundle-save__content">
-            <span class="wa-bundle-save__label-row">
-              <span class="wa-bundle-save__label">2 {{ wa_item_plural }}</span>
-              {%- if wa_highlight_badge != blank -%}
-                <span class="wa-bundle-save__badge">{{ wa_highlight_badge | escape }}</span>
-              {%- endif -%}
-            </span>
-            {%- if wa_save_2 != blank -%}
-              <span class="wa-bundle-save__detail wa-bundle-save__detail--save">
-                {{- block.settings.save_prefix | escape }}
-                {{ wa_save_2 | escape -}}
-              </span>
-            {%- endif -%}
-          </span>
-        </button>
-
-        {%- if wa_bundle_kind == 'tee' and wa_save_3 != blank -%}
-          <button
-            type="button"
-            class="wa-bundle-save__option"
-            data-quantity="3"
-            role="radio"
-            aria-checked="false"
-          >
-            <span class="wa-bundle-save__indicator" aria-hidden="true"></span>
-            <span class="wa-bundle-save__content">
-              <span class="wa-bundle-save__label">3 {{ wa_item_plural }}</span>
-              <span class="wa-bundle-save__detail wa-bundle-save__detail--save">
-                {{- block.settings.save_prefix | escape }}
-                {{ wa_save_3 | escape -}}
-              </span>
-            </span>
-          </button>
-        {%- endif -%}
-      </div>
-
-      {%- if wa_checkout_note != blank -%}
-        <p class="wa-bundle-save__note">
-          <span class="wa-bundle-save__note-icon" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" focusable="false">
-              <path d="M3 8.15 6.25 11.4 13 4.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <div class="wa-bundle-save quick-add-hidden" {{ block.shopify_attributes }}>
+      <div class="wa-bundle-save__strip" aria-label="{{ wa_heading | default: 'Bundle and save' | escape }}">
+        <div class="wa-bundle-save__header">
+          <span class="wa-bundle-save__icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" focusable="false">
+              <path d="M11.2 2.5h5.3l1 1v5.3l-8.8 8.8a1.4 1.4 0 0 1-2 0L2.5 12.6a1.4 1.4 0 0 1 0-2L11.2 2.5Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/>
+              <circle cx="13.8" cy="6.2" r="0.95" fill="currentColor"/>
             </svg>
           </span>
-          <span>{{ wa_checkout_note | escape }}</span>
-        </p>
-      {%- endif -%}
+          {%- if wa_heading != blank -%}
+            <h3 class="wa-bundle-save__heading">{{ wa_heading | escape }}</h3>
+          {%- endif -%}
+        </div>
 
-      {%- if block.settings.show_cta and wa_cta_text != blank and wa_cta_url != blank -%}
-        <a href="{{ wa_cta_url | escape }}" class="wa-bundle-save__cta link underlined-link">
-          <span>{{ wa_cta_text | escape }}</span>
-          <span aria-hidden="true">→</span>
-        </a>
-      {%- endif -%}
+        <div class="wa-bundle-save__tiers{% unless wa_bundle_kind == 'tee' and wa_save_3 != blank %} wa-bundle-save__tiers--single{% endunless %}">
+          <div class="wa-bundle-save__tier">
+            <p class="wa-bundle-save__tier-head">
+              <span>Buy 2 {{ wa_item_plural }}</span>
+              {%- if wa_bundle_kind == 'tee' and wa_highlight_badge != blank -%}
+                <span class="wa-bundle-save__badge">{{ wa_highlight_badge | escape }}</span>
+              {%- endif -%}
+            </p>
+            {%- if wa_save_2 != blank -%}
+              <p class="wa-bundle-save__tier-save">
+                {{- block.settings.save_prefix | escape }}{{ wa_save_2 | escape -}}
+              </p>
+            {%- endif -%}
+          </div>
+
+          {%- if wa_bundle_kind == 'tee' and wa_save_3 != blank -%}
+            <div class="wa-bundle-save__tier">
+              <p class="wa-bundle-save__tier-head">
+                <span>Buy 3 {{ wa_item_plural }}</span>
+              </p>
+              <p class="wa-bundle-save__tier-save">
+                {{- block.settings.save_prefix | escape }}{{ wa_save_3 | escape -}}
+              </p>
+            </div>
+          {%- endif -%}
+        </div>
+
+        {%- if wa_checkout_note != blank -%}
+          <p class="wa-bundle-save__note">
+            <span class="wa-bundle-save__note-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" focusable="false">
+                <path d="M3 8.15 6.25 11.4 13 4.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span>{{ wa_checkout_note | escape }}</span>
+          </p>
+        {%- endif -%}
+
+        {%- if block.settings.show_cta and wa_cta_text != blank and wa_cta_url != blank -%}
+          <a href="{{ wa_cta_url | escape }}" class="wa-bundle-save__cta link underlined-link">
+            <span>{{ wa_cta_text | escape }}</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        {%- endif -%}
+      </div>
     </div>
   {%- endif -%}
 {%- endif -%}
