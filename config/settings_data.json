@@ -11,7 +11,7 @@
   "current": {
     "logo": "shopify://shop_images/wa-logo-black-bg-white-logo-48.webp",
     "logo_width": 120,
-    "favicon": "shopify://shop_images/3_29cbf4c6-dee1-40cf-8131-1b336f32bf61.png",
+    "favicon": "shopify://shop_images/wa-fav-icon-1.png",
     "type_header_font": "assistant_n4",
     "heading_scale": 100,
     "type_body_font": "assistant_n4",
@@ -177,16 +177,6 @@
       },
       "6174324309569838175": {
         "type": "shopify://apps/smile-io/blocks/smile-shopify-app/2fae4e25-1841-4ea2-bc02-bd548478c4f6",
-        "disabled": false,
-        "settings": {}
-      },
-      "15620043091132039688": {
-        "type": "shopify://apps/hoppy-trust-badges/blocks/trust_badges_icon/6e9703d9-56af-47d9-80bb-0abc8eb8c38b",
-        "disabled": false,
-        "settings": {}
-      },
-      "987408557691137581": {
-        "type": "shopify://apps/hoppy-bundles/blocks/bulk_offer_card/39b0734f-c894-4234-906e-b511bfd44522",
         "disabled": false,
         "settings": {}
       }
