@@ -1,6 +1,6 @@
 /* ==========================================================================
    Wear Active custom code start — wa-header.css
-   Premium minimal black header polish.
+   Premium Evergreen header and navigation polish.
    ========================================================================== */
 
 /* Announcement bar */
@@ -22,7 +22,7 @@
   }
 }
 
-/* Header — solid black foundation, desktop polish */
+/* Header — solid Evergreen foundation, desktop polish */
 .section-header .header-wrapper.wa-header-wrapper {
   background-color: rgb(var(--color-background));
 }
@@ -136,6 +136,25 @@
     width: 2rem;
     height: 2rem;
   }
+}
+
+/* Keep the promotional route visible without turning the full header into a sale banner. */
+.wa-header .wa-header__menu-item--sale,
+.menu-drawer .wa-header__menu-item--sale {
+  color: var(--wa-color-parchment);
+  background-color: var(--wa-color-coffee);
+  font-weight: var(--wa-weight-semibold);
+  padding: 0.65rem 1rem;
+}
+
+.wa-header .wa-header__menu-item--sale span {
+  color: inherit;
+}
+
+.wa-header .wa-header__menu-item--sale:hover,
+.wa-header .wa-header__menu-item--sale:focus-visible {
+  color: var(--wa-color-parchment);
+  opacity: 0.8;
 }
 
 @media (prefers-reduced-motion: reduce) {
