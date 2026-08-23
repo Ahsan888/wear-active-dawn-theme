@@ -1,0 +1,35 @@
+{% comment %}
+  Wear Active custom code start — wa-cart-assurance.liquid
+  Factual cart reassurance shared by the cart page and cart drawer.
+{% endcomment %}
+
+{%- liquid
+  assign wa_whatsapp_digits = settings.wa_whatsapp_number | remove: '+' | remove: ' ' | remove: '-'
+  assign wa_whatsapp_message = 'Hi Wear Active, I need help with my order.' | url_encode
+-%}
+
+<aside class="wa-cart-assurance" aria-label="Delivery, exchange and payment information">
+  <h2 class="wa-cart-assurance__heading">Order with confidence</h2>
+  <ul class="wa-cart-assurance__list" role="list">
+    <li class="wa-cart-assurance__item">
+      <strong>Free delivery across Pakistan</strong> in {{ settings.wa_delivery_window | escape }} via
+      {{ settings.wa_couriers | escape }}. Tracking is shared on WhatsApp.
+    </li>
+    <li class="wa-cart-assurance__item">
+      <strong>{{ settings.wa_exchange_window | escape }} size exchange</strong>, including discounted products.
+      Items must be unused, unwashed and have their original tags. {{ settings.wa_exchange_fee | escape }} exchange fee applies.
+    </li>
+    <li class="wa-cart-assurance__item">
+      <strong>Payment options:</strong> {{ settings.wa_payment_methods | escape }}.
+      {%- if settings.wa_cod_confirmation %} COD orders are confirmed on WhatsApp.{% endif -%}
+    </li>
+  </ul>
+  <a
+    class="wa-cart-assurance__support"
+    href="https://wa.me/{{ wa_whatsapp_digits }}?text={{ wa_whatsapp_message }}"
+    target="_blank"
+    rel="noopener"
+  >
+    Need help? Chat on WhatsApp →
+  </a>
+</aside>
