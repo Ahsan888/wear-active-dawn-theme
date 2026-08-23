@@ -92,8 +92,8 @@
         "layout_style": "editorial",
         "color_scheme": "scheme-1",
         "image_radius": 0,
-        "desktop_card_ratio": "4 / 3",
-        "mobile_card_ratio": "4 / 5",
+        "desktop_card_ratio": "2 / 3",
+        "mobile_card_ratio": "2 / 3",
         "padding_top": 56,
         "padding_bottom": 56
       }
