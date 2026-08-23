@@ -15,25 +15,7 @@
         "slide_cYQCt9": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Banner2.webp",
-            "image_overlay_opacity": 0,
-            "heading": "",
-            "heading_size": "h1",
-            "subheading": "",
-            "button_label": "",
-            "link": "",
-            "button_style_secondary": false,
-            "show_text_box": false,
-            "box_align": "middle-center",
-            "text_alignment": "center",
-            "text_alignment_mobile": "center",
-            "color_scheme": ""
-          }
-        },
-        "slide_zW3mcQ": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/Banner3.webp",
+            "image": "shopify://shop_images/Website_announcement.jpg",
             "image_overlay_opacity": 0,
             "heading": "",
             "heading_size": "h1",
@@ -50,8 +32,7 @@
         }
       },
       "block_order": [
-        "slide_cYQCt9",
-        "slide_zW3mcQ"
+        "slide_cYQCt9"
       ],
       "name": "t:sections.slideshow.presets.name",
       "settings": {
@@ -63,23 +44,6 @@
         "image_behavior": "none",
         "show_text_below": false,
         "accessibility_info": ""
-      }
-    },
-    "image_banner": {
-      "type": "image-banner",
-      "disabled": true,
-      "settings": {
-        "image": "shopify://shop_images/Banner2.webp",
-        "image_overlay_opacity": 0,
-        "image_height": "adapt",
-        "image_behavior": "none",
-        "desktop_content_position": "bottom-center",
-        "desktop_content_alignment": "center",
-        "show_text_box": false,
-        "color_scheme": "scheme-3",
-        "stack_images_on_mobile": false,
-        "mobile_content_alignment": "center",
-        "show_text_below": false
       }
     },
     "featured_collection": {
@@ -101,11 +65,11 @@
         "view_all_style": "solid",
         "color_scheme": "scheme-1",
         "wa_background": "white",
-        "image_ratio": "portrait",
+        "image_ratio": "adapt",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
-        "show_rating": false,
+        "show_rating": true,
         "quick_add": "none",
         "columns_mobile": "2",
         "swipe_on_mobile": true,
@@ -133,7 +97,7 @@
         "view_all_style": "solid",
         "color_scheme": "",
         "wa_background": "soft-gray",
-        "image_ratio": "portrait",
+        "image_ratio": "adapt",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
@@ -141,6 +105,38 @@
         "quick_add": "none",
         "columns_mobile": "2",
         "swipe_on_mobile": true,
+        "padding_top": 12,
+        "padding_bottom": 12
+      }
+    },
+    "featured_collection_W4PKft": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "collection": "women-s-performance-collection",
+        "products_to_show": 10,
+        "wa_eyebrow": "Engineered for Movement",
+        "title": "Women's Collection",
+        "heading_size": "h1",
+        "wa_subtitle": "Designed for Performance. Styled for Every Day.",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 5,
+        "enable_desktop_slider": true,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "",
+        "wa_background": "white",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
         "padding_top": 12,
         "padding_bottom": 12
       }
@@ -178,6 +174,7 @@
           "settings": {
             "title": "Shirts",
             "collection": "shirts",
+            "link": "",
             "cta_text": "Shop Now"
           }
         },
@@ -186,6 +183,7 @@
           "settings": {
             "title": "Trousers",
             "collection": "trousers",
+            "link": "",
             "cta_text": "Shop Now"
           }
         },
@@ -193,7 +191,8 @@
           "type": "category",
           "settings": {
             "title": "Women's",
-            "collection": "womens",
+            "collection": "women-s-performance-collection",
+            "link": "shopify://collections/women-s-performance-collection",
             "cta_text": "Shop Now"
           }
         },
@@ -202,22 +201,25 @@
           "settings": {
             "title": "Shorts",
             "collection": "shorts",
+            "link": "",
             "cta_text": "Shop Now"
           }
         },
         "category_hoodies": {
           "type": "category",
           "settings": {
-            "title": "Hoodies",
-            "collection": "hoodies",
+            "title": "All Products",
+            "collection": "all-products",
+            "link": "",
             "cta_text": "Shop Now"
           }
         },
         "category_jackets": {
           "type": "category",
           "settings": {
-            "title": "Jackets",
-            "collection": "jackets",
+            "title": "Best Selling",
+            "collection": "✨-best-selling-collection-✨",
+            "link": "",
             "cta_text": "Shop Now"
           }
         }
@@ -233,7 +235,7 @@
       "settings": {
         "heading": "Shop by Category",
         "subheading": "Explore performance essentials by category.",
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-4",
         "image_radius": 8,
         "padding_top": 56,
         "padding_bottom": 56
@@ -274,9 +276,9 @@
   },
   "order": [
     "slideshow_LtamGJ",
-    "image_banner",
     "featured_collection",
     "featured_collection_T6zxV3",
+    "featured_collection_W4PKft",
     "wa_performance_features",
     "wa_shop_by_category",
     "featured_collection_NMabDU"
