@@ -1,15 +1,33 @@
 /* ==========================================================================
    Wear Active custom code start — wa-base.css
-   Typography tokens and global type refinements.
+   Brand tokens and global design-system refinements.
    ========================================================================== */
 
 :root {
   --wa-spacing-unit: 1rem;
 
+  /* Official Wear Active palette */
+  --wa-color-evergreen: #071e1a;
+  --wa-color-evergreen-rgb: 7, 30, 26;
+  --wa-color-parchment: #f7f5f1;
+  --wa-color-parchment-rgb: 247, 245, 241;
+  --wa-color-black: #000000;
+  --wa-color-black-rgb: 0, 0, 0;
+  --wa-color-grey: #d1d1d1;
+  --wa-color-grey-rgb: 209, 209, 209;
+  --wa-color-coffee: #301f1e;
+  --wa-color-coffee-rgb: 48, 31, 30;
+
+  /* Plateia is preferred for display. Montserrat is the approved fallback. */
+  --wa-font-display: var(--font-heading-family), 'Montserrat', 'Arial Black', sans-serif;
+  --wa-font-body: var(--font-body-family), 'Montserrat', Arial, sans-serif;
+
   /* Font weights */
   --wa-weight-regular: 400;
   --wa-weight-medium: 500;
   --wa-weight-semibold: 600;
+  --wa-weight-bold: 700;
+  --wa-weight-extrabold: 800;
 
   /* Letter spacing */
   --wa-tracking-tighter: -0.03em;
@@ -37,10 +55,26 @@
   --wa-text-xl: 2rem;
 }
 
-/* Body — comfortable reading rhythm */
 body {
+  font-family: var(--wa-font-body);
   line-height: var(--wa-leading-normal);
   letter-spacing: var(--wa-tracking-snug);
+  background-color: var(--wa-color-parchment);
+  color: rgb(var(--color-foreground));
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h0,
+.h1,
+.h2,
+.hxl,
+.hxxl {
+  font-family: var(--wa-font-display);
 }
 
 /* Section headings — collection, homepage, content blocks */
@@ -54,16 +88,22 @@ body {
 .banner__heading,
 .banner__heading.h0,
 .banner__heading.h1,
-.banner__heading.h2 {
-  font-weight: var(--wa-weight-medium);
-  letter-spacing: var(--wa-tracking-tight);
-  line-height: var(--wa-leading-tight);
+.banner__heading.h2,
+.main-page-title,
+.product__title h1,
+.article-template__title,
+.customer h1,
+.customer h2 {
+  font-weight: var(--wa-weight-extrabold);
+  letter-spacing: var(--wa-tracking-snug);
+  line-height: 1.02;
+  text-wrap: balance;
 }
 
 .title.h0,
 .title.hxxl,
 .banner__heading.h0 {
-  letter-spacing: var(--wa-tracking-tighter);
+  letter-spacing: -0.025em;
 }
 
 .title.h2,
@@ -83,24 +123,99 @@ body {
   }
 }
 
-/* Buttons — athletic, clean, not heavy */
+/* Buttons — structured, direct and high contrast. */
 .button,
 .customer button,
 .shopify-challenge__button,
 button.shopify-payment-button__button--unbranded {
-  font-weight: var(--wa-weight-medium);
-  letter-spacing: var(--wa-tracking-wide);
+  min-height: 4.8rem;
+  font-family: var(--wa-font-body);
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: var(--wa-tracking-wider);
   line-height: var(--wa-leading-snug);
+  text-transform: uppercase;
+  transition: background-color 180ms ease, color 180ms ease, opacity 180ms ease;
+}
+
+.button::before,
+.button::after,
+.shopify-challenge__button::before,
+.shopify-challenge__button::after,
+.customer button::before,
+.customer button::after {
+  border-radius: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button:not([disabled]):hover,
+  .customer button:not([disabled]):hover,
+  .shopify-challenge__button:hover {
+    opacity: 0.86;
+  }
 }
 
 /* Form labels — product and shared UI */
 .form__label,
-.caption-with-letter-spacing {
+.caption-with-letter-spacing,
+.facets__heading,
+.facet-filters__label,
+.mobile-facets__heading {
+  font-weight: var(--wa-weight-semibold);
   letter-spacing: var(--wa-tracking-wider);
+  text-transform: uppercase;
 }
 
 /* Subtitle utility */
 .subtitle {
   line-height: var(--wa-leading-relaxed);
   letter-spacing: var(--wa-tracking-snug);
+}
+
+.field__input,
+.select__select,
+.customer .field input,
+.quantity__input {
+  font-family: var(--wa-font-body);
+}
+
+.field::before,
+.field::after,
+.select::before,
+.select::after,
+.customer .field::before,
+.customer .field::after {
+  border-radius: 0;
+}
+
+.badge {
+  border-radius: 0;
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: var(--wa-tracking-wider);
+  text-transform: uppercase;
+}
+
+.card__heading,
+.price,
+.product__title,
+.footer-block__heading,
+.header__menu-item {
+  font-family: var(--wa-font-body);
+}
+
+::selection {
+  background: var(--wa-color-evergreen);
+  color: var(--wa-color-parchment);
+}
+
+:focus-visible {
+  outline-color: currentColor;
+  outline-offset: 0.3rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button,
+  .customer button,
+  .shopify-challenge__button {
+    transition: none;
+  }
 }

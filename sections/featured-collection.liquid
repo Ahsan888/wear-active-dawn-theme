@@ -62,6 +62,14 @@
   if section.settings.enable_desktop_slider and products_to_display > section.settings.columns_desktop
     assign show_desktop_slider = true
   endif
+
+  assign wa_has_actions = false
+  if show_mobile_slider or show_desktop_slider
+    assign wa_has_actions = true
+  endif
+  if section.settings.show_view_all and more_in_collection
+    assign wa_has_actions = true
+  endif
 -%}
 
 <div
@@ -174,52 +182,56 @@
           {%- endfor -%}
         {%- endif -%}
       </ul>
-      {%- if show_mobile_slider or show_desktop_slider -%}
-        <div class="slider-buttons">
-          <button
-            type="button"
-            class="slider-button slider-button--prev"
-            name="previous"
-            aria-label="{{ 'general.slider.previous_slide' | t }}"
-            aria-controls="Slider-{{ section.id }}"
-          >
-            <span class="svg-wrapper">
-              {{- 'icon-caret.svg' | inline_asset_content -}}
-            </span>
-          </button>
-          <div class="slider-counter caption">
-            <span class="slider-counter--current">1</span>
-            <span aria-hidden="true"> / </span>
-            <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
-            <span class="slider-counter--total">{{ products_to_display }}</span>
-          </div>
-          <button
-            type="button"
-            class="slider-button slider-button--next"
-            name="next"
-            aria-label="{{ 'general.slider.next_slide' | t }}"
-            aria-controls="Slider-{{ section.id }}"
-          >
-            <span class="svg-wrapper">
-              {{- 'icon-caret.svg' | inline_asset_content -}}
-            </span>
-          </button>
+      {%- if wa_has_actions -%}
+        <div class="wa-featured-collection__actions{% unless show_mobile_slider or show_desktop_slider %} wa-featured-collection__actions--view-all-only{% endunless %}">
+          {%- if show_mobile_slider or show_desktop_slider -%}
+            <div class="slider-buttons">
+              <button
+                type="button"
+                class="slider-button slider-button--prev"
+                name="previous"
+                aria-label="{{ 'general.slider.previous_slide' | t }}"
+                aria-controls="Slider-{{ section.id }}"
+              >
+                <span class="svg-wrapper">
+                  {{- 'icon-caret.svg' | inline_asset_content -}}
+                </span>
+              </button>
+              <div class="slider-counter caption">
+                <span class="slider-counter--current">1</span>
+                <span aria-hidden="true"> / </span>
+                <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
+                <span class="slider-counter--total">{{ products_to_display }}</span>
+              </div>
+              <button
+                type="button"
+                class="slider-button slider-button--next"
+                name="next"
+                aria-label="{{ 'general.slider.next_slide' | t }}"
+                aria-controls="Slider-{{ section.id }}"
+              >
+                <span class="svg-wrapper">
+                  {{- 'icon-caret.svg' | inline_asset_content -}}
+                </span>
+              </button>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.show_view_all and more_in_collection -%}
+            <div class="collection__view-all wa-featured-collection__view-all{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+              <a
+                href="{{ section.settings.collection.url }}"
+                class="wa-featured-collection__view-all-link {% if section.settings.view_all_style == 'link' %}link underlined-link{% elsif section.settings.view_all_style == 'solid' %}button{% else %}button button--secondary{% endif %}"
+                aria-label="{{ 'sections.featured_collection.view_all_label' | t: collection_name: section.settings.collection.title | escape }}"
+              >
+                <span>{{ 'sections.featured_collection.view_all' | t }}</span>
+                <span class="wa-featured-collection__view-all-arrow" aria-hidden="true">→</span>
+              </a>
+            </div>
+          {%- endif -%}
         </div>
       {%- endif -%}
     </slider-component>
-
-    {%- if section.settings.show_view_all and more_in_collection -%}
-      <div class="center collection__view-all wa-featured-collection__view-all{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-        <a
-          href="{{ section.settings.collection.url }}"
-          class="wa-featured-collection__view-all-link {% if section.settings.view_all_style == 'link' %}link underlined-link{% elsif section.settings.view_all_style == 'solid' %}button{% else %}button button--secondary{% endif %}"
-          aria-label="{{ 'sections.featured_collection.view_all_label' | t: collection_name: section.settings.collection.title | escape }}"
-        >
-          <span>{{ 'sections.featured_collection.view_all' | t }}</span>
-          <span class="wa-featured-collection__view-all-arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    {%- endif -%}
     {% if section.settings.image_shape == 'arch' %}
       {{ 'mask-arch.svg' | inline_asset_content }}
     {%- endif -%}
@@ -394,11 +406,15 @@
       "options": [
         {
           "value": "white",
-          "label": "White"
+          "label": "Parchment"
         },
         {
           "value": "soft-gray",
           "label": "Soft gray"
+        },
+        {
+          "value": "evergreen",
+          "label": "Evergreen"
         },
         {
           "value": "black",
@@ -428,7 +444,7 @@
           "label": "t:sections.featured-collection.settings.image_ratio.options__3.label"
         }
       ],
-      "default": "adapt",
+      "default": "portrait",
       "label": "t:sections.featured-collection.settings.image_ratio.label"
     },
     {

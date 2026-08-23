@@ -1,0 +1,29 @@
+{% comment %}
+  Wear Active custom code start — wa-brand-logo.liquid
+  Renders the optimized official Evergreen logo asset.
+
+  Accepts:
+  - class: Optional CSS classes.
+  - width: Rendered width in pixels.
+  - loading: "eager" or "lazy".
+  - fetchpriority: Optional browser fetch priority.
+{% endcomment %}
+
+{%- liquid
+  assign wa_logo_width = width | default: 120
+  assign wa_logo_height = wa_logo_width | times: 276.0 | divided_by: 640 | round
+  assign wa_logo_loading = loading | default: 'lazy'
+  assign wa_logo_alt = shop.name | escape
+-%}
+
+<img
+  src="{{ 'wa-logo-green.webp' | asset_url }}"
+  width="{{ wa_logo_width }}"
+  height="{{ wa_logo_height }}"
+  alt="{{ wa_logo_alt }}"
+  class="{{ class }}"
+  loading="{{ wa_logo_loading }}"
+  {% if fetchpriority != blank %}
+    fetchpriority="{{ fetchpriority }}"
+  {% endif %}
+>
