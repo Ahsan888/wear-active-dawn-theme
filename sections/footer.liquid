@@ -107,38 +107,11 @@
                     {%- comment -%} Wear Active custom code end {%- endcomment -%}
                   {%- when 'brand_information' -%}
                     <div class="footer-block__brand-info">
-                      {%- comment -%} Wear Active: footer logo falls back to theme logo. {%- endcomment -%}
-                      {%- liquid
-                        assign wa_footer_logo = settings.brand_image
-                        assign wa_footer_logo_width = settings.brand_image_width
-                        if wa_footer_logo == blank and settings.logo != blank
-                          assign wa_footer_logo = settings.logo
-                          assign wa_footer_logo_width = settings.brand_image_width
-                        endif
-                        if wa_footer_logo_width < 160
-                          assign wa_footer_logo_width = 160
-                        endif
-                      -%}
-                      {%- if wa_footer_logo != blank -%}
-                        {%- assign brand_image_height = wa_footer_logo_width
-                          | times: 1.0
-                          | divided_by: wa_footer_logo.aspect_ratio
-                          | round
-                        -%}
-                        <div class="footer-block__image-wrapper wa-footer__logo">
-                          {{
-                            wa_footer_logo
-                            | image_url: width: 560
-                            | image_tag:
-                              loading: 'lazy',
-                              widths: '160, 240, 320, 400, 560',
-                              height: brand_image_height,
-                              width: wa_footer_logo_width,
-                              alt: shop.name,
-                              class: 'wa-footer__logo-image'
-                          }}
-                        </div>
-                      {%- endif -%}
+                      {%- comment -%} Wear Active custom code start: official shared logo asset. {%- endcomment -%}
+                      <div class="footer-block__image-wrapper wa-footer__logo">
+                        {% render 'wa-brand-logo', class: 'wa-footer__logo-image', width: 160, loading: 'lazy' %}
+                      </div>
+                      {%- comment -%} Wear Active custom code end. {%- endcomment -%}
                       {%- if settings.brand_headline != blank -%}
                         <h2 class="footer-block__heading rte">{{ settings.brand_headline }}</h2>
                       {%- endif -%}

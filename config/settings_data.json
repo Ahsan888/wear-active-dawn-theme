@@ -12,14 +12,14 @@
     "logo": "shopify://shop_images/wa-logo-black-bg-white-logo-48.webp",
     "logo_width": 120,
     "favicon": "shopify://shop_images/wa-fav-icon-1.png",
-    "type_header_font": "assistant_n4",
+    "type_header_font": "montserrat_n4",
     "heading_scale": 100,
-    "type_body_font": "assistant_n4",
+    "type_body_font": "montserrat_n4",
     "body_scale": 100,
     "page_width": 1200,
     "spacing_sections": 0,
-    "spacing_grid_horizontal": 8,
-    "spacing_grid_vertical": 8,
+    "spacing_grid_horizontal": 16,
+    "spacing_grid_vertical": 20,
     "animations_reveal_on_scroll": true,
     "animations_hover_elements": "none",
     "buttons_border_thickness": 1,
@@ -46,7 +46,7 @@
     "card_style": "standard",
     "card_image_padding": 0,
     "card_text_alignment": "left",
-    "card_color_scheme": "scheme-2",
+    "card_color_scheme": "scheme-1",
     "card_border_thickness": 0,
     "card_border_opacity": 10,
     "card_corner_radius": 0,
@@ -57,7 +57,7 @@
     "collection_card_style": "standard",
     "collection_card_image_padding": 0,
     "collection_card_text_alignment": "left",
-    "collection_card_color_scheme": "scheme-2",
+    "collection_card_color_scheme": "scheme-1",
     "collection_card_border_thickness": 0,
     "collection_card_border_opacity": 10,
     "collection_card_corner_radius": 0,
@@ -68,7 +68,7 @@
     "blog_card_style": "standard",
     "blog_card_image_padding": 0,
     "blog_card_text_alignment": "left",
-    "blog_card_color_scheme": "scheme-2",
+    "blog_card_color_scheme": "scheme-1",
     "blog_card_border_thickness": 0,
     "blog_card_border_opacity": 10,
     "blog_card_corner_radius": 0,
@@ -104,9 +104,9 @@
     "drawer_shadow_vertical_offset": 4,
     "drawer_shadow_blur": 5,
     "badge_position": "bottom left",
-    "badge_corner_radius": 40,
-    "sale_badge_color_scheme": "scheme-4",
-    "sold_out_badge_color_scheme": "scheme-3",
+    "badge_corner_radius": 0,
+    "sale_badge_color_scheme": "scheme-5",
+    "sold_out_badge_color_scheme": "scheme-4",
     "brand_headline": "",
     "brand_description": "<p>Wear Active is redefining sportswear in Pakistan. Designed for athletes, gym-goers, and cricket enthusiasts, our collections combine premium fabrics, precise craftsmanship, and bold design.</p>",
     "brand_image_width": 100,
@@ -184,68 +184,68 @@
     "color_schemes": {
       "scheme-1": {
         "settings": {
-          "background": "#ffffff",
+          "background": "#F7F5F1",
           "background_gradient": "",
-          "text": "#121212",
-          "button": "#121212",
-          "button_label": "#ffffff",
-          "secondary_button_label": "#121212",
-          "shadow": "#121212"
+          "text": "#071E1A",
+          "button": "#071E1A",
+          "button_label": "#F7F5F1",
+          "secondary_button_label": "#071E1A",
+          "shadow": "#000000"
         }
       },
       "scheme-2": {
         "settings": {
-          "background": "#f3f3f3",
+          "background": "#D1D1D1",
           "background_gradient": "",
-          "text": "#121212",
-          "button": "#121212",
-          "button_label": "#f3f3f3",
-          "secondary_button_label": "#121212",
-          "shadow": "#121212"
+          "text": "#071E1A",
+          "button": "#071E1A",
+          "button_label": "#F7F5F1",
+          "secondary_button_label": "#071E1A",
+          "shadow": "#000000"
         }
       },
       "scheme-3": {
         "settings": {
-          "background": "#242833",
+          "background": "#071E1A",
           "background_gradient": "",
-          "text": "#ffffff",
-          "button": "#ffffff",
-          "button_label": "#000000",
-          "secondary_button_label": "#ffffff",
-          "shadow": "#121212"
+          "text": "#F7F5F1",
+          "button": "#F7F5F1",
+          "button_label": "#071E1A",
+          "secondary_button_label": "#F7F5F1",
+          "shadow": "#000000"
         }
       },
       "scheme-4": {
         "settings": {
           "background": "#000000",
           "background_gradient": "",
-          "text": "#ffffff",
-          "button": "#ffffff",
-          "button_label": "#121212",
-          "secondary_button_label": "#ffffff",
-          "shadow": "#121212"
+          "text": "#F7F5F1",
+          "button": "#F7F5F1",
+          "button_label": "#000000",
+          "secondary_button_label": "#F7F5F1",
+          "shadow": "#000000"
         }
       },
       "scheme-5": {
         "settings": {
-          "background": "#334fb4",
+          "background": "#301F1E",
           "background_gradient": "",
-          "text": "#ffffff",
-          "button": "#ffffff",
-          "button_label": "#334fb4",
-          "secondary_button_label": "#ffffff",
-          "shadow": "#121212"
+          "text": "#F7F5F1",
+          "button": "#F7F5F1",
+          "button_label": "#301F1E",
+          "secondary_button_label": "#F7F5F1",
+          "shadow": "#000000"
         }
       },
       "scheme-bdbd8854-27b6-4ba5-ba86-8a8cc4bf401a": {
         "settings": {
-          "background": "#ffffff",
+          "background": "#F7F5F1",
           "background_gradient": "",
-          "text": "#121212",
-          "button": "#121212",
-          "button_label": "#ffffff",
-          "secondary_button_label": "#121212",
-          "shadow": "#121212"
+          "text": "#071E1A",
+          "button": "#071E1A",
+          "button_label": "#F7F5F1",
+          "secondary_button_label": "#071E1A",
+          "shadow": "#000000"
         }
       }
     }
@@ -256,68 +256,68 @@
       "color_schemes": {
         "scheme-1": {
           "settings": {
-            "background": "#FFFFFF",
+            "background": "#F7F5F1",
             "background_gradient": "",
-            "text": "#121212",
-            "button": "#121212",
-            "button_label": "#FFFFFF",
-            "secondary_button_label": "#121212",
-            "shadow": "#121212"
+            "text": "#071E1A",
+            "button": "#071E1A",
+            "button_label": "#F7F5F1",
+            "secondary_button_label": "#071E1A",
+            "shadow": "#000000"
           }
         },
         "scheme-2": {
           "settings": {
-            "background": "#F3F3F3",
+            "background": "#D1D1D1",
             "background_gradient": "",
-            "text": "#121212",
-            "button": "#121212",
-            "button_label": "#F3F3F3",
-            "secondary_button_label": "#121212",
-            "shadow": "#121212"
+            "text": "#071E1A",
+            "button": "#071E1A",
+            "button_label": "#F7F5F1",
+            "secondary_button_label": "#071E1A",
+            "shadow": "#000000"
           }
         },
         "scheme-3": {
           "settings": {
-            "background": "#242833",
+            "background": "#071E1A",
             "background_gradient": "",
-            "text": "#FFFFFF",
-            "button": "#FFFFFF",
-            "button_label": "#000000",
-            "secondary_button_label": "#FFFFFF",
-            "shadow": "#121212"
+            "text": "#F7F5F1",
+            "button": "#F7F5F1",
+            "button_label": "#071E1A",
+            "secondary_button_label": "#F7F5F1",
+            "shadow": "#000000"
           }
         },
         "scheme-4": {
           "settings": {
-            "background": "#121212",
+            "background": "#000000",
             "background_gradient": "",
-            "text": "#FFFFFF",
-            "button": "#FFFFFF",
-            "button_label": "#121212",
-            "secondary_button_label": "#FFFFFF",
-            "shadow": "#121212"
+            "text": "#F7F5F1",
+            "button": "#F7F5F1",
+            "button_label": "#000000",
+            "secondary_button_label": "#F7F5F1",
+            "shadow": "#000000"
           }
         },
         "scheme-5": {
           "settings": {
-            "background": "#334FB4",
+            "background": "#301F1E",
             "background_gradient": "",
-            "text": "#FFFFFF",
-            "button": "#FFFFFF",
-            "button_label": "#334FB4",
-            "secondary_button_label": "#FFFFFF",
-            "shadow": "#121212"
+            "text": "#F7F5F1",
+            "button": "#F7F5F1",
+            "button_label": "#301F1E",
+            "secondary_button_label": "#F7F5F1",
+            "shadow": "#000000"
           }
         }
       },
-      "type_header_font": "assistant_n4",
+      "type_header_font": "montserrat_n4",
       "heading_scale": 100,
-      "type_body_font": "assistant_n4",
+      "type_body_font": "montserrat_n4",
       "body_scale": 100,
       "page_width": 1200,
       "spacing_sections": 0,
-      "spacing_grid_horizontal": 8,
-      "spacing_grid_vertical": 8,
+      "spacing_grid_horizontal": 16,
+      "spacing_grid_vertical": 20,
       "animations_reveal_on_scroll": true,
       "animations_hover_elements": "none",
       "buttons_border_thickness": 1,
@@ -344,7 +344,7 @@
       "card_style": "standard",
       "card_image_padding": 0,
       "card_text_alignment": "left",
-      "card_color_scheme": "scheme-2",
+      "card_color_scheme": "scheme-1",
       "card_border_thickness": 0,
       "card_border_opacity": 10,
       "card_corner_radius": 0,
@@ -355,7 +355,7 @@
       "collection_card_style": "standard",
       "collection_card_image_padding": 0,
       "collection_card_text_alignment": "left",
-      "collection_card_color_scheme": "scheme-2",
+      "collection_card_color_scheme": "scheme-1",
       "collection_card_border_thickness": 0,
       "collection_card_border_opacity": 10,
       "collection_card_corner_radius": 0,
@@ -366,7 +366,7 @@
       "blog_card_style": "standard",
       "blog_card_image_padding": 0,
       "blog_card_text_alignment": "left",
-      "blog_card_color_scheme": "scheme-2",
+      "blog_card_color_scheme": "scheme-1",
       "blog_card_border_thickness": 0,
       "blog_card_border_opacity": 10,
       "blog_card_corner_radius": 0,
@@ -402,9 +402,9 @@
       "drawer_shadow_vertical_offset": 4,
       "drawer_shadow_blur": 5,
       "badge_position": "bottom left",
-      "badge_corner_radius": 40,
-      "sale_badge_color_scheme": "scheme-4",
-      "sold_out_badge_color_scheme": "scheme-3",
+      "badge_corner_radius": 0,
+      "sale_badge_color_scheme": "scheme-5",
+      "sold_out_badge_color_scheme": "scheme-4",
       "brand_headline": "",
       "brand_description": "<p></p>",
       "brand_image_width": 100,
