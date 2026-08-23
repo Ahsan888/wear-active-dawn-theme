@@ -55,7 +55,7 @@
             "image": "shopify://shop_images/Shirt.webp",
             "title": "Men",
             "collection": "men",
-            "link": "/collections/men",
+            "link": "shopify://collections/men",
             "cta_text": "Shop Men"
           }
         },
@@ -64,7 +64,7 @@
           "settings": {
             "image": "shopify://shop_images/Women.webp",
             "title": "Women",
-            "collection": "women-s-performance-collection",
+            "collection": "women",
             "link": "",
             "cta_text": "Shop Women"
           }
