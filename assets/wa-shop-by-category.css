@@ -75,7 +75,6 @@
 .wa-shop-by-category__media {
   position: relative;
   width: 100%;
-  aspect-ratio: 2 / 3;
   overflow: hidden;
   background-color: #111111;
 }
@@ -85,7 +84,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center center;
 }
 
@@ -116,6 +115,7 @@
   letter-spacing: var(--wa-tracking-widest);
   line-height: var(--wa-leading-snug);
   text-transform: uppercase;
+  color: #ffffff;
 }
 
 .wa-shop-by-category__cta {

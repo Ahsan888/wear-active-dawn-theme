@@ -169,74 +169,49 @@
     "wa_shop_by_category": {
       "type": "wa-shop-by-category",
       "blocks": {
-        "category_shirts": {
+        "category_men": {
           "type": "category",
           "settings": {
-            "title": "Shirts",
-            "collection": "shirts",
-            "link": "",
-            "cta_text": "Shop Now"
+            "image": "shopify://shop_images/Banner2.webp",
+            "title": "Men",
+            "collection": "men",
+            "link": "/collections/men",
+            "cta_text": "Shop Men"
           }
         },
-        "category_trousers": {
+        "category_women": {
           "type": "category",
           "settings": {
-            "title": "Trousers",
-            "collection": "trousers",
-            "link": "",
-            "cta_text": "Shop Now"
-          }
-        },
-        "category_womens": {
-          "type": "category",
-          "settings": {
-            "title": "Women's",
+            "image": "shopify://shop_images/Banner3.webp",
+            "title": "Women",
             "collection": "women-s-performance-collection",
-            "link": "shopify://collections/women-s-performance-collection",
-            "cta_text": "Shop Now"
+            "link": "",
+            "cta_text": "Shop Women"
           }
         },
-        "category_shorts": {
+        "category_sale": {
           "type": "category",
           "settings": {
-            "title": "Shorts",
-            "collection": "shorts",
-            "link": "",
-            "cta_text": "Shop Now"
-          }
-        },
-        "category_hoodies": {
-          "type": "category",
-          "settings": {
-            "title": "All Products",
-            "collection": "all-products",
-            "link": "",
-            "cta_text": "Shop Now"
-          }
-        },
-        "category_jackets": {
-          "type": "category",
-          "settings": {
-            "title": "Best Selling",
-            "collection": "✨-best-selling-collection-✨",
-            "link": "",
-            "cta_text": "Shop Now"
+            "image": "shopify://shop_images/updated-banner.webp",
+            "title": "Sale",
+            "collection": "sale",
+            "link": "/collections/sale",
+            "cta_text": "Shop Sale"
           }
         }
       },
       "block_order": [
-        "category_shirts",
-        "category_trousers",
-        "category_womens",
-        "category_shorts",
-        "category_hoodies",
-        "category_jackets"
+        "category_men",
+        "category_women",
+        "category_sale"
       ],
       "settings": {
-        "heading": "Shop by Category",
-        "subheading": "Explore performance essentials by category.",
+        "heading": "Shop Your Way",
+        "subheading": "Start with men's, women's, or current sale styles.",
         "color_scheme": "scheme-4",
         "image_radius": 8,
+        "desktop_card_ratio": "4 / 3",
+        "mobile_card_ratio": "4 / 5",
         "padding_top": 56,
         "padding_bottom": 56
       }
@@ -246,7 +221,7 @@
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "✨-best-selling-collection-✨",
-        "products_to_show": 10,
+        "products_to_show": 8,
         "wa_eyebrow": "BEST SELLERS",
         "title": "Best Selling",
         "heading_size": "h1",
@@ -276,11 +251,11 @@
   },
   "order": [
     "slideshow_LtamGJ",
+    "wa_shop_by_category",
+    "wa_performance_features",
+    "featured_collection_NMabDU",
     "featured_collection",
     "featured_collection_T6zxV3",
-    "featured_collection_W4PKft",
-    "wa_performance_features",
-    "wa_shop_by_category",
-    "featured_collection_NMabDU"
+    "featured_collection_W4PKft"
   ]
 }

@@ -138,6 +138,22 @@
   }
 }
 
+/* Keep the promotional route visible without turning the full header into a sale banner. */
+.wa-header .wa-header__menu-item--sale,
+.menu-drawer .wa-header__menu-item--sale {
+  color: #b42318;
+  font-weight: var(--wa-weight-semibold);
+}
+
+.wa-header .wa-header__menu-item--sale span {
+  color: inherit;
+}
+
+.wa-header .wa-header__menu-item--sale:hover,
+.wa-header .wa-header__menu-item--sale:focus-visible {
+  color: #d92d20;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .wa-header .header__menu-item,
   .wa-header .header__icon {

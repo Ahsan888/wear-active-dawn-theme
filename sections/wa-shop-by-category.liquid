@@ -21,6 +21,16 @@
   #WaShopByCategory-{{ section.id }} .wa-shop-by-category__card {
     border-radius: {{ section.settings.image_radius }}px;
   }
+
+  #WaShopByCategory-{{ section.id }} .wa-shop-by-category__media {
+    aspect-ratio: {{ section.settings.mobile_card_ratio }};
+  }
+
+  @media screen and (min-width: 750px) {
+    #WaShopByCategory-{{ section.id }} .wa-shop-by-category__media {
+      aspect-ratio: {{ section.settings.desktop_card_ratio }};
+    }
+  }
 {%- endstyle -%}
 
 <section
@@ -173,6 +183,50 @@
       "unit": "px",
       "label": "Card corner radius",
       "default": 8
+    },
+    {
+      "type": "select",
+      "id": "desktop_card_ratio",
+      "label": "Desktop card shape",
+      "options": [
+        {
+          "value": "16 / 9",
+          "label": "Wide (16:9)"
+        },
+        {
+          "value": "4 / 3",
+          "label": "Landscape (4:3)"
+        },
+        {
+          "value": "1 / 1",
+          "label": "Square (1:1)"
+        },
+        {
+          "value": "4 / 5",
+          "label": "Portrait (4:5)"
+        }
+      ],
+      "default": "4 / 3"
+    },
+    {
+      "type": "select",
+      "id": "mobile_card_ratio",
+      "label": "Mobile card shape",
+      "options": [
+        {
+          "value": "4 / 3",
+          "label": "Landscape (4:3)"
+        },
+        {
+          "value": "1 / 1",
+          "label": "Square (1:1)"
+        },
+        {
+          "value": "4 / 5",
+          "label": "Portrait (4:5)"
+        }
+      ],
+      "default": "4 / 5"
     },
     {
       "type": "header",
