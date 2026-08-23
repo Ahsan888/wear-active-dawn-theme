@@ -85,6 +85,11 @@
     transition: color 0.2s ease, opacity 0.2s ease;
   }
 
+  /* Reserve space for the absolutely positioned caret on nested menu headings. */
+  .wa-header summary.header__menu-item {
+    padding-right: 2.7rem;
+  }
+
   .wa-header .header__menu-item span {
     display: inline-block;
   }
