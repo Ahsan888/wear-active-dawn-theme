@@ -46,6 +46,194 @@
         "accessibility_info": ""
       }
     },
+    "wa_shop_by_category": {
+      "type": "wa-shop-by-category",
+      "blocks": {
+        "category_men": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Shirt.webp",
+            "title": "Men",
+            "collection": "men",
+            "link": "/collections/men",
+            "cta_text": "Shop Men"
+          }
+        },
+        "category_women": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Women.webp",
+            "title": "Women",
+            "collection": "women-s-performance-collection",
+            "link": "",
+            "cta_text": "Shop Women"
+          }
+        },
+        "category_sale": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/All.webp",
+            "title": "Sale",
+            "collection": "sale",
+            "link": "/collections/sale",
+            "cta_text": "Shop Sale"
+          }
+        }
+      },
+      "block_order": [
+        "category_men",
+        "category_women",
+        "category_sale"
+      ],
+      "settings": {
+        "eyebrow": "MEN · WOMEN · SALE",
+        "heading": "Shop Your Way",
+        "subheading": "Choose your collection and get straight to the pieces made for the way you move.",
+        "layout_style": "editorial",
+        "color_scheme": "scheme-1",
+        "image_radius": 0,
+        "desktop_card_ratio": "4 / 3",
+        "mobile_card_ratio": "4 / 5",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "wa_performance_features": {
+      "type": "wa-performance-features",
+      "settings": {
+        "background_image": "shopify://shop_images/updated-banner.webp",
+        "heading": "BUILT FOR\nEVERY REP.\nDESIGNED FOR\nEVERY DAY.",
+        "subheading": "Premium activewear engineered for movement, training and everyday performance.",
+        "cta_text": "Shop Collection →",
+        "cta_link": "/collections/all",
+        "overlay_opacity": 45,
+        "padding_top": 120,
+        "padding_bottom": 120,
+        "enable_feature_1": true,
+        "feature_1_title": "Moisture-Wicking",
+        "feature_1_description": "Keeps you dry during training and daily movement.",
+        "enable_feature_2": true,
+        "feature_2_title": "4-Way Stretch",
+        "feature_2_description": "Moves naturally with your body without restriction.",
+        "enable_feature_3": true,
+        "feature_3_title": "Breathable Fabric",
+        "feature_3_description": "Designed to maximize airflow and lasting comfort.",
+        "enable_feature_4": true,
+        "feature_4_title": "Everyday Comfort",
+        "feature_4_description": "Made for the gym, work, travel, and everything in between."
+      }
+    },
+    "featured_collection_NMabDU": {
+      "type": "featured-collection",
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "collection": "✨-best-selling-collection-✨",
+        "products_to_show": 8,
+        "wa_eyebrow": "BEST SELLERS",
+        "title": "Best Selling",
+        "heading_size": "h1",
+        "wa_subtitle": "The pieces customers reach for first.",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 5,
+        "enable_desktop_slider": true,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "scheme-3",
+        "wa_background": "evergreen",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 12,
+        "padding_bottom": 12
+      }
+    },
+    "wa_shop_by_product_category": {
+      "type": "wa-shop-by-category",
+      "blocks": {
+        "category_shirts": {
+          "type": "category",
+          "settings": {
+            "title": "Shirts",
+            "collection": "shirts",
+            "link": "",
+            "cta_text": "Shop Shirts"
+          }
+        },
+        "category_trousers": {
+          "type": "category",
+          "settings": {
+            "title": "Trousers",
+            "collection": "trousers",
+            "link": "",
+            "cta_text": "Shop Trousers"
+          }
+        },
+        "category_womens": {
+          "type": "category",
+          "settings": {
+            "title": "Women's",
+            "collection": "women-s-performance-collection",
+            "link": "",
+            "cta_text": "Shop Women's"
+          }
+        },
+        "category_shorts": {
+          "type": "category",
+          "settings": {
+            "title": "Shorts",
+            "collection": "shorts",
+            "link": "",
+            "cta_text": "Shop Shorts"
+          }
+        },
+        "category_all": {
+          "type": "category",
+          "settings": {
+            "title": "All Products",
+            "collection": "all-products",
+            "link": "",
+            "cta_text": "Shop All"
+          }
+        },
+        "category_best_selling": {
+          "type": "category",
+          "settings": {
+            "title": "Best Selling",
+            "collection": "✨-best-selling-collection-✨",
+            "link": "",
+            "cta_text": "Shop Best Sellers"
+          }
+        }
+      },
+      "block_order": [
+        "category_shirts",
+        "category_trousers",
+        "category_womens",
+        "category_shorts",
+        "category_all",
+        "category_best_selling"
+      ],
+      "settings": {
+        "eyebrow": "THE COLLECTION",
+        "heading": "Shop by Category",
+        "subheading": "Browse performance essentials by product type.",
+        "layout_style": "compact",
+        "color_scheme": "scheme-1",
+        "image_radius": 0,
+        "desktop_card_ratio": "4 / 5",
+        "mobile_card_ratio": "4 / 5",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -132,194 +320,6 @@
         "image_ratio": "portrait",
         "image_shape": "default",
         "show_secondary_image": false,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "swipe_on_mobile": true,
-        "padding_top": 12,
-        "padding_bottom": 12
-      }
-    },
-    "wa_performance_features": {
-      "type": "wa-performance-features",
-      "settings": {
-        "background_image": "shopify://shop_images/updated-banner.webp",
-        "heading": "BUILT FOR\nEVERY REP.\nDESIGNED FOR\nEVERY DAY.",
-        "subheading": "Premium activewear engineered for movement, training and everyday performance.",
-        "cta_text": "Shop Collection →",
-        "cta_link": "/collections/all",
-        "overlay_opacity": 45,
-        "padding_top": 120,
-        "padding_bottom": 120,
-        "enable_feature_1": true,
-        "feature_1_title": "Moisture-Wicking",
-        "feature_1_description": "Keeps you dry during training and daily movement.",
-        "enable_feature_2": true,
-        "feature_2_title": "4-Way Stretch",
-        "feature_2_description": "Moves naturally with your body without restriction.",
-        "enable_feature_3": true,
-        "feature_3_title": "Breathable Fabric",
-        "feature_3_description": "Designed to maximize airflow and lasting comfort.",
-        "enable_feature_4": true,
-        "feature_4_title": "Everyday Comfort",
-        "feature_4_description": "Made for the gym, work, travel, and everything in between."
-      }
-    },
-    "wa_shop_by_category": {
-      "type": "wa-shop-by-category",
-      "blocks": {
-        "category_men": {
-          "type": "category",
-          "settings": {
-            "image": "shopify://shop_images/Banner2.webp",
-            "title": "Men",
-            "collection": "men",
-            "link": "/collections/men",
-            "cta_text": "Shop Men"
-          }
-        },
-        "category_women": {
-          "type": "category",
-          "settings": {
-            "image": "shopify://shop_images/Banner3.webp",
-            "title": "Women",
-            "collection": "women-s-performance-collection",
-            "link": "",
-            "cta_text": "Shop Women"
-          }
-        },
-        "category_sale": {
-          "type": "category",
-          "settings": {
-            "image": "shopify://shop_images/updated-banner.webp",
-            "title": "Sale",
-            "collection": "sale",
-            "link": "/collections/sale",
-            "cta_text": "Shop Sale"
-          }
-        }
-      },
-      "block_order": [
-        "category_men",
-        "category_women",
-        "category_sale"
-      ],
-      "settings": {
-        "eyebrow": "MEN · WOMEN · SALE",
-        "heading": "Shop Your Way",
-        "subheading": "Choose your collection and get straight to the pieces made for the way you move.",
-        "layout_style": "editorial",
-        "color_scheme": "scheme-1",
-        "image_radius": 0,
-        "desktop_card_ratio": "4 / 3",
-        "mobile_card_ratio": "4 / 5",
-        "padding_top": 56,
-        "padding_bottom": 56
-      }
-    },
-    "wa_shop_by_product_category": {
-      "type": "wa-shop-by-category",
-      "blocks": {
-        "category_shirts": {
-          "type": "category",
-          "settings": {
-            "title": "Shirts",
-            "collection": "shirts",
-            "link": "",
-            "cta_text": "Shop Shirts"
-          }
-        },
-        "category_trousers": {
-          "type": "category",
-          "settings": {
-            "title": "Trousers",
-            "collection": "trousers",
-            "link": "",
-            "cta_text": "Shop Trousers"
-          }
-        },
-        "category_womens": {
-          "type": "category",
-          "settings": {
-            "title": "Women's",
-            "collection": "women-s-performance-collection",
-            "link": "",
-            "cta_text": "Shop Women's"
-          }
-        },
-        "category_shorts": {
-          "type": "category",
-          "settings": {
-            "title": "Shorts",
-            "collection": "shorts",
-            "link": "",
-            "cta_text": "Shop Shorts"
-          }
-        },
-        "category_all": {
-          "type": "category",
-          "settings": {
-            "title": "All Products",
-            "collection": "all-products",
-            "link": "",
-            "cta_text": "Shop All"
-          }
-        },
-        "category_best_selling": {
-          "type": "category",
-          "settings": {
-            "title": "Best Selling",
-            "collection": "✨-best-selling-collection-✨",
-            "link": "",
-            "cta_text": "Shop Best Sellers"
-          }
-        }
-      },
-      "block_order": [
-        "category_shirts",
-        "category_trousers",
-        "category_womens",
-        "category_shorts",
-        "category_all",
-        "category_best_selling"
-      ],
-      "settings": {
-        "eyebrow": "THE COLLECTION",
-        "heading": "Shop by Category",
-        "subheading": "Browse performance essentials by product type.",
-        "layout_style": "compact",
-        "color_scheme": "scheme-1",
-        "image_radius": 0,
-        "desktop_card_ratio": "4 / 5",
-        "mobile_card_ratio": "4 / 5",
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
-    "featured_collection_NMabDU": {
-      "type": "featured-collection",
-      "name": "t:sections.featured-collection.presets.name",
-      "settings": {
-        "collection": "✨-best-selling-collection-✨",
-        "products_to_show": 8,
-        "wa_eyebrow": "BEST SELLERS",
-        "title": "Best Selling",
-        "heading_size": "h1",
-        "wa_subtitle": "The pieces customers reach for first.",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "columns_desktop": 5,
-        "enable_desktop_slider": true,
-        "full_width": true,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "color_scheme": "scheme-3",
-        "wa_background": "evergreen",
-        "image_ratio": "portrait",
-        "image_shape": "default",
-        "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
         "quick_add": "none",
