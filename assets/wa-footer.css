@@ -38,6 +38,27 @@
   margin: 0;
 }
 
+.wa-footer .wa-footer__contact {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 1.6rem;
+  color: rgba(var(--color-foreground), 0.62);
+  font-size: var(--wa-text-xs);
+  line-height: var(--wa-leading-normal);
+}
+
+.wa-footer .wa-footer__contact a {
+  color: rgba(var(--color-foreground), 0.82);
+  text-decoration: none;
+}
+
+.wa-footer .wa-footer__contact a:hover,
+.wa-footer .wa-footer__contact a:focus-visible {
+  color: rgb(var(--color-foreground));
+  text-decoration: underline;
+  text-underline-offset: 0.35rem;
+}
+
 .wa-footer .footer-block__brand-info .footer-block__image-wrapper,
 .wa-footer .wa-footer__logo {
   margin-bottom: 1.6rem;
@@ -120,6 +141,21 @@
   border-top: 0.1rem solid rgba(var(--color-foreground), 0.12);
   padding-top: 2rem;
   margin-top: 0.4rem;
+}
+
+.wa-footer .footer__payment {
+  text-align: center;
+}
+
+.wa-footer .wa-footer__payment-note {
+  margin: 0 0 0.8rem;
+  color: rgba(var(--color-foreground), 0.66);
+  font-size: var(--wa-text-xs);
+  letter-spacing: var(--wa-tracking-wide);
+}
+
+.wa-footer .list-payment {
+  justify-content: center;
 }
 
 .wa-footer .footer__copyright {

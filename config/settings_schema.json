@@ -1400,6 +1400,84 @@
     ]
   },
   {
+    "name": "Wear Active service details",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Customer support"
+      },
+      {
+        "type": "text",
+        "id": "wa_whatsapp_number",
+        "label": "WhatsApp number",
+        "default": "+923140877221",
+        "info": "Include the country code."
+      },
+      {
+        "type": "text",
+        "id": "wa_support_email",
+        "label": "Support email",
+        "default": "info@wearactive.pk"
+      },
+      {
+        "type": "text",
+        "id": "wa_support_hours",
+        "label": "Support hours",
+        "default": "12 PM–8 PM, Monday–Saturday"
+      },
+      {
+        "type": "text",
+        "id": "wa_support_reply_time",
+        "label": "Typical reply time",
+        "default": "Usually replies within 30 minutes"
+      },
+      {
+        "type": "header",
+        "content": "Delivery and exchange"
+      },
+      {
+        "type": "text",
+        "id": "wa_delivery_window",
+        "label": "Delivery window",
+        "default": "2–5 working days"
+      },
+      {
+        "type": "text",
+        "id": "wa_couriers",
+        "label": "Courier partners",
+        "default": "Leopards and Trax"
+      },
+      {
+        "type": "text",
+        "id": "wa_exchange_window",
+        "label": "Size exchange window",
+        "default": "7 days"
+      },
+      {
+        "type": "text",
+        "id": "wa_exchange_fee",
+        "label": "Size exchange fee",
+        "default": "Rs. 300"
+      },
+      {
+        "type": "header",
+        "content": "Payments"
+      },
+      {
+        "type": "text",
+        "id": "wa_payment_methods",
+        "label": "Accepted payment methods",
+        "default": "Cash on Delivery, Bank Transfer and JazzCash"
+      },
+      {
+        "type": "checkbox",
+        "id": "wa_cod_confirmation",
+        "label": "Cash on Delivery requires WhatsApp confirmation",
+        "default": true
+      }
+    ]
+  },
+  {
     "name": "t:settings_schema.cart.name",
     "settings": [
       {

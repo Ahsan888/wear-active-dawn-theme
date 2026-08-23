@@ -252,6 +252,17 @@
   color: rgba(var(--color-foreground), 0.9);
 }
 
+.wa-product-trust__proof-link {
+  text-decoration: none;
+}
+
+.wa-product-trust__proof-link:hover,
+.wa-product-trust__proof-link:focus-visible {
+  color: var(--wa-color-evergreen);
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
 .wa-product-trust__proof-item > span:last-child {
   display: block;
   width: 100%;

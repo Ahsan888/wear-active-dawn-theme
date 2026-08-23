@@ -1,0 +1,83 @@
+{% comment %}
+  Wear Active custom code start — wa-trust-strip.liquid
+  Compact, factual reassurance immediately after the homepage hero.
+{% endcomment %}
+
+<section class="wa-trust-strip" aria-label="Wear Active service promises">
+  <div class="page-width">
+    <ul class="wa-trust-strip__grid" role="list">
+      {%- for block in section.blocks -%}
+        <li class="wa-trust-strip__item" {{ block.shopify_attributes }}>
+          <span class="wa-trust-strip__title">{{ block.settings.title | escape }}</span>
+          {%- if block.settings.text != blank -%}
+            <span class="wa-trust-strip__text">{{ block.settings.text | escape }}</span>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "WA trust strip",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Trust item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Free Delivery"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Supporting text",
+          "default": "Across Pakistan"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "WA trust strip",
+      "blocks": [
+        {
+          "type": "trust_item",
+          "settings": {
+            "title": "Free Delivery",
+            "text": "Across Pakistan"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "title": "2–5 Working Days",
+            "text": "Tracking shared on WhatsApp"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "title": "7-Day Size Exchange",
+            "text": "Discounted products included"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "title": "Flexible Payment",
+            "text": "COD · Bank Transfer · JazzCash"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

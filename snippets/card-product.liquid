@@ -4,7 +4,7 @@
   Accepts:
   - card_product: {Object} Product Liquid object (optional)
   - card_collection: {Object} Collection object for contextual card image selection (optional)
-  - media_aspect_ratio: {String} Size of the product image card. Values are "square" and "portrait". Default is "square" (optional)
+  - media_aspect_ratio: {String} Size of the product image card. Values include "square", "portrait", and "wa-tall". Default is "square" (optional)
   - image_shape: {String} Image mask to apply to the product image card. Values are "arch", "blob", "chevronleft", "chevronright", "diamond", "parallelogram", and "round". (optional)
   - show_secondary_image: {Boolean} Show the secondary image on hover. Default: false (optional)
   - show_vendor: {Boolean} Show the product vendor. Default: false
@@ -55,6 +55,8 @@
     assign ratio = 1
     if wa_card_has_media and media_aspect_ratio == 'portrait'
       assign ratio = 0.8
+    elsif wa_card_has_media and media_aspect_ratio == 'wa-tall'
+      assign ratio = 0.6666667
     elsif wa_card_has_media and media_aspect_ratio == 'adapt'
       assign ratio = wa_card_primary_image.aspect_ratio
     endif
@@ -592,6 +594,8 @@
     assign placeholder = true
     if media_aspect_ratio == 'portrait'
       assign ratio = 0.8
+    elsif media_aspect_ratio == 'wa-tall'
+      assign ratio = 0.6666667
     endif
   -%}
   <div class="card-wrapper product-card-wrapper underline-links-hover">

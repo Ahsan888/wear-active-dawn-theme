@@ -23,6 +23,10 @@
           "type": "title",
           "settings": {}
         },
+        "judge_me_reviews_preview_badge_w9bfBF": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
         "price": {
           "type": "price",
           "settings": {}
@@ -69,14 +73,10 @@
           "type": "wa_trust_block",
           "settings": {
             "enable": true,
-            "item_1": "Free Delivery",
-            
-            "item_2": "Easy Size Exchange",
-            
-            "item_3": "Premium Fabric",
-            
-            "item_4": "Secure Checkout"
-            
+            "item_1": "Free Delivery Across Pakistan",
+            "item_2": "7-Day Size Exchange",
+            "item_3": "COD · Bank · JazzCash",
+            "item_4": "Secure Shopify Checkout"
           }
         },
         "wa_product_info": {
@@ -84,8 +84,12 @@
           "settings": {
             "enable": true,
             "description_heading": "Description",
-            "exchange_heading": "Exchange & Return Policy",
-            "exchange_policy": "Size exchanges are available within 7 days of delivery if the item is unused, unwashed, and in its original condition with tags attached. Customers are responsible for return shipping unless the item received is incorrect or defective. Sale or clearance items may not be eligible for exchange unless faulty.",
+            "exchange_heading": "Size Exchange Policy",
+            "exchange_policy": "Size exchanges are available within 7 days of delivery, including discounted products. Items must be unused, unwashed, and have their original tags attached. A fixed Rs. 300 exchange delivery fee applies. If the item received is incorrect or defective, Wear Active covers the delivery charges.",
+            "shipping_heading": "Shipping & Tracking",
+            "shipping_information": "Free delivery is available across Pakistan. Orders are delivered within 2–5 working days through Leopards or Trax, and tracking details are shared on WhatsApp.",
+            "payment_heading": "Payment Options",
+            "payment_information": "Pay using Cash on Delivery, Bank Transfer, or JazzCash. Cash on Delivery orders are confirmed through WhatsApp before dispatch.",
             "care_heading": "Care Instructions",
             "care_instructions": "Machine wash cold with similar colors. Do not bleach. Do not tumble dry on high heat. Iron on low if needed. Do not dry clean."
           }
@@ -95,15 +99,12 @@
           "settings": {
             "share_label": "Share"
           }
-        },
-        "judge_me_reviews_preview_badge_w9bfBF": {
-          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {}
         }
       },
       "block_order": [
         "vendor",
         "title",
+        "judge_me_reviews_preview_badge_w9bfBF",
         "price",
         "variant_picker",
         "wa_bundle_save",
@@ -111,8 +112,7 @@
         "buy_buttons",
         "wa_trust_block",
         "wa_product_info",
-        "share",
-        "judge_me_reviews_preview_badge_w9bfBF"
+        "share"
       ],
       "settings": {
         "enable_sticky_info": true,
@@ -154,7 +154,6 @@
         "judge_me_reviews_review_widget_tWqHV7": {
           "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "settings": {
-            "review_data": "sample_data",
             "max_width": 1200,
             "show_shop_reviews": false,
             "empty_state": "empty_widget"
@@ -171,7 +170,7 @@
   },
   "order": [
     "main",
-    "related-products",
-    "17814682545f14b709"
+    "17814682545f14b709",
+    "related-products"
   ]
 }
