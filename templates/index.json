@@ -206,14 +206,95 @@
         "category_sale"
       ],
       "settings": {
+        "eyebrow": "MEN · WOMEN · SALE",
         "heading": "Shop Your Way",
-        "subheading": "Start with men's, women's, or current sale styles.",
-        "color_scheme": "scheme-4",
+        "subheading": "Choose your collection and get straight to the pieces made for the way you move.",
+        "layout_style": "editorial",
+        "color_scheme": "scheme-1",
         "image_radius": 8,
         "desktop_card_ratio": "4 / 3",
         "mobile_card_ratio": "4 / 5",
         "padding_top": 56,
         "padding_bottom": 56
+      }
+    },
+    "wa_shop_by_product_category": {
+      "type": "wa-shop-by-category",
+      "blocks": {
+        "category_shirts": {
+          "type": "category",
+          "settings": {
+            "title": "Shirts",
+            "collection": "shirts",
+            "link": "",
+            "cta_text": "Shop Shirts"
+          }
+        },
+        "category_trousers": {
+          "type": "category",
+          "settings": {
+            "title": "Trousers",
+            "collection": "trousers",
+            "link": "",
+            "cta_text": "Shop Trousers"
+          }
+        },
+        "category_womens": {
+          "type": "category",
+          "settings": {
+            "title": "Women's",
+            "collection": "women-s-performance-collection",
+            "link": "",
+            "cta_text": "Shop Women's"
+          }
+        },
+        "category_shorts": {
+          "type": "category",
+          "settings": {
+            "title": "Shorts",
+            "collection": "shorts",
+            "link": "",
+            "cta_text": "Shop Shorts"
+          }
+        },
+        "category_all": {
+          "type": "category",
+          "settings": {
+            "title": "All Products",
+            "collection": "all-products",
+            "link": "",
+            "cta_text": "Shop All"
+          }
+        },
+        "category_best_selling": {
+          "type": "category",
+          "settings": {
+            "title": "Best Selling",
+            "collection": "✨-best-selling-collection-✨",
+            "link": "",
+            "cta_text": "Shop Best Sellers"
+          }
+        }
+      },
+      "block_order": [
+        "category_shirts",
+        "category_trousers",
+        "category_womens",
+        "category_shorts",
+        "category_all",
+        "category_best_selling"
+      ],
+      "settings": {
+        "eyebrow": "THE COLLECTION",
+        "heading": "Shop by Category",
+        "subheading": "Browse performance essentials by product type.",
+        "layout_style": "compact",
+        "color_scheme": "scheme-1",
+        "image_radius": 6,
+        "desktop_card_ratio": "4 / 5",
+        "mobile_card_ratio": "4 / 5",
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
     "featured_collection_NMabDU": {
@@ -254,6 +335,7 @@
     "wa_shop_by_category",
     "wa_performance_features",
     "featured_collection_NMabDU",
+    "wa_shop_by_product_category",
     "featured_collection",
     "featured_collection_T6zxV3",
     "featured_collection_W4PKft"

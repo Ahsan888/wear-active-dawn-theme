@@ -35,16 +35,21 @@
 
 <section
   id="WaShopByCategory-{{ section.id }}"
-  class="wa-shop-by-category color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+  class="wa-shop-by-category wa-shop-by-category--{{ section.settings.layout_style }} color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
 >
   <div class="wa-shop-by-category__inner">
-    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
       <header class="wa-shop-by-category__header">
-        {%- if section.settings.heading != blank -%}
-          <h2 class="wa-shop-by-category__heading">
-            {{ section.settings.heading | escape }}
-          </h2>
-        {%- endif -%}
+        <div class="wa-shop-by-category__heading-group">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="wa-shop-by-category__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+          {%- endif -%}
+          {%- if section.settings.heading != blank -%}
+            <h2 class="wa-shop-by-category__heading">
+              {{ section.settings.heading | escape }}
+            </h2>
+          {%- endif -%}
+        </div>
         {%- if section.settings.subheading != blank -%}
           <p class="wa-shop-by-category__subheading">
             {{ section.settings.subheading | escape }}
@@ -81,7 +86,7 @@
             assign wa_card_label = wa_category_title | append: ' — ' | append: wa_category_cta
 
             assign wa_lazy_load = true
-            if forloop.index <= 3
+            if section.settings.layout_style == 'editorial' and forloop.index <= 3
               assign wa_lazy_load = false
             endif
 
@@ -159,6 +164,11 @@
   "settings": [
     {
       "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "text",
       "id": "heading",
       "label": "Heading",
       "default": "Shop by Category"
@@ -167,6 +177,22 @@
       "type": "text",
       "id": "subheading",
       "label": "Subheading"
+    },
+    {
+      "type": "select",
+      "id": "layout_style",
+      "label": "Layout style",
+      "options": [
+        {
+          "value": "editorial",
+          "label": "Editorial"
+        },
+        {
+          "value": "compact",
+          "label": "Compact category grid"
+        }
+      ],
+      "default": "editorial"
     },
     {
       "type": "color_scheme",
