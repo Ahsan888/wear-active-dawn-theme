@@ -665,6 +665,19 @@ wa-modal.wa-modal--closing .wa-modal__dialog {
   line-height: var(--wa-leading-snug);
 }
 
+/* Keep sale pricing consistent instead of relying on card-width text wrapping. */
+.wa-product-card .price--on-sale .price__sale {
+  display: block;
+}
+
+.wa-product-card .price--on-sale .price__sale > span:not(.visually-hidden) {
+  display: block;
+}
+
+.wa-product-card .price--on-sale .price__sale .price-item {
+  margin-right: 0;
+}
+
 .wa-product-card .wa-linked-colors--card {
   margin-top: 0.85rem;
   width: 100%;

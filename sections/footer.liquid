@@ -118,6 +118,18 @@
                       {%- if settings.brand_description != blank -%}
                         <div class="rte">{{ settings.brand_description }}</div>
                       {%- endif -%}
+                      {%- liquid
+                        assign wa_footer_whatsapp_digits = settings.wa_whatsapp_number | remove: '+' | remove: ' ' | remove: '-'
+                        assign wa_footer_whatsapp_message = 'Hi Wear Active, I need help.' | url_encode
+                      -%}
+                      <div class="wa-footer__contact">
+                        <a href="https://wa.me/{{ wa_footer_whatsapp_digits }}?text={{ wa_footer_whatsapp_message }}" target="_blank" rel="noopener">
+                          WhatsApp {{ settings.wa_whatsapp_number | escape }}
+                        </a>
+                        <a href="mailto:{{ settings.wa_support_email | escape }}">{{ settings.wa_support_email | escape }}</a>
+                        <span>{{ settings.wa_support_hours | escape }}</span>
+                        <span>{{ settings.wa_support_reply_time | escape }}</span>
+                      </div>
                       {%- if block.settings.show_social and has_social_icons -%}
                         {%- render 'social-icons', class: 'footer__list-social' -%}
                       {%- endif -%}
@@ -278,6 +290,7 @@
       <div class="footer__column footer__column--info">
         {%- if section.settings.payment_enable -%}
           <div class="footer__payment">
+            <p class="wa-footer__payment-note">{{ settings.wa_payment_methods | escape }}</p>
             <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
             <ul class="list list-payment" role="list">
               {%- for type in shop.enabled_payment_types -%}

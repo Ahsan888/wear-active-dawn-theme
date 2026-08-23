@@ -41,47 +41,82 @@
     assign wa_footer_exchange_url = '/policies/refund-policy'
   endif
 
-  assign wa_footer_privacy_url = blank
-  for policy in shop.policies
-    if policy.handle == 'privacy-policy'
-      assign wa_footer_privacy_url = policy.url
-      break
-    endif
-  endfor
-  if wa_footer_privacy_url == blank
-    assign wa_footer_privacy_url = '/policies/privacy-policy'
+  assign wa_footer_shipping_url = blank
+  if pages['shipping-delivery'] != blank
+    assign wa_footer_shipping_url = pages['shipping-delivery'].url
+  elsif pages.shipping != blank
+    assign wa_footer_shipping_url = pages.shipping.url
+  elsif shop.shipping_policy.body != blank
+    assign wa_footer_shipping_url = shop.shipping_policy.url
+  endif
+  if wa_footer_shipping_url == blank
+    assign wa_footer_shipping_url = '/policies/shipping-policy'
   endif
 
-  assign wa_footer_shirts_url = routes.collections_url | append: '/shirts'
-  if collections.shirts != blank
-    assign wa_footer_shirts_url = collections.shirts.url
-  elsif collections['shirts'] != blank
-    assign wa_footer_shirts_url = collections['shirts'].url
+  assign wa_footer_whatsapp_digits = settings.wa_whatsapp_number | remove: '+' | remove: ' ' | remove: '-'
+  assign wa_footer_support_message = 'Hi Wear Active, I need help.' | url_encode
+  assign wa_footer_tracking_message = 'Hi Wear Active, I need help tracking my order.' | url_encode
+  assign wa_footer_whatsapp_url = 'https://wa.me/' | append: wa_footer_whatsapp_digits | append: '?text=' | append: wa_footer_support_message
+  assign wa_footer_tracking_url = 'https://wa.me/' | append: wa_footer_whatsapp_digits | append: '?text=' | append: wa_footer_tracking_message
+
+  assign wa_footer_men_url = routes.collections_url | append: '/men'
+  if collections.men != blank
+    assign wa_footer_men_url = collections.men.url
   endif
 
-  assign wa_footer_trousers_url = routes.collections_url | append: '/trousers'
-  if collections.trousers != blank
-    assign wa_footer_trousers_url = collections.trousers.url
-  elsif collections['trousers'] != blank
-    assign wa_footer_trousers_url = collections['trousers'].url
+  assign wa_footer_women_url = routes.collections_url | append: '/women'
+  if collections.women != blank
+    assign wa_footer_women_url = collections.women.url
+  elsif collections['women-s-performance-collection'] != blank
+    assign wa_footer_women_url = collections['women-s-performance-collection'].url
+  endif
+
+  assign wa_footer_sale_url = routes.collections_url | append: '/sale'
+  if collections.sale != blank
+    assign wa_footer_sale_url = collections.sale.url
+  endif
+
+  assign wa_footer_best_url = routes.collections_url | append: '/all'
+  if collections['✨-best-selling-collection-✨'] != blank
+    assign wa_footer_best_url = collections['✨-best-selling-collection-✨'].url
   endif
 -%}
 
 <ul class="footer-block__details-content list-unstyled wa-footer__menu-links">
   {%- if menu_group == 'support' -%}
     <li>
+      <a
+        href="{{ wa_footer_whatsapp_url }}"
+        class="link link--text list-menu__item list-menu__item--link"
+        target="_blank"
+        rel="noopener"
+      >
+        WhatsApp Support
+      </a>
+    </li>
+    <li>
       <a href="{{ wa_footer_contact_url }}" class="link link--text list-menu__item list-menu__item--link">
         Contact &amp; Help
       </a>
     </li>
     <li>
-      <a href="{{ wa_footer_privacy_url }}" class="link link--text list-menu__item list-menu__item--link">
-        Privacy Policy
+      <a href="{{ wa_footer_shipping_url }}" class="link link--text list-menu__item list-menu__item--link">
+        Shipping &amp; Delivery
       </a>
     </li>
     <li>
       <a href="{{ wa_footer_exchange_url }}" class="link link--text list-menu__item list-menu__item--link">
-        Exchange &amp; Return Policy
+        Size Exchange Policy
+      </a>
+    </li>
+    <li>
+      <a
+        href="{{ wa_footer_tracking_url }}"
+        class="link link--text list-menu__item list-menu__item--link"
+        target="_blank"
+        rel="noopener"
+      >
+        Track Your Order
       </a>
     </li>
   {%- elsif menu_group == 'about' -%}
@@ -91,13 +126,23 @@
       </a>
     </li>
     <li>
-      <a href="{{ wa_footer_shirts_url }}" class="link link--text list-menu__item list-menu__item--link">
-        Shirts
+      <a href="{{ wa_footer_men_url }}" class="link link--text list-menu__item list-menu__item--link">
+        Men
       </a>
     </li>
     <li>
-      <a href="{{ wa_footer_trousers_url }}" class="link link--text list-menu__item list-menu__item--link">
-        Trousers
+      <a href="{{ wa_footer_women_url }}" class="link link--text list-menu__item list-menu__item--link">
+        Women
+      </a>
+    </li>
+    <li>
+      <a href="{{ wa_footer_sale_url }}" class="link link--text list-menu__item list-menu__item--link">
+        Sale
+      </a>
+    </li>
+    <li>
+      <a href="{{ wa_footer_best_url }}" class="link link--text list-menu__item list-menu__item--link">
+        Best Sellers
       </a>
     </li>
   {%- endif -%}

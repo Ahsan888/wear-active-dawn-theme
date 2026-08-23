@@ -1,0 +1,346 @@
+/* ==========================================================================
+   Wear Active custom code start — wa-trust.css
+   Shared, evidence-led customer reassurance components.
+   ========================================================================== */
+
+.wa-trust-strip {
+  background: var(--wa-color-coffee);
+  color: var(--wa-color-parchment);
+}
+
+.wa-trust-strip__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wa-trust-strip__item {
+  min-width: 0;
+  padding: 1.5rem 1rem;
+  text-align: center;
+}
+
+.wa-trust-strip__item:nth-child(2n) {
+  border-left: 0.1rem solid rgba(var(--wa-color-parchment-rgb), 0.18);
+}
+
+.wa-trust-strip__item:nth-child(n + 3) {
+  border-top: 0.1rem solid rgba(var(--wa-color-parchment-rgb), 0.18);
+}
+
+.wa-trust-strip__title,
+.wa-trust-strip__text {
+  display: block;
+}
+
+.wa-trust-strip__title {
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-bold);
+  letter-spacing: var(--wa-tracking-wider);
+  line-height: var(--wa-leading-snug);
+  text-transform: uppercase;
+}
+
+.wa-trust-strip__text {
+  margin-top: 0.35rem;
+  color: rgba(var(--wa-color-parchment-rgb), 0.72);
+  font-size: var(--wa-text-2xs);
+  line-height: var(--wa-leading-normal);
+}
+
+.wa-order-journey {
+  background: var(--wa-color-parchment);
+  color: var(--wa-color-evergreen);
+}
+
+.wa-order-journey__inner {
+  border-top: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.18);
+}
+
+.wa-order-journey__header {
+  display: grid;
+  gap: 1.2rem;
+  margin-bottom: 3.2rem;
+}
+
+.wa-order-journey__eyebrow {
+  margin: 0 0 0.8rem;
+  color: rgba(var(--wa-color-evergreen-rgb), 0.62);
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: var(--wa-tracking-widest);
+  text-transform: uppercase;
+}
+
+.wa-order-journey__heading {
+  margin: 0;
+  color: var(--wa-color-evergreen);
+  font-size: clamp(3.2rem, 5vw, 5.6rem);
+  font-weight: var(--wa-weight-extrabold);
+  letter-spacing: var(--wa-tracking-tight);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.wa-order-journey__intro {
+  max-width: 54rem;
+  margin: 0;
+  color: rgba(var(--wa-color-evergreen-rgb), 0.7);
+  font-size: var(--wa-text-base);
+  line-height: var(--wa-leading-relaxed);
+}
+
+.wa-order-journey__steps {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.18);
+}
+
+.wa-order-journey__step {
+  display: grid;
+  grid-template-columns: 4rem minmax(0, 1fr);
+  gap: 1.4rem;
+  padding: 2rem 0;
+  border-bottom: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.18);
+}
+
+.wa-order-journey__number {
+  color: var(--wa-color-coffee);
+  font-size: var(--wa-text-sm);
+  font-weight: var(--wa-weight-bold);
+  letter-spacing: var(--wa-tracking-widest);
+}
+
+.wa-order-journey__step-title {
+  margin: 0;
+  color: var(--wa-color-evergreen);
+  font-size: var(--wa-text-md);
+  font-weight: var(--wa-weight-bold);
+  line-height: var(--wa-leading-snug);
+}
+
+.wa-order-journey__step-text {
+  margin: 0.6rem 0 0;
+  color: rgba(var(--wa-color-evergreen-rgb), 0.66);
+  font-size: var(--wa-text-sm);
+  line-height: var(--wa-leading-relaxed);
+}
+
+.wa-order-journey__support {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.6rem;
+  margin-top: 2.4rem;
+  padding: 2rem;
+  background: var(--wa-color-evergreen);
+  color: var(--wa-color-parchment);
+}
+
+.wa-order-journey__support-copy {
+  margin: 0;
+  color: rgba(var(--wa-color-parchment-rgb), 0.78);
+  font-size: var(--wa-text-sm);
+  line-height: var(--wa-leading-normal);
+}
+
+.wa-order-journey__support-copy strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--wa-color-parchment);
+  font-size: var(--wa-text-base);
+}
+
+.wa-order-journey__support-link {
+  color: var(--wa-color-parchment);
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: var(--wa-tracking-wider);
+  text-decoration: underline;
+  text-underline-offset: 0.5rem;
+  text-transform: uppercase;
+}
+
+.wa-cart-assurance {
+  margin: 1.6rem 0;
+  padding: 1.6rem;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.14);
+  background: rgba(var(--color-foreground), 0.035);
+}
+
+.wa-cart-assurance__heading {
+  margin: 0 0 1.2rem;
+  font-size: var(--wa-text-sm);
+  font-weight: var(--wa-weight-bold);
+  letter-spacing: var(--wa-tracking-wider);
+  line-height: var(--wa-leading-snug);
+  text-transform: uppercase;
+}
+
+.wa-cart-assurance__list {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wa-cart-assurance__item {
+  position: relative;
+  margin: 0;
+  padding-left: 1.7rem;
+  color: rgba(var(--color-foreground), 0.74);
+  font-size: var(--wa-text-xs);
+  line-height: var(--wa-leading-normal);
+}
+
+.wa-cart-assurance__item::before {
+  content: '';
+  position: absolute;
+  top: 0.65em;
+  left: 0;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--wa-color-coffee);
+}
+
+.wa-cart-assurance__item strong {
+  color: rgb(var(--color-foreground));
+}
+
+.wa-cart-assurance__support {
+  display: inline-block;
+  margin-top: 1.2rem;
+  color: rgb(var(--color-foreground));
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: var(--wa-tracking-wide);
+  text-underline-offset: 0.35rem;
+  text-transform: uppercase;
+}
+
+.wa-contact-details {
+  background: var(--wa-color-evergreen);
+  color: var(--wa-color-parchment);
+}
+
+.wa-contact-details__header {
+  max-width: 65rem;
+  margin-bottom: 3rem;
+}
+
+.wa-contact-details__eyebrow {
+  margin: 0 0 0.8rem;
+  color: rgba(var(--wa-color-parchment-rgb), 0.62);
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: var(--wa-tracking-widest);
+  text-transform: uppercase;
+}
+
+.wa-contact-details__heading {
+  margin: 0;
+  color: var(--wa-color-parchment);
+  font-size: clamp(3rem, 5vw, 5.2rem);
+  font-weight: var(--wa-weight-extrabold);
+  letter-spacing: var(--wa-tracking-tight);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.wa-contact-details__grid {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.wa-contact-details__card {
+  padding: 2rem;
+  border: 0.1rem solid rgba(var(--wa-color-parchment-rgb), 0.18);
+}
+
+.wa-contact-details__label {
+  display: block;
+  margin-bottom: 0.7rem;
+  color: rgba(var(--wa-color-parchment-rgb), 0.56);
+  font-size: var(--wa-text-2xs);
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: var(--wa-tracking-widest);
+  text-transform: uppercase;
+}
+
+.wa-contact-details__value,
+.wa-contact-details__value a {
+  color: var(--wa-color-parchment);
+  font-size: var(--wa-text-base);
+  line-height: var(--wa-leading-normal);
+}
+
+.wa-contact-details__value a {
+  text-underline-offset: 0.35rem;
+}
+
+@media screen and (min-width: 750px) {
+  .wa-trust-strip__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .wa-trust-strip__item {
+    padding: 1.8rem 1.4rem;
+  }
+
+  .wa-trust-strip__item:nth-child(n + 3) {
+    border-top: 0;
+  }
+
+  .wa-trust-strip__item + .wa-trust-strip__item {
+    border-left: 0.1rem solid rgba(var(--wa-color-parchment-rgb), 0.18);
+  }
+
+  .wa-order-journey__header {
+    grid-template-columns: minmax(0, 1.15fr) minmax(28rem, 0.85fr);
+    align-items: end;
+    gap: 4rem;
+  }
+
+  .wa-order-journey__intro {
+    justify-self: end;
+  }
+
+  .wa-order-journey__steps {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .wa-order-journey__step {
+    display: block;
+    min-height: 18rem;
+    padding: 2.4rem;
+    border-right: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.18);
+  }
+
+  .wa-order-journey__step:first-child {
+    border-left: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.18);
+  }
+
+  .wa-order-journey__number {
+    display: block;
+    margin-bottom: 3.2rem;
+  }
+
+  .wa-contact-details__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-order-journey__support-link,
+  .wa-cart-assurance__support {
+    scroll-behavior: auto;
+  }
+}

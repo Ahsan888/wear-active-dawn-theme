@@ -1,0 +1,159 @@
+{% comment %}
+  Wear Active custom code start — wa-order-journey.liquid
+  Explains the real order, confirmation, dispatch and delivery process.
+{% endcomment %}
+
+{%- liquid
+  assign wa_whatsapp_digits = settings.wa_whatsapp_number | remove: '+' | remove: ' ' | remove: '-'
+  assign wa_whatsapp_message = 'Hi Wear Active, I need help with an order.' | url_encode
+-%}
+
+<section class="wa-order-journey">
+  <div
+    class="wa-order-journey__inner page-width"
+    style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;"
+  >
+    <div class="wa-order-journey__header">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="wa-order-journey__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        <h2 class="wa-order-journey__heading">{{ section.settings.heading | escape }}</h2>
+      </div>
+      {%- if section.settings.intro != blank -%}
+        <p class="wa-order-journey__intro">{{ section.settings.intro | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <ol class="wa-order-journey__steps">
+      {%- for block in section.blocks -%}
+        <li class="wa-order-journey__step" {{ block.shopify_attributes }}>
+          <span class="wa-order-journey__number">0{{ forloop.index }}</span>
+          <div>
+            <h3 class="wa-order-journey__step-title">{{ block.settings.title | escape }}</h3>
+            <p class="wa-order-journey__step-text">{{ block.settings.text | escape }}</p>
+          </div>
+        </li>
+      {%- endfor -%}
+    </ol>
+
+    <div class="wa-order-journey__support">
+      <p class="wa-order-journey__support-copy">
+        <strong>Need help with your order?</strong>
+        {{ settings.wa_support_hours | escape }} · {{ settings.wa_support_reply_time | escape }}
+      </p>
+      <a
+        class="wa-order-journey__support-link"
+        href="https://wa.me/{{ wa_whatsapp_digits }}?text={{ wa_whatsapp_message }}"
+        target="_blank"
+        rel="noopener"
+      >
+        Chat on WhatsApp →
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "WA order journey",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "WHAT HAPPENS NEXT"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "From checkout to your door"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Introduction",
+      "default": "Clear confirmation, tracked dispatch and support from a real person throughout your order."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 24,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 24,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Order step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Place your order"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Choose Cash on Delivery, Bank Transfer or JazzCash at checkout."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "WA order journey",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "Place your order",
+            "text": "Choose Cash on Delivery, Bank Transfer or JazzCash at checkout."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "We confirm COD",
+            "text": "Cash on Delivery orders are confirmed with you on WhatsApp."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "We dispatch",
+            "text": "Your order ships with Leopards or Trax and tracking is shared on WhatsApp."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Delivered free",
+            "text": "Receive your order anywhere in Pakistan within 2–5 working days."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
