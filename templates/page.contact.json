@@ -7,6 +7,15 @@
         "padding_bottom": 36
       }
     },
+    "wa_contact_details": {
+      "type": "wa-contact-details",
+      "settings": {
+        "eyebrow": "REAL SUPPORT",
+        "heading": "Talk to Wear Active",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
     "form": {
       "type": "contact-form",
       "settings": {
@@ -20,6 +29,7 @@
   },
   "order": [
     "main",
+    "wa_contact_details",
     "form"
   ]
 }

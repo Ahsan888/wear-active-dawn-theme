@@ -46,6 +46,46 @@
         "accessibility_info": ""
       }
     },
+    "wa_trust_strip": {
+      "type": "wa-trust-strip",
+      "blocks": {
+        "wa_trust_delivery": {
+          "type": "trust_item",
+          "settings": {
+            "title": "Free Delivery",
+            "text": "Across Pakistan"
+          }
+        },
+        "wa_trust_timing": {
+          "type": "trust_item",
+          "settings": {
+            "title": "2–5 Working Days",
+            "text": "Tracking shared on WhatsApp"
+          }
+        },
+        "wa_trust_exchange": {
+          "type": "trust_item",
+          "settings": {
+            "title": "7-Day Size Exchange",
+            "text": "Discounted products included"
+          }
+        },
+        "wa_trust_payment": {
+          "type": "trust_item",
+          "settings": {
+            "title": "Flexible Payment",
+            "text": "COD · Bank Transfer · JazzCash"
+          }
+        }
+      },
+      "block_order": [
+        "wa_trust_delivery",
+        "wa_trust_timing",
+        "wa_trust_exchange",
+        "wa_trust_payment"
+      ],
+      "settings": {}
+    },
     "wa_shop_by_category": {
       "type": "wa-shop-by-category",
       "blocks": {
@@ -123,6 +163,52 @@
         "feature_4_description": "Made for the gym, work, travel, and everything in between."
       }
     },
+    "wa_order_journey": {
+      "type": "wa-order-journey",
+      "blocks": {
+        "wa_order_place": {
+          "type": "step",
+          "settings": {
+            "title": "Place your order",
+            "text": "Choose Cash on Delivery, Bank Transfer or JazzCash at checkout."
+          }
+        },
+        "wa_order_confirm": {
+          "type": "step",
+          "settings": {
+            "title": "We confirm COD",
+            "text": "Cash on Delivery orders are confirmed with you on WhatsApp."
+          }
+        },
+        "wa_order_dispatch": {
+          "type": "step",
+          "settings": {
+            "title": "We dispatch",
+            "text": "Your order ships with Leopards or Trax and tracking is shared on WhatsApp."
+          }
+        },
+        "wa_order_deliver": {
+          "type": "step",
+          "settings": {
+            "title": "Delivered free",
+            "text": "Receive your order anywhere in Pakistan within 2–5 working days."
+          }
+        }
+      },
+      "block_order": [
+        "wa_order_place",
+        "wa_order_confirm",
+        "wa_order_dispatch",
+        "wa_order_deliver"
+      ],
+      "settings": {
+        "eyebrow": "WHAT HAPPENS NEXT",
+        "heading": "From checkout to your door",
+        "intro": "Clear confirmation, tracked dispatch and support from a real person throughout your order.",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
     "featured_collection_NMabDU": {
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
@@ -147,7 +233,7 @@
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
-        "show_rating": false,
+        "show_rating": true,
         "quick_add": "none",
         "columns_mobile": "2",
         "swipe_on_mobile": true,
@@ -237,8 +323,10 @@
   },
   "order": [
     "slideshow_LtamGJ",
+    "wa_trust_strip",
     "wa_shop_by_category",
     "wa_performance_features",
+    "wa_order_journey",
     "featured_collection_NMabDU",
     "wa_shop_by_product_category"
   ]
