@@ -12,14 +12,6 @@
     "wa_hero_carousel": {
       "type": "wa-hero-carousel",
       "blocks": {
-        "wa_hero_slide_1": {
-          "type": "slide",
-          "settings": {
-            "default_artwork": "hero_2",
-            "alt_text": "Wear Active red polo styled for racket sports",
-            "link": ""
-          }
-        },
         "wa_hero_slide_2": {
           "type": "slide",
           "settings": {
@@ -27,11 +19,19 @@
             "alt_text": "Wear Active Summer Essentials 26 campaign",
             "link": ""
           }
+        },
+        "wa_hero_slide_1": {
+          "type": "slide",
+          "settings": {
+            "default_artwork": "hero_2",
+            "alt_text": "Wear Active red polo styled for racket sports",
+            "link": ""
+          }
         }
       },
       "block_order": [
-        "wa_hero_slide_1",
-        "wa_hero_slide_2"
+        "wa_hero_slide_2",
+        "wa_hero_slide_1"
       ],
       "settings": {
         "accessibility_label": "Wear Active featured campaigns",
