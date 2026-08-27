@@ -48,8 +48,19 @@
 }
 
 .wa-footer .wa-footer__contact a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   color: rgba(var(--color-foreground), 0.82);
   text-decoration: none;
+}
+
+.wa-footer .wa-footer__contact-icon {
+  --wa-brand-icon-size: 1.7rem;
+}
+
+.wa-footer .wa-footer__contact-meta {
+  padding-inline-start: 2.45rem;
 }
 
 .wa-footer .wa-footer__contact a:hover,

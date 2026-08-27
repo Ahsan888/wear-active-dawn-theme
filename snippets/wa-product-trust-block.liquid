@@ -19,24 +19,11 @@
             <span class="wa-product-trust__icon" aria-hidden="true">
               {%- case wa_trust_index -%}
                 {%- when 1 -%}
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" focusable="false">
-                    <path d="M5 17a2 2 0 1 0 4 0 2 2 0 1 0-4 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M15 17a2 2 0 1 0 4 0 2 2 0 1 0-4 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M5 17H3v-4M2 5h11v12M9 17h6M19 17h2v-6h-8M13 6h5l3 5M3 9h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
+                  {% render 'wa-brand-icon', icon: 'globe' %}
                 {%- when 2 -%}
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" focusable="false">
-                    <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M8 16H3v5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
+                  {% render 'wa-brand-icon', icon: 'hanger' %}
                 {%- when 3 -%}
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" focusable="false">
-                    <path d="M4 4 20 20M20 4 4 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                    <path d="M7 3 21 17M17 3 3 17M3 7l14 14M21 7 7 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                    <path d="M12 2.8 21.2 12 12 21.2 2.8 12 12 2.8Z" stroke="currentColor" stroke-width="1.45" stroke-linejoin="round"/>
-                  </svg>
+                  {% render 'wa-brand-icon', icon: 'phone' %}
                 {%- else -%}
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" focusable="false">
                     <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -82,25 +69,13 @@
         target="_blank"
         rel="noopener"
       >
-        <span class="wa-product-trust__proof-icon" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" fill="none" focusable="false">
-            <path d="M3.25 15 4 12.2a6.5 6.5 0 1 1 2 1.85L3.25 15Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/>
-            <path d="M6.75 6.4c.2 2.45 1.8 4.05 4.2 4.4l1.02-1.02c.18-.18.18-.47 0-.65l-.78-.78c-.18-.18-.47-.18-.65 0l-.43.43A3.8 3.8 0 0 1 8.2 6.86l.43-.43c.18-.18.18-.47 0-.65L7.85 5c-.18-.18-.47-.18-.65 0L6.2 6c-.15.15-.2.33-.17.52.16-.08.39-.12.72-.12Z" fill="currentColor"/>
-          </svg>
-        </span>
+        {% render 'wa-brand-icon', icon: 'phone', class: 'wa-product-trust__proof-icon' %}
         <span>WhatsApp Support</span>
       </a>
     </div>
 
     <p class="wa-product-trust__delivery-note">
-      <span class="wa-product-trust__delivery-icon" aria-hidden="true">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" fill="none" focusable="false">
-          <path d="M4 5.25h6.75v5.5H4v-5.5Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/>
-          <path d="M10.75 7h2.45l1.8 1.95v1.8h-4.25V7Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/>
-          <path d="M5.85 13.2a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5ZM12.95 13.2a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5Z" stroke="currentColor" stroke-width="1.35"/>
-          <path d="M1.8 6.45h3M1.25 8.25H5M2.15 10.05H5" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/>
-        </svg>
-      </span>
+      {% render 'wa-brand-icon', icon: 'dispatch', class: 'wa-product-trust__delivery-icon' %}
       <span>Free delivery in {{ settings.wa_delivery_window | escape }}. Tracking shared on WhatsApp.</span>
     </p>
   </div>

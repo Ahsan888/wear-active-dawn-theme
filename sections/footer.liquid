@@ -124,11 +124,15 @@
                       -%}
                       <div class="wa-footer__contact">
                         <a href="https://wa.me/{{ wa_footer_whatsapp_digits }}?text={{ wa_footer_whatsapp_message }}" target="_blank" rel="noopener">
-                          WhatsApp {{ settings.wa_whatsapp_number | escape }}
+                          {% render 'wa-brand-icon', icon: 'phone', class: 'wa-footer__contact-icon' %}
+                          <span>WhatsApp {{ settings.wa_whatsapp_number | escape }}</span>
                         </a>
-                        <a href="mailto:{{ settings.wa_support_email | escape }}">{{ settings.wa_support_email | escape }}</a>
-                        <span>{{ settings.wa_support_hours | escape }}</span>
-                        <span>{{ settings.wa_support_reply_time | escape }}</span>
+                        <a href="mailto:{{ settings.wa_support_email | escape }}">
+                          {% render 'wa-brand-icon', icon: 'email', class: 'wa-footer__contact-icon' %}
+                          <span>{{ settings.wa_support_email | escape }}</span>
+                        </a>
+                        <span class="wa-footer__contact-meta">{{ settings.wa_support_hours | escape }}</span>
+                        <span class="wa-footer__contact-meta">{{ settings.wa_support_reply_time | escape }}</span>
                       </div>
                       {%- if block.settings.show_social and has_social_icons -%}
                         {%- render 'social-icons', class: 'footer__list-social' -%}
