@@ -243,32 +243,32 @@
             "cta_text": "Shop Trousers"
           }
         },
-        "category_womens": {
-          "type": "category",
-          "settings": {
-            "icon": "womens",
-            "title": "Women's",
-            "collection": "women-s-performance-collection",
-            "link": "",
-            "cta_text": "Shop Women's"
-          }
-        },
         "category_shorts": {
           "type": "category",
           "settings": {
             "icon": "shorts",
-            "title": "Shorts",
-            "collection": "shorts",
+            "title": "Men's Shorts",
+            "collection": "mens-shorts",
             "link": "",
             "cta_text": "Shop Shorts"
+          }
+        },
+        "category_womens": {
+          "type": "category",
+          "settings": {
+            "icon": "womens",
+            "title": "Women's Shirts",
+            "collection": "womens-shirts",
+            "link": "",
+            "cta_text": "Shop Women's"
           }
         },
         "category_all": {
           "type": "category",
           "settings": {
             "icon": "hanger",
-            "title": "All Products",
-            "collection": "all-products",
+            "title": "Womens Trousers",
+            "collection": "womens-trousers",
             "link": "",
             "cta_text": "Shop All"
           }
@@ -287,8 +287,8 @@
       "block_order": [
         "category_shirts",
         "category_trousers",
-        "category_womens",
         "category_shorts",
+        "category_womens",
         "category_all",
         "category_best_selling"
       ],
