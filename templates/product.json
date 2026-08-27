@@ -12,13 +12,6 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "vendor": {
-          "type": "text",
-          "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "uppercase"
-          }
-        },
         "title": {
           "type": "title",
           "settings": {}
@@ -36,6 +29,19 @@
           "settings": {
             "picker_type": "button",
             "swatch_shape": "circle"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": true
+          }
+        },
+        "wa_trust_block": {
+          "type": "wa_trust_block",
+          "settings": {
+            "enable": true
           }
         },
         "wa_bundle_save": {
@@ -58,61 +64,26 @@
             "show_cta": true
           }
         },
-        "quantity_selector": {
-          "type": "quantity_selector",
-          "settings": {}
-        },
-        "buy_buttons": {
-          "type": "buy_buttons",
-          "settings": {
-            "show_dynamic_checkout": true,
-            "show_gift_card_recipient": true
-          }
-        },
-        "wa_trust_block": {
-          "type": "wa_trust_block",
-          "settings": {
-            "enable": true,
-            "item_1": "Free Delivery Across Pakistan",
-            "item_2": "7-Day Size Exchange",
-            "item_3": "COD · Bank · JazzCash",
-            "item_4": "Secure Shopify Checkout"
-          }
-        },
         "wa_product_info": {
           "type": "wa_product_info",
           "settings": {
             "enable": true,
             "description_heading": "Description",
-            "exchange_heading": "Size Exchange Policy",
-            "exchange_policy": "Size exchanges are available within 7 days of delivery, including discounted products. Items must be unused, unwashed, and have their original tags attached. A fixed Rs. 300 exchange delivery fee applies. If the item received is incorrect or defective, Wear Active covers the delivery charges.",
-            "shipping_heading": "Shipping & Tracking",
-            "shipping_information": "Free delivery is available across Pakistan. Orders are delivered within 2–5 working days through Leopards or Trax, and tracking details are shared on WhatsApp.",
-            "payment_heading": "Payment Options",
-            "payment_information": "Pay using Cash on Delivery, Bank Transfer, or JazzCash. Cash on Delivery orders are confirmed through WhatsApp before dispatch.",
+            "service_heading": "Delivery, Payment & Size Exchange",
             "care_heading": "Care Instructions",
             "care_instructions": "Machine wash cold with similar colors. Do not bleach. Do not tumble dry on high heat. Iron on low if needed. Do not dry clean."
-          }
-        },
-        "share": {
-          "type": "share",
-          "settings": {
-            "share_label": "Share"
           }
         }
       },
       "block_order": [
-        "vendor",
         "title",
         "judge_me_reviews_preview_badge_w9bfBF",
         "price",
         "variant_picker",
-        "wa_bundle_save",
-        "quantity_selector",
         "buy_buttons",
         "wa_trust_block",
-        "wa_product_info",
-        "share"
+        "wa_bundle_save",
+        "wa_product_info"
       ],
       "settings": {
         "enable_sticky_info": true,

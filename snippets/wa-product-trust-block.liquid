@@ -7,76 +7,39 @@
 {% endcomment %}
 
 {%- if block.settings.enable -%}
-  <div class="wa-product-trust quick-add-hidden" {{ block.shopify_attributes }}>
-    <ul class="wa-product-trust__list" role="list" aria-label="Wear Active trust benefits">
-      {%- for wa_trust_index in (1..4) -%}
-        {%- assign wa_trust_key = 'item_' | append: wa_trust_index -%}
-        {%- assign wa_trust_subtext_key = 'item_' | append: wa_trust_index | append: '_subtext' -%}
-        {%- assign wa_trust_text = block.settings[wa_trust_key] -%}
-        {%- assign wa_trust_subtext = block.settings[wa_trust_subtext_key] -%}
-        {%- if wa_trust_text != blank -%}
-          <li class="wa-product-trust__item" role="listitem">
-            <span class="wa-product-trust__icon" aria-hidden="true">
-              {%- case wa_trust_index -%}
-                {%- when 1 -%}
-                  {% render 'wa-brand-icon', icon: 'globe' %}
-                {%- when 2 -%}
-                  {% render 'wa-brand-icon', icon: 'hanger' %}
-                {%- when 3 -%}
-                  {% render 'wa-brand-icon', icon: 'phone' %}
-                {%- else -%}
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" focusable="false">
-                    <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-              {%- endcase -%}
-            </span>
-            <span class="wa-product-trust__copy">
-              <span class="wa-product-trust__text">{{ wa_trust_text | escape }}</span>
-              {%- if wa_trust_subtext != blank -%}
-                <span class="wa-product-trust__subtext">{{ wa_trust_subtext | escape }}</span>
-              {%- endif -%}
-            </span>
-          </li>
-        {%- endif -%}
-      {%- endfor -%}
+  {%- liquid
+    assign wa_whatsapp_digits = settings.wa_whatsapp_number | remove: '+' | remove: ' ' | remove: '-'
+    assign wa_whatsapp_message = 'Hi Wear Active, I need help choosing this product.' | url_encode
+  -%}
+
+  <aside class="wa-product-trust quick-add-hidden" aria-label="Delivery, exchange and payment information" {{ block.shopify_attributes }}>
+    <ul class="wa-product-trust__list" role="list">
+      <li class="wa-product-trust__item">
+        {% render 'wa-brand-icon', icon: 'dispatch', class: 'wa-product-trust__icon' %}
+        <span class="wa-product-trust__text">
+          Free delivery across Pakistan · {{ settings.wa_delivery_window | escape }}
+        </span>
+      </li>
+      <li class="wa-product-trust__item">
+        {% render 'wa-brand-icon', icon: 'hanger', class: 'wa-product-trust__icon' %}
+        <span class="wa-product-trust__text">{% render 'wa-exchange-policy', mode: 'compact' %}</span>
+      </li>
     </ul>
 
-    <div class="wa-product-trust__proof" aria-label="Store support details">
-      <div class="wa-product-trust__proof-item">
-        <span class="wa-product-trust__proof-icon" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" fill="none" focusable="false">
-            <path d="M9 1.9 15 4.45v4.4c0 3.7-2.35 6.05-6 7.25-3.65-1.2-6-3.55-6-7.25v-4.4L9 1.9Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/>
-            <path d="M6.55 9.05 8.25 10.75 11.65 7.35" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-        <span>COD Confirmed on WhatsApp</span>
-      </div>
-      <div class="wa-product-trust__proof-item">
-        <span class="wa-product-trust__flag" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 18" focusable="false">
-            <rect width="28" height="18" rx="1.2" fill="#ffffff"/>
-            <rect x="6" width="22" height="18" rx="1.2" fill="#115c35"/>
-            <path d="M18.1 5.1a4 4 0 1 0 0 7.8 4.4 4.4 0 1 1 0-7.8Z" fill="#ffffff"/>
-            <path d="m21.2 6.2.55 1.45 1.55.08-1.2.98.4 1.5-1.3-.85-1.3.85.4-1.5-1.2-.98 1.55-.08.55-1.45Z" fill="#ffffff"/>
-          </svg>
-        </span>
-        <span>Leopards &amp; Trax</span>
-      </div>
+    <div class="wa-product-trust__meta">
+      <span class="wa-product-trust__payment">
+        {% render 'wa-brand-icon', icon: 'payment', class: 'wa-product-trust__meta-icon' %}
+        <span>{{ settings.wa_payment_methods | escape }}</span>
+      </span>
       <a
-        class="wa-product-trust__proof-item wa-product-trust__proof-link"
-        href="https://wa.me/{{ settings.wa_whatsapp_number | remove: '+' | remove: ' ' | remove: '-' }}?text={{ 'Hi Wear Active, I need help with a product.' | url_encode }}"
+        class="wa-product-trust__support"
+        href="https://wa.me/{{ wa_whatsapp_digits }}?text={{ wa_whatsapp_message }}"
         target="_blank"
         rel="noopener"
       >
-        {% render 'wa-brand-icon', icon: 'phone', class: 'wa-product-trust__proof-icon' %}
-        <span>WhatsApp Support</span>
+        {% render 'wa-brand-icon', icon: 'whatsapp', class: 'wa-product-trust__support-icon' %}
+        <span>Need help? WhatsApp us</span>
       </a>
     </div>
-
-    <p class="wa-product-trust__delivery-note">
-      {% render 'wa-brand-icon', icon: 'dispatch', class: 'wa-product-trust__delivery-icon' %}
-      <span>Free delivery in {{ settings.wa_delivery_window | escape }}. Tracking shared on WhatsApp.</span>
-    </p>
-  </div>
+  </aside>
 {%- endif -%}

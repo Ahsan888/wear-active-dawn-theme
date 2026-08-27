@@ -15,6 +15,14 @@
   max-width: none;
 }
 
+.product__info-container .product-form__submit {
+  min-height: 5.6rem;
+  font-size: var(--wa-text-base);
+  font-weight: var(--wa-weight-bold);
+  letter-spacing: var(--wa-tracking-widest);
+  text-transform: uppercase;
+}
+
 @media screen and (min-width: 990px) {
   .product--large:not(.product--no-media) .product__media-wrapper {
     max-width: 58%;
@@ -119,9 +127,50 @@
 }
 
 .wa-linked-colors--product .wa-color-swatch__button {
+  position: relative;
   min-width: 4.4rem;
   min-height: 4.4rem;
   padding: 0.2rem;
+}
+
+.wa-linked-colors--product .wa-color-swatch--active .wa-color-swatch__circle {
+  transform: scale(0.96);
+  box-shadow:
+    0 0 0 0.2rem rgb(var(--color-background)),
+    0 0 0 0.4rem var(--wa-color-evergreen),
+    inset 0 0 0 0.1rem rgba(var(--color-foreground), 0.14);
+}
+
+.wa-linked-colors--product .wa-color-swatch--active .wa-color-swatch__button::after,
+.product__info-container .product-form__input--swatch .swatch-input__input:checked + .swatch-input__label::after {
+  content: '✓';
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  display: inline-flex;
+  width: 1.65rem;
+  height: 1.65rem;
+  align-items: center;
+  justify-content: center;
+  border: 0.15rem solid rgb(var(--color-background));
+  border-radius: 50%;
+  background: var(--wa-color-evergreen);
+  color: var(--wa-color-parchment);
+  font-size: 1rem;
+  font-weight: var(--wa-weight-bold);
+  line-height: 1;
+}
+
+.product__info-container .product-form__input--swatch .swatch-input__input:checked + .swatch-input__label {
+  position: relative;
+  outline: 0.2rem solid var(--wa-color-evergreen);
+  outline-offset: 0.2rem;
+}
+
+.product__info-container .product-form__input--swatch .swatch-input__input:checked + .swatch-input__label::after {
+  top: -0.65rem;
+  right: -0.65rem;
 }
 
 @media screen and (min-width: 750px) {
@@ -404,6 +453,128 @@
   }
 }
 
+/* Compact purchase reassurance — keeps Add to Cart as the dominant action. */
+.wa-product-trust {
+  margin-top: 1.2rem;
+}
+
+.wa-product-trust__list {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  padding: 0;
+  border-top: 0.1rem solid rgba(var(--color-foreground), 0.12);
+  border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.12);
+  border-radius: 0;
+  background: transparent;
+  color: rgb(var(--color-foreground));
+}
+
+.wa-product-trust__item {
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 0.75rem 0.2rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.wa-product-trust__item + .wa-product-trust__item {
+  border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
+}
+
+.wa-product-trust__icon {
+  flex: 0 0 auto;
+  width: 1.8rem;
+  height: 1.8rem;
+  color: var(--wa-color-evergreen);
+}
+
+.wa-product-trust__copy {
+  align-items: flex-start;
+  gap: 0.25rem;
+  min-height: 0;
+}
+
+.wa-product-trust__text {
+  color: rgb(var(--color-foreground));
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-medium);
+  letter-spacing: var(--wa-tracking-snug);
+  line-height: var(--wa-leading-normal);
+  text-transform: none;
+}
+
+.wa-product-trust__subtext {
+  color: rgba(var(--color-foreground), 0.68);
+  font-size: var(--wa-text-2xs);
+  line-height: var(--wa-leading-normal);
+}
+
+.wa-product-trust__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem 1.6rem;
+  margin-top: 0.9rem;
+  padding: 0 0.2rem;
+  font-size: var(--wa-text-xs);
+  line-height: var(--wa-leading-normal);
+  color: rgba(var(--color-foreground), 0.72);
+}
+
+.wa-product-trust__payment {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.wa-product-trust__meta-icon {
+  flex: 0 0 auto;
+  width: 1.8rem;
+  height: 1.8rem;
+  color: var(--wa-color-coffee);
+}
+
+.wa-product-trust__support {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: rgb(var(--color-foreground));
+  font-weight: var(--wa-weight-semibold);
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--color-foreground), 0.35);
+  text-underline-offset: 0.3rem;
+}
+
+.wa-product-trust__support-icon {
+  flex: 0 0 auto;
+  width: 1.8rem;
+  height: 1.8rem;
+  color: var(--wa-color-evergreen);
+}
+
+.wa-product-trust__support:hover,
+.wa-product-trust__support:focus-visible {
+  color: var(--wa-color-evergreen);
+  text-decoration-color: currentColor;
+}
+
+@media screen and (max-width: 749px) {
+  .wa-product-trust__item {
+    padding: 0.7rem 0.1rem;
+  }
+
+  .wa-product-trust__meta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
 /* Product information accordions — extends Dawn component-accordion.css */
 .wa-product-info {
   margin-top: 2.2rem;
@@ -467,6 +638,16 @@
 
 .wa-product-info .accordion .accordion__content p {
   margin: 0;
+}
+
+.wa-product-info .accordion .accordion__content p + p {
+  margin-top: 1.2rem;
+}
+
+.wa-product-info__policy-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 1.6rem;
 }
 
 /* Share — separate component spacing on PDP */
@@ -706,26 +887,44 @@
 }
 
 .wa-size-chart__trigger {
-  font-size: 1.3rem;
-  letter-spacing: 0.06rem;
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
-  text-decoration-thickness: 0.1rem;
-  text-decoration-color: rgba(var(--color-foreground), 0.35);
-  color: rgba(var(--color-foreground), 0.75);
-  background: none;
-  border: 0;
-  padding: 0.2rem 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 3.6rem;
+  padding: 0.55rem 1rem;
+  border: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.55);
+  border-radius: 999px;
+  color: var(--wa-color-evergreen);
+  background: rgba(var(--wa-color-evergreen-rgb), 0.045);
   cursor: pointer;
   font-family: inherit;
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: var(--wa-tracking-wide);
   line-height: 1.2;
+  text-decoration: none;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
 .wa-size-chart__trigger:hover,
 .wa-size-chart__trigger:focus-visible {
-  color: rgb(var(--color-foreground));
-  text-decoration-color: currentColor;
+  border-color: var(--wa-color-evergreen);
+  color: var(--wa-color-parchment);
+  background: var(--wa-color-evergreen);
+}
+
+.wa-size-chart__trigger-icon {
+  display: inline-flex;
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.wa-size-chart__trigger-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .wa-size-chart__legend-action {
@@ -741,6 +940,39 @@
   justify-content: space-between;
   gap: 1.2rem;
   width: 100%;
+}
+
+.wa-size-chart__fit-summary {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+  border-left: 0.3rem solid var(--wa-color-coffee);
+  background: rgba(var(--color-foreground), 0.035);
+  font-size: var(--wa-text-sm);
+  line-height: var(--wa-leading-normal);
+  color: rgba(var(--color-foreground), 0.76);
+}
+
+.wa-size-chart__fit-summary-label {
+  flex: 0 0 auto;
+  font-size: var(--wa-text-2xs);
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: var(--wa-tracking-widest);
+  text-transform: uppercase;
+  color: var(--wa-color-coffee);
+}
+
+.wa-size-chart__fit-summary-copy {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.55rem;
+  min-width: 0;
+}
+
+.wa-size-chart__fit-summary-copy strong {
+  color: rgb(var(--color-foreground));
 }
 
 /* Size chart modal */
@@ -980,8 +1212,7 @@
 
   .wa-size-chart__trigger {
     min-height: 4.4rem;
-    display: inline-flex;
-    align-items: center;
+    padding-inline: 1.1rem;
   }
 }
 

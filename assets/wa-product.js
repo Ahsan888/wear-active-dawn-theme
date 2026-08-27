@@ -30,13 +30,20 @@ document.addEventListener('DOMContentLoaded', () => {
  * @param {HTMLButtonElement} trigger
  */
 function relocateSizeGuideTrigger(container, trigger) {
-  const sizeLegend = findSizeLegend();
+  const sizeLegend = findSizeLegend(container);
   if (!sizeLegend) return;
+  const sizeInput = sizeLegend.closest('.product-form__input');
+  const fitSummary = container.querySelector('[data-wa-size-fit-summary]');
 
   const action = document.createElement('span');
   action.className = 'wa-size-chart__legend-action';
   action.appendChild(trigger);
   sizeLegend.appendChild(action);
+
+  if (sizeInput && fitSummary) {
+    sizeInput.appendChild(fitSummary);
+  }
+
   container.classList.add('wa-size-chart--relocated');
 }
 
@@ -53,10 +60,12 @@ function syncSizeChartModal(modal, trigger) {
 
 /**
  * Finds the Size option label in the variant picker.
+ * @param {HTMLElement} container
  * @returns {HTMLElement | undefined}
  */
-function findSizeLegend() {
-  const labels = document.querySelectorAll(
+function findSizeLegend(container) {
+  const productInfo = container.closest('.product__info-container') || document;
+  const labels = productInfo.querySelectorAll(
     '.product-form__input .form__label, .product-form__input legend.form__label'
   );
 

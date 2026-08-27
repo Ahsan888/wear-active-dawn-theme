@@ -16,8 +16,7 @@
       {{ settings.wa_couriers | escape }}. Tracking is shared on WhatsApp.
     </li>
     <li class="wa-cart-assurance__item">
-      <strong>{{ settings.wa_exchange_window | escape }} size exchange</strong>, including discounted products.
-      Items must be unused, unwashed and have their original tags. {{ settings.wa_exchange_fee | escape }} exchange fee applies.
+      <strong>Size exchange:</strong> {% render 'wa-exchange-policy' %}
     </li>
     <li class="wa-cart-assurance__item">
       <strong>Payment options:</strong> {{ settings.wa_payment_methods | escape }}.

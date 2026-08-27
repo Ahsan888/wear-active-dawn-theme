@@ -11,7 +11,13 @@
           {%- if block.settings.icon != blank and block.settings.icon != 'none' -%}
             {% render 'wa-brand-icon', icon: block.settings.icon, class: 'wa-trust-strip__icon' %}
           {%- endif -%}
-          <span class="wa-trust-strip__title">{{ block.settings.title | escape }}</span>
+          <span class="wa-trust-strip__title">
+            {%- if block.settings.icon == 'hanger' -%}
+              {% render 'wa-exchange-policy', mode: 'label' %}
+            {%- else -%}
+              {{ block.settings.title | escape }}
+            {%- endif -%}
+          </span>
         </li>
       {%- endfor -%}
     </ul>

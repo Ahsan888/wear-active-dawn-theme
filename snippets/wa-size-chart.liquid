@@ -13,22 +13,52 @@
 
 {%- assign size_chart = product.metafields.custom.size_chart.value -%}
 {%- if size_chart != blank -%}
-  {%- assign modal_id = 'wa-size-chart-' | append: section_id -%}
-  {%- assign title_id = modal_id | append: '-title' -%}
-  {%- assign wa_column_order = 'chest,waist,hips,length,inseam' | split: ',' -%}
-  {%- assign wa_column_labels = 'Chest,Waist,Hips,Length,Inseam' | split: ',' -%}
+  {%- liquid
+    assign modal_id = 'wa-size-chart-' | append: section_id
+    assign title_id = modal_id | append: '-title'
+    assign wa_column_order = 'chest,waist,hips,length,inseam' | split: ','
+    assign wa_column_labels = 'Chest,Waist,Hips,Length,Inseam' | split: ','
+    assign wa_fit_type = size_chart.fit_type.value | default: size_chart.fit_type
+
+    capture wa_fit_description
+      if size_chart.description != blank
+        echo size_chart.description | metafield_tag
+      endif
+    endcapture
+    assign wa_fit_description = wa_fit_description | strip_html | strip
+  -%}
 
   <div class="wa-size-chart" data-wa-size-chart>
     <button
       type="button"
-      class="wa-size-chart__trigger link"
+      class="wa-size-chart__trigger"
       aria-controls="{{ modal_id }}"
       aria-expanded="false"
       aria-haspopup="dialog"
       data-wa-size-chart-open
     >
-      Size Guide
+      <span class="wa-size-chart__trigger-icon" aria-hidden="true">
+        <svg viewBox="0 0 20 20" fill="none" focusable="false">
+          <path d="M3 13.5 13.5 3 17 6.5 6.5 17 3 13.5Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/>
+          <path d="m11.3 5.2 1.6 1.6M8.8 7.7l1.15 1.15M6.3 10.2l1.6 1.6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span>Size Guide</span>
     </button>
+
+    {%- if wa_fit_type != blank or wa_fit_description != blank -%}
+      <div class="wa-size-chart__fit-summary" data-wa-size-fit-summary>
+        <span class="wa-size-chart__fit-summary-label">Fit</span>
+        <span class="wa-size-chart__fit-summary-copy">
+          {%- if wa_fit_type != blank -%}
+            <strong>{{ wa_fit_type | escape }}</strong>
+          {%- endif -%}
+          {%- if wa_fit_description != blank -%}
+            <span>{{ wa_fit_description | escape }}</span>
+          {%- endif -%}
+        </span>
+      </div>
+    {%- endif -%}
 
     <wa-modal
       id="{{ modal_id }}"

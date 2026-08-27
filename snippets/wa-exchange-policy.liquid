@@ -1,0 +1,18 @@
+{% comment %}
+  Wear Active custom code start — wa-exchange-policy.liquid
+  Single source of truth for size-exchange wording across the theme.
+
+  Accepts:
+  - mode: {String} "label" or "compact" for abbreviated contexts; defaults to full policy copy.
+{% endcomment %}
+
+{%- if mode == 'label' -%}
+  Size exchange within {{ settings.wa_exchange_window | escape }}
+{%- elsif mode == 'compact' -%}
+  Size exchange within {{ settings.wa_exchange_window | escape }} · {{ settings.wa_exchange_fee | escape }} delivery fee
+{%- else -%}
+  Size exchanges are available within {{ settings.wa_exchange_window | escape }} of delivery, including discounted
+  products. Items must be unused, unwashed, and have their original tags attached. A fixed
+  {{ settings.wa_exchange_fee | escape }} exchange delivery fee applies. If the item received is incorrect or
+  defective, Wear Active covers the delivery charges.
+{%- endif -%}

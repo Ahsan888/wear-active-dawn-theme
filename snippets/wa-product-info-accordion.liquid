@@ -11,14 +11,10 @@
 {%- if block.settings.enable -%}
   {%- liquid
     assign wa_info_description_id = 'WaProductInfo-Description-' | append: section.id
-    assign wa_info_exchange_id = 'WaProductInfo-Exchange-' | append: section.id
-    assign wa_info_shipping_id = 'WaProductInfo-Shipping-' | append: section.id
-    assign wa_info_payment_id = 'WaProductInfo-Payment-' | append: section.id
+    assign wa_info_service_id = 'WaProductInfo-Service-' | append: section.id
     assign wa_info_care_id = 'WaProductInfo-Care-' | append: section.id
     assign wa_info_description_content_id = 'WaProductInfo-Description-Content-' | append: section.id
-    assign wa_info_exchange_content_id = 'WaProductInfo-Exchange-Content-' | append: section.id
-    assign wa_info_shipping_content_id = 'WaProductInfo-Shipping-Content-' | append: section.id
-    assign wa_info_payment_content_id = 'WaProductInfo-Payment-Content-' | append: section.id
+    assign wa_info_service_content_id = 'WaProductInfo-Service-Content-' | append: section.id
     assign wa_info_care_content_id = 'WaProductInfo-Care-Content-' | append: section.id
   -%}
 
@@ -39,59 +35,35 @@
       </div>
     {%- endif -%}
 
-    {%- if block.settings.exchange_policy != blank -%}
-      <div class="wa-product-info__accordion accordion product__accordion">
-        <details id="{{ wa_info_exchange_id }}">
-          <summary aria-controls="{{ wa_info_exchange_content_id }}">
-            <div class="summary__title">
-              <h2 class="h4 accordion__title">{{ block.settings.exchange_heading | escape }}</h2>
-            </div>
-            {{- 'icon-caret.svg' | inline_asset_content -}}
-          </summary>
-          <div class="accordion__content rte" id="{{ wa_info_exchange_content_id }}">
-            <p>{{ block.settings.exchange_policy | escape }}</p>
-            {%- if shop.refund_policy.body != blank -%}
-              <p><a href="{{ shop.refund_policy.url }}">Read the complete size exchange policy</a></p>
-            {%- endif -%}
+    <div class="wa-product-info__accordion accordion product__accordion">
+      <details id="{{ wa_info_service_id }}">
+        <summary aria-controls="{{ wa_info_service_content_id }}">
+          <div class="summary__title">
+            <h2 class="h4 accordion__title">{{ block.settings.service_heading | escape }}</h2>
           </div>
-        </details>
-      </div>
-    {%- endif -%}
-
-    {%- if block.settings.shipping_information != blank -%}
-      <div class="wa-product-info__accordion accordion product__accordion">
-        <details id="{{ wa_info_shipping_id }}">
-          <summary aria-controls="{{ wa_info_shipping_content_id }}">
-            <div class="summary__title">
-              <h2 class="h4 accordion__title">{{ block.settings.shipping_heading | escape }}</h2>
-            </div>
-            {{- 'icon-caret.svg' | inline_asset_content -}}
-          </summary>
-          <div class="accordion__content rte" id="{{ wa_info_shipping_content_id }}">
-            <p>{{ block.settings.shipping_information | escape }}</p>
+          {{- 'icon-caret.svg' | inline_asset_content -}}
+        </summary>
+        <div class="accordion__content rte" id="{{ wa_info_service_content_id }}">
+          <p>
+            <strong>Delivery:</strong> Free across Pakistan in {{ settings.wa_delivery_window | escape }} via
+            {{ settings.wa_couriers | escape }}. Tracking is shared on WhatsApp.
+          </p>
+          <p><strong>Size exchange:</strong> {% render 'wa-exchange-policy' %}</p>
+          <p>
+            <strong>Payment:</strong> {{ settings.wa_payment_methods | escape }}.
+            {%- if settings.wa_cod_confirmation %} COD orders are confirmed on WhatsApp.{% endif -%}
+          </p>
+          <p class="wa-product-info__policy-links">
             {%- if shop.shipping_policy.body != blank -%}
-              <p><a href="{{ shop.shipping_policy.url }}">Read the complete shipping policy</a></p>
+              <a href="{{ shop.shipping_policy.url }}">Shipping policy</a>
             {%- endif -%}
-          </div>
-        </details>
-      </div>
-    {%- endif -%}
-
-    {%- if block.settings.payment_information != blank -%}
-      <div class="wa-product-info__accordion accordion product__accordion">
-        <details id="{{ wa_info_payment_id }}">
-          <summary aria-controls="{{ wa_info_payment_content_id }}">
-            <div class="summary__title">
-              <h2 class="h4 accordion__title">{{ block.settings.payment_heading | escape }}</h2>
-            </div>
-            {{- 'icon-caret.svg' | inline_asset_content -}}
-          </summary>
-          <div class="accordion__content rte" id="{{ wa_info_payment_content_id }}">
-            <p>{{ block.settings.payment_information | escape }}</p>
-          </div>
-        </details>
-      </div>
-    {%- endif -%}
+            {%- if shop.refund_policy.body != blank -%}
+              <a href="{{ shop.refund_policy.url }}">Size exchange policy</a>
+            {%- endif -%}
+          </p>
+        </div>
+      </details>
+    </div>
 
     {%- if block.settings.care_instructions != blank -%}
       <div class="wa-product-info__accordion accordion product__accordion">
