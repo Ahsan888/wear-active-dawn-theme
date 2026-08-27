@@ -1,0 +1,152 @@
+/* ==========================================================================
+   Wear Active custom code start — wa-performance-edit.css
+   One-row campaign gallery, compact and swipeable on mobile.
+   ========================================================================== */
+
+.wa-performance-edit {
+  color: var(--wa-color-evergreen);
+  background: var(--wa-color-parchment);
+  border-top: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.14);
+}
+
+.wa-performance-edit__inner {
+  width: min(100%, 144rem);
+  margin: 0 auto;
+  padding-right: 2rem;
+  padding-left: 2rem;
+}
+
+.wa-performance-edit__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2.4rem;
+}
+
+.wa-performance-edit__eyebrow {
+  margin: 0 0 0.8rem;
+  color: rgba(var(--wa-color-evergreen-rgb), 0.62);
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: 0.18em;
+  line-height: var(--wa-leading-snug);
+  text-transform: uppercase;
+}
+
+.wa-performance-edit__heading {
+  margin: 0;
+  color: inherit;
+  font-size: clamp(3.2rem, 9vw, 4.4rem);
+  font-weight: var(--wa-weight-extrabold);
+  letter-spacing: var(--wa-tracking-tighter);
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+
+.wa-performance-edit__cta {
+  flex: 0 0 auto;
+  padding-bottom: 0.45rem;
+  color: inherit;
+  border-bottom: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.55);
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: var(--wa-tracking-wider);
+  line-height: var(--wa-leading-snug);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.wa-performance-edit__rail {
+  display: flex;
+  gap: 1rem;
+  margin-right: -2rem;
+  padding-right: 2rem;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-padding-inline: 0 2rem;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.wa-performance-edit__rail::-webkit-scrollbar {
+  display: none;
+}
+
+.wa-performance-edit__card {
+  flex: 0 0 min(70vw, 29rem);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--wa-color-grey);
+  scroll-snap-align: start;
+}
+
+.wa-performance-edit__link,
+.wa-performance-edit__picture,
+.wa-performance-edit__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.wa-performance-edit__image {
+  object-fit: cover;
+  object-position: center;
+}
+
+@media screen and (max-width: 749px) {
+  .wa-performance-edit__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.4rem;
+  }
+
+  .wa-performance-edit__cta {
+    margin-top: 0;
+    white-space: nowrap;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .wa-performance-edit__inner {
+    padding-right: 5rem;
+    padding-left: 5rem;
+  }
+
+  .wa-performance-edit__header {
+    margin-bottom: 3.6rem;
+  }
+
+  .wa-performance-edit__heading {
+    font-size: clamp(4rem, 5vw, 6rem);
+  }
+
+  .wa-performance-edit__cta {
+    font-size: var(--wa-text-sm);
+  }
+
+  .wa-performance-edit__rail {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.6rem, 2vw, 2.4rem);
+    margin-right: 0;
+    padding-right: 0;
+    overflow: visible;
+  }
+
+  .wa-performance-edit__card {
+    width: auto;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .wa-performance-edit__inner {
+    padding-right: 6rem;
+    padding-left: 6rem;
+  }
+}
+
+.wa-performance-edit__cta:focus-visible {
+  outline: 0.2rem solid currentColor;
+  outline-offset: 0.3rem;
+}

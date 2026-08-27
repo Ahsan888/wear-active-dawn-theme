@@ -69,12 +69,12 @@
 
 .wa-campaign-story__gallery {
   display: grid;
-  gap: 1.6rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
 }
 
 .wa-campaign-story__secondary {
-  display: grid;
-  gap: 1.6rem;
+  display: contents;
 }
 
 .wa-campaign-story__media {
@@ -84,7 +84,8 @@
 }
 
 .wa-campaign-story__media--primary {
-  aspect-ratio: 4 / 5;
+  grid-column: 1 / -1;
+  aspect-ratio: 4 / 3;
 }
 
 .wa-campaign-story__media--detail {
@@ -92,7 +93,7 @@
 }
 
 .wa-campaign-story__media--wide {
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1 / 1;
 }
 
 .wa-campaign-story__picture,
@@ -107,7 +108,7 @@
 }
 
 .wa-campaign-story__media--primary .wa-campaign-story__image {
-  object-position: 50% 43%;
+  object-position: 50% 38%;
 }
 
 .wa-campaign-story__media--detail .wa-campaign-story__image {
@@ -115,7 +116,34 @@
 }
 
 .wa-campaign-story__media--wide .wa-campaign-story__image {
-  object-position: center;
+  object-position: 30% center;
+}
+
+@media screen and (max-width: 749px) {
+  .wa-campaign-story__header {
+    gap: 1.6rem;
+    margin-bottom: 2.4rem;
+  }
+
+  .wa-campaign-story__eyebrow {
+    margin-bottom: 0.8rem;
+  }
+
+  .wa-campaign-story__heading {
+    font-size: clamp(3.2rem, 10vw, 4.4rem);
+    line-height: 0.98;
+  }
+
+  .wa-campaign-story__text {
+    font-size: var(--wa-text-sm);
+    line-height: var(--wa-leading-normal);
+  }
+
+  .wa-campaign-story__cta {
+    min-height: 4.4rem;
+    margin-top: 1.6rem;
+    padding: 1.1rem 1.8rem;
+  }
 }
 
 @media screen and (min-width: 750px) {
@@ -141,8 +169,27 @@
   }
 
   .wa-campaign-story__secondary {
+    display: grid;
     gap: clamp(1.8rem, 2vw, 3.2rem);
   }
+
+  .wa-campaign-story__media--primary {
+    grid-column: auto;
+    aspect-ratio: 4 / 5;
+  }
+
+  .wa-campaign-story__media--wide {
+    aspect-ratio: 16 / 9;
+  }
+
+  .wa-campaign-story__media--primary .wa-campaign-story__image {
+    object-position: 50% 43%;
+  }
+
+  .wa-campaign-story__media--wide .wa-campaign-story__image {
+    object-position: center;
+  }
+
 }
 
 @media screen and (min-width: 990px) {

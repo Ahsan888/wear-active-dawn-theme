@@ -7,8 +7,8 @@
 
 {%- style -%}
   .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
   }
 
   @media screen and (min-width: 750px) {
@@ -90,6 +90,11 @@
               assign wa_lazy_load = false
             endif
 
+            assign wa_category_mobile_size = '72vw'
+            if section.settings.layout_style == 'compact'
+              assign wa_category_mobile_size = '46vw'
+            endif
+
             if wa_lazy_load
               assign wa_loading = 'lazy'
             else
@@ -112,7 +117,7 @@
                     {%- capture wa_category_sizes -%}
                       (min-width: 990px) calc((min(100vw, 144rem) - 12rem) / 3),
                       (min-width: 750px) calc((100vw - 10rem) / 3),
-                      calc((100vw - 4rem) / 2)
+                      {{ wa_category_mobile_size }}
                     {%- endcapture -%}
                     {{
                       wa_category_image

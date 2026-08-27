@@ -1,0 +1,248 @@
+{% comment %}
+  Wear Active custom code start — wa-performance-edit.liquid
+  A compact, responsive campaign gallery using optimized editorial artwork.
+{% endcomment %}
+
+{{ 'wa-performance-edit.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .wa-performance-edit--{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .wa-performance-edit--{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="wa-performance-edit wa-performance-edit--{{ section.id }}">
+  <div class="wa-performance-edit__inner">
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.cta_text != blank -%}
+      <header class="wa-performance-edit__header">
+        <div>
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="wa-performance-edit__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+          {%- endif -%}
+          {%- if section.settings.heading != blank -%}
+            <h2 class="wa-performance-edit__heading">{{ section.settings.heading | escape }}</h2>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.cta_text != blank -%}
+          <a
+            class="wa-performance-edit__cta"
+            {% if section.settings.cta_link != blank %}
+              href="{{ section.settings.cta_link }}"
+            {% else %}
+              role="link" aria-disabled="true"
+            {% endif %}
+          >
+            {{ section.settings.cta_text | escape }}
+          </a>
+        {%- endif -%}
+      </header>
+    {%- endif -%}
+
+    <div class="wa-performance-edit__rail" role="list" aria-label="Wear Active performance campaign">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign desktop_asset = blank
+          assign mobile_asset = blank
+
+          case block.settings.default_artwork
+            when 'session'
+              assign desktop_asset = 'wa-performance-session.webp'
+              assign mobile_asset = 'wa-performance-session-mobile.webp'
+            when 'balance'
+              assign desktop_asset = 'wa-performance-balance.webp'
+              assign mobile_asset = 'wa-performance-balance-mobile.webp'
+            when 'breathe'
+              assign desktop_asset = 'wa-performance-breathe.webp'
+              assign mobile_asset = 'wa-performance-breathe-mobile.webp'
+          endcase
+
+          assign image_alt = block.settings.alt_text
+          if image_alt == blank and block.settings.image.alt != blank
+            assign image_alt = block.settings.image.alt
+          endif
+        -%}
+
+        <article class="wa-performance-edit__card" role="listitem" {{ block.shopify_attributes }}>
+          {%- if block.settings.link != blank -%}
+            <a class="wa-performance-edit__link" href="{{ block.settings.link }}">
+          {%- endif -%}
+
+          {%- if block.settings.image != blank -%}
+            <picture class="wa-performance-edit__picture">
+              {%- if block.settings.mobile_image != blank -%}
+                <source
+                  media="(max-width: 749px)"
+                  srcset="{{ block.settings.mobile_image | image_url: width: 640 }}"
+                >
+              {%- endif -%}
+              {{
+                block.settings.image
+                | image_url: width: 1200
+                | image_tag:
+                  class: 'wa-performance-edit__image',
+                  widths: '480, 640, 800, 960, 1080, 1200',
+                  sizes: '(min-width: 990px) calc((min(100vw, 144rem) - 12rem - 4.8rem) / 3), (min-width: 750px) calc((100vw - 10rem - 3.2rem) / 3), 70vw',
+                  loading: 'lazy',
+                  alt: image_alt
+              }}
+            </picture>
+          {%- elsif desktop_asset != blank -%}
+            <picture class="wa-performance-edit__picture">
+              <source media="(max-width: 749px)" srcset="{{ mobile_asset | asset_url }}">
+              <img
+                class="wa-performance-edit__image"
+                src="{{ desktop_asset | asset_url }}"
+                width="1080"
+                height="1350"
+                loading="lazy"
+                alt="{{ image_alt | escape }}"
+              >
+            </picture>
+          {%- else -%}
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'wa-performance-edit__image placeholder-svg' }}
+          {%- endif -%}
+
+          {%- if block.settings.link != blank -%}
+            </a>
+          {%- endif -%}
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "WA performance edit",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 3,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "THE PERFORMANCE EDIT"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Built to move."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button label",
+      "default": "Shop performance →"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Campaign image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom desktop image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Custom mobile image",
+          "info": "Optional. Use a 4:5 image for best results."
+        },
+        {
+          "type": "select",
+          "id": "default_artwork",
+          "label": "Included artwork",
+          "info": "Used when no custom desktop image is selected.",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "session", "label": "Ready for every session" },
+            { "value": "balance", "label": "Built for balance" },
+            { "value": "breathe", "label": "Engineered to breathe" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Image alt text"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Optional link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "WA performance edit",
+      "blocks": [
+        {
+          "type": "image",
+          "settings": {
+            "default_artwork": "session",
+            "alt_text": "Wear Active athlete in a white patterned performance shirt"
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "default_artwork": "balance",
+            "alt_text": "Wear Active athlete balancing a football while wearing a performance shirt"
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "default_artwork": "breathe",
+            "alt_text": "Close-up of the breathable fabric and Wear Active logo"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

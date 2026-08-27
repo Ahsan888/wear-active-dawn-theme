@@ -271,11 +271,49 @@
 
   .wa-shop-by-category__content {
     display: block;
+    padding: 1.6rem;
   }
 
   .wa-shop-by-category__cta {
     width: fit-content;
     margin-top: 0.8rem;
+  }
+
+  .wa-shop-by-category__grid {
+    display: flex;
+    gap: 1.2rem;
+    margin-right: -2rem;
+    padding-right: 2rem;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-padding-inline: 0 2rem;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .wa-shop-by-category__grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .wa-shop-by-category__item {
+    flex: 0 0 min(72vw, 30rem);
+    scroll-snap-align: start;
+  }
+
+  .wa-shop-by-category--compact .wa-shop-by-category__item {
+    flex-basis: min(46vw, 19rem);
+  }
+
+  .wa-shop-by-category--compact .wa-shop-by-category__content {
+    padding: 1.4rem;
+  }
+
+  .wa-shop-by-category--compact .wa-shop-by-category__title {
+    font-size: calc(var(--font-heading-scale) * 1.5rem);
+  }
+
+  .wa-shop-by-category--compact .wa-shop-by-category__cta {
+    font-size: var(--wa-text-2xs);
   }
 }
 

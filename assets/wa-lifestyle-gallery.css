@@ -68,10 +68,12 @@
 
 .wa-lifestyle-gallery__portraits {
   display: flex;
-  gap: 1.2rem;
+  gap: 1rem;
   margin-right: -2rem;
   padding-right: 2rem;
   overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-padding-inline: 0 2rem;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
 }
@@ -81,8 +83,8 @@
 }
 
 .wa-lifestyle-gallery__portrait {
-  flex: 0 0 min(80vw, 38rem);
-  aspect-ratio: 2 / 3;
+  flex: 0 0 min(66vw, 28rem);
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   scroll-snap-align: start;
   background: #000;
@@ -110,6 +112,37 @@
 
 .wa-lifestyle-gallery__portrait:nth-child(3) .wa-lifestyle-gallery__image {
   object-position: 50% 46%;
+}
+
+@media screen and (max-width: 749px) {
+  .wa-lifestyle-gallery__portrait:nth-child(3) .wa-lifestyle-gallery__image {
+    object-position: 50% 22%;
+  }
+
+  .wa-lifestyle-gallery__header {
+    gap: 1.6rem;
+    margin-bottom: 2.4rem;
+  }
+
+  .wa-lifestyle-gallery__eyebrow {
+    margin-bottom: 0.8rem;
+  }
+
+  .wa-lifestyle-gallery__heading {
+    font-size: clamp(3.2rem, 10vw, 4.4rem);
+    line-height: 0.98;
+  }
+
+  .wa-lifestyle-gallery__text {
+    font-size: var(--wa-text-sm);
+    line-height: var(--wa-leading-normal);
+  }
+
+  .wa-lifestyle-gallery__cta {
+    min-height: 4.4rem;
+    margin-top: 1.6rem;
+    padding: 1.1rem 1.8rem;
+  }
 }
 
 @media screen and (min-width: 750px) {

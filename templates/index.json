@@ -132,7 +132,7 @@
         "color_scheme": "scheme-1",
         "image_radius": 0,
         "desktop_card_ratio": "2 / 3",
-        "mobile_card_ratio": "2 / 3",
+        "mobile_card_ratio": "4 / 5",
         "padding_top": 56,
         "padding_bottom": 56
       }
@@ -173,36 +173,46 @@
         "feature_4_title": "Everyday Comfort"
       }
     },
-    "featured_collection_NMabDU": {
-      "type": "featured-collection",
-      "name": "t:sections.featured-collection.presets.name",
+    "wa_performance_edit": {
+      "type": "wa-performance-edit",
+      "blocks": {
+        "wa_performance_session": {
+          "type": "image",
+          "settings": {
+            "default_artwork": "session",
+            "alt_text": "Wear Active athlete in a white patterned performance shirt",
+            "link": "/collections/mens-shirts"
+          }
+        },
+        "wa_performance_balance": {
+          "type": "image",
+          "settings": {
+            "default_artwork": "balance",
+            "alt_text": "Wear Active athlete balancing a football while wearing a performance shirt",
+            "link": "/collections/mens-shirts"
+          }
+        },
+        "wa_performance_breathe": {
+          "type": "image",
+          "settings": {
+            "default_artwork": "breathe",
+            "alt_text": "Close-up of the breathable fabric and Wear Active logo",
+            "link": "/collections/mens-shirts"
+          }
+        }
+      },
+      "block_order": [
+        "wa_performance_session",
+        "wa_performance_balance",
+        "wa_performance_breathe"
+      ],
       "settings": {
-        "collection": "✨-best-selling-collection-✨",
-        "products_to_show": 8,
-        "wa_eyebrow": "BEST SELLERS",
-        "title": "Best Selling",
-        "heading_size": "h1",
-        "wa_subtitle": "The pieces customers reach for first.",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "columns_desktop": 5,
-        "enable_desktop_slider": true,
-        "full_width": true,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "color_scheme": "scheme-3",
-        "wa_background": "evergreen",
-        "image_ratio": "portrait",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": true,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "swipe_on_mobile": true,
-        "padding_top": 12,
-        "padding_bottom": 12
+        "eyebrow": "THE PERFORMANCE EDIT",
+        "heading": "Built to move.",
+        "cta_text": "Shop performance →",
+        "cta_link": "/collections/men",
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     },
     "wa_lifestyle_gallery": {
@@ -215,7 +225,7 @@
         "cta_link": "/collections/all",
         "portrait_1_alt": "Wear Active athlete in a red performance polo",
         "portrait_2_alt": "Wear Active athlete in a red polo beside racket sports equipment",
-        "portrait_3_alt": "Three Wear Active athletes in performance clothing",
+        "portrait_3_alt": "Wear Active athlete in a red performance polo holding a racket",
         "padding_top": 80,
         "padding_bottom": 80
       }
@@ -320,7 +330,7 @@
     "wa_shop_by_category",
     "wa_campaign_story",
     "wa_performance_features",
-    "featured_collection_NMabDU",
+    "wa_performance_edit",
     "wa_lifestyle_gallery",
     "wa_shop_by_product_category",
     "wa_closing_banner"
