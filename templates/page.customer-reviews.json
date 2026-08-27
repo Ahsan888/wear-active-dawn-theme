@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "wa_reviews_hub": {
+      "type": "wa-reviews-hub",
+      "settings": {
+        "eyebrow": "CUSTOMER REVIEWS",
+        "heading": "Real fit. Real feedback.",
+        "intro": "Verified feedback from customers who train, move and live in Wear Active.",
+        "show_reward": true,
+        "review_cta_text": "Write a product review",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "wa_reviews_hub"
+  ]
+}

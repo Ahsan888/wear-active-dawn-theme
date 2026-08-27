@@ -1,0 +1,197 @@
+/* ==========================================================================
+   Wear Active custom code start — wa-reviews-hub.css
+   Customer reviews landing page and transparent media-review reward.
+   ========================================================================== */
+
+.wa-reviews-hub {
+  color: var(--wa-color-evergreen);
+  background: var(--wa-color-parchment);
+}
+
+.wa-reviews-hub__inner {
+  width: min(100%, 120rem);
+  margin: 0 auto;
+  padding-right: 2rem;
+  padding-left: 2rem;
+}
+
+.wa-reviews-hub__header {
+  max-width: 78rem;
+  margin-bottom: 3.2rem;
+}
+
+.wa-reviews-hub__eyebrow,
+.wa-reviews-hub__reward-label {
+  margin: 0 0 0.9rem;
+  color: rgba(var(--wa-color-evergreen-rgb), 0.62);
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: 0.18em;
+  line-height: var(--wa-leading-snug);
+  text-transform: uppercase;
+}
+
+.wa-reviews-hub__heading {
+  margin: 0;
+  color: inherit;
+  font-size: clamp(4rem, 11vw, 7.2rem);
+  font-weight: var(--wa-weight-extrabold);
+  letter-spacing: var(--wa-tracking-tighter);
+  line-height: 0.96;
+  text-transform: uppercase;
+}
+
+.wa-reviews-hub__intro {
+  max-width: 62rem;
+  margin: 1.8rem 0 0;
+  color: rgba(var(--wa-color-evergreen-rgb), 0.72);
+  font-size: var(--wa-text-md);
+  line-height: var(--wa-leading-relaxed);
+}
+
+.wa-reviews-hub__reward {
+  display: grid;
+  gap: 2rem;
+  margin-bottom: 4rem;
+  padding: 2.4rem;
+  color: var(--wa-color-parchment);
+  background: var(--wa-color-coffee);
+}
+
+.wa-reviews-hub__reward-mark {
+  align-self: start;
+  width: fit-content;
+  padding-bottom: 0.8rem;
+  border-bottom: 0.2rem solid currentColor;
+  font-size: clamp(3.2rem, 10vw, 5.6rem);
+  font-weight: var(--wa-weight-extrabold);
+  letter-spacing: var(--wa-tracking-tighter);
+  line-height: 1;
+}
+
+.wa-reviews-hub__reward-label {
+  color: rgba(var(--wa-color-parchment-rgb), 0.66);
+}
+
+.wa-reviews-hub__reward-heading {
+  margin: 0;
+  color: inherit;
+  font-size: clamp(2.6rem, 7vw, 4rem);
+  font-weight: var(--wa-weight-extrabold);
+  letter-spacing: var(--wa-tracking-tight);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.wa-reviews-hub__reward-text {
+  max-width: 65rem;
+  margin: 1.4rem 0 0;
+  color: rgba(var(--wa-color-parchment-rgb), 0.82);
+  font-size: var(--wa-text-base);
+  line-height: var(--wa-leading-relaxed);
+}
+
+.wa-reviews-hub__reward-terms {
+  display: grid;
+  gap: 0.8rem;
+  margin: 1.8rem 0 0;
+  padding: 0;
+  color: rgba(var(--wa-color-parchment-rgb), 0.76);
+  font-size: var(--wa-text-sm);
+  line-height: var(--wa-leading-normal);
+  list-style: none;
+}
+
+.wa-reviews-hub__reward-terms li {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.wa-reviews-hub__reward-terms li::before {
+  content: '';
+  position: absolute;
+  top: 0.65em;
+  left: 0;
+  width: 0.45rem;
+  height: 0.45rem;
+  background: currentColor;
+}
+
+.wa-reviews-hub__reward-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-height: 4.6rem;
+  margin-top: 2.2rem;
+  padding: 1.2rem 1.8rem;
+  color: var(--wa-color-evergreen);
+  background: var(--wa-color-parchment);
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: var(--wa-tracking-wider);
+  line-height: var(--wa-leading-snug);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.wa-reviews-hub__page-content {
+  max-width: 78rem;
+  margin: 0 auto 3.2rem;
+}
+
+.wa-reviews-hub__widget {
+  border-top: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.16);
+  padding-top: 3.2rem;
+}
+
+.wa-reviews-hub__editor-note {
+  padding: 2rem;
+  border: 0.1rem dashed rgba(var(--wa-color-evergreen-rgb), 0.36);
+  color: rgba(var(--wa-color-evergreen-rgb), 0.68);
+  font-size: var(--wa-text-sm);
+  line-height: var(--wa-leading-normal);
+  text-align: center;
+}
+
+@media screen and (min-width: 750px) {
+  .wa-reviews-hub__inner {
+    padding-right: 5rem;
+    padding-left: 5rem;
+  }
+
+  .wa-reviews-hub__header {
+    margin-bottom: 4.8rem;
+  }
+
+  .wa-reviews-hub__intro {
+    font-size: var(--wa-text-lg);
+  }
+
+  .wa-reviews-hub__reward {
+    grid-template-columns: minmax(18rem, 0.35fr) minmax(0, 1fr);
+    gap: clamp(3.2rem, 6vw, 8rem);
+    margin-bottom: 6.4rem;
+    padding: clamp(3.2rem, 5vw, 6.4rem);
+  }
+
+  .wa-reviews-hub__reward-terms {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 2.4rem;
+  }
+
+  .wa-reviews-hub__widget {
+    padding-top: 4.8rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .wa-reviews-hub__inner {
+    padding-right: 6rem;
+    padding-left: 6rem;
+  }
+}
+
+.wa-reviews-hub__reward-cta:focus-visible {
+  outline: 0.2rem solid currentColor;
+  outline-offset: 0.3rem;
+}
