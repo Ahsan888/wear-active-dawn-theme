@@ -9,41 +9,37 @@
  */
 {
   "sections": {
-    "slideshow_LtamGJ": {
-      "type": "slideshow",
+    "wa_hero_carousel": {
+      "type": "wa-hero-carousel",
       "blocks": {
-        "slide_cYQCt9": {
+        "wa_hero_slide_1": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Website_announcement.jpg",
-            "image_overlay_opacity": 0,
-            "heading": "",
-            "heading_size": "h1",
-            "subheading": "",
-            "button_label": "",
-            "link": "",
-            "button_style_secondary": false,
-            "show_text_box": false,
-            "box_align": "middle-center",
-            "text_alignment": "center",
-            "text_alignment_mobile": "center",
-            "color_scheme": ""
+            "default_artwork": "hero_2",
+            "alt_text": "Wear Active red polo styled for racket sports",
+            "link": ""
+          }
+        },
+        "wa_hero_slide_2": {
+          "type": "slide",
+          "settings": {
+            "default_artwork": "hero_1",
+            "alt_text": "Wear Active Summer Essentials 26 campaign",
+            "link": ""
           }
         }
       },
       "block_order": [
-        "slide_cYQCt9"
+        "wa_hero_slide_1",
+        "wa_hero_slide_2"
       ],
-      "name": "t:sections.slideshow.presets.name",
       "settings": {
-        "layout": "full_bleed",
-        "slide_height": "adapt_image",
-        "slider_visual": "dots",
-        "auto_rotate": false,
+        "accessibility_label": "Wear Active featured campaigns",
+        "auto_rotate": true,
         "change_slides_speed": 5,
-        "image_behavior": "none",
-        "show_text_below": false,
-        "accessibility_info": ""
+        "show_arrows": true,
+        "show_dots": true,
+        "color_scheme": "scheme-1"
       }
     },
     "wa_trust_strip": {
@@ -52,29 +48,29 @@
         "wa_trust_delivery": {
           "type": "trust_item",
           "settings": {
-            "title": "Free Delivery",
-            "text": "Across Pakistan"
+            "icon": "globe",
+            "title": "Free Delivery"
           }
         },
         "wa_trust_timing": {
           "type": "trust_item",
           "settings": {
-            "title": "2–5 Working Days",
-            "text": "Tracking shared on WhatsApp"
+            "icon": "dispatch",
+            "title": "2–5 Working Days"
           }
         },
         "wa_trust_exchange": {
           "type": "trust_item",
           "settings": {
-            "title": "7-Day Size Exchange",
-            "text": "Discounted products included"
+            "icon": "hanger",
+            "title": "7-Day Size Exchange"
           }
         },
         "wa_trust_payment": {
           "type": "trust_item",
           "settings": {
-            "title": "Flexible Payment",
-            "text": "COD · Bank Transfer · JazzCash"
+            "icon": "payment",
+            "title": "COD · Bank · JazzCash"
           }
         }
       },
@@ -138,6 +134,21 @@
         "padding_bottom": 56
       }
     },
+    "wa_campaign_story": {
+      "type": "wa-campaign-story",
+      "settings": {
+        "eyebrow": "SUMMER ESSENTIALS 26",
+        "heading": "Made for the way you move.",
+        "text": "Technical comfort, clean silhouettes and versatile layers for training, recovery and every plan in between.",
+        "cta_text": "Explore the collection →",
+        "cta_link": "/collections/all",
+        "primary_alt": "Wear Active athletes with racket sports equipment",
+        "detail_alt": "Wear Active performance trouser and top details",
+        "wide_alt": "Wear Active athlete tossing a tennis ball",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
     "wa_performance_features": {
       "type": "wa-performance-features",
       "settings": {
@@ -151,62 +162,12 @@
         "padding_bottom": 120,
         "enable_feature_1": true,
         "feature_1_title": "Moisture-Wicking",
-        "feature_1_description": "Keeps you dry during training and daily movement.",
         "enable_feature_2": true,
         "feature_2_title": "4-Way Stretch",
-        "feature_2_description": "Moves naturally with your body without restriction.",
         "enable_feature_3": true,
         "feature_3_title": "Breathable Fabric",
-        "feature_3_description": "Designed to maximize airflow and lasting comfort.",
         "enable_feature_4": true,
-        "feature_4_title": "Everyday Comfort",
-        "feature_4_description": "Made for the gym, work, travel, and everything in between."
-      }
-    },
-    "wa_order_journey": {
-      "type": "wa-order-journey",
-      "blocks": {
-        "wa_order_place": {
-          "type": "step",
-          "settings": {
-            "title": "Place your order",
-            "text": "Choose Cash on Delivery, Bank Transfer or JazzCash at checkout."
-          }
-        },
-        "wa_order_confirm": {
-          "type": "step",
-          "settings": {
-            "title": "We confirm COD",
-            "text": "Cash on Delivery orders are confirmed with you on WhatsApp."
-          }
-        },
-        "wa_order_dispatch": {
-          "type": "step",
-          "settings": {
-            "title": "We dispatch",
-            "text": "Your order ships with Leopards or Trax and tracking is shared on WhatsApp."
-          }
-        },
-        "wa_order_deliver": {
-          "type": "step",
-          "settings": {
-            "title": "Delivered free",
-            "text": "Receive your order anywhere in Pakistan within 2–5 working days."
-          }
-        }
-      },
-      "block_order": [
-        "wa_order_place",
-        "wa_order_confirm",
-        "wa_order_dispatch",
-        "wa_order_deliver"
-      ],
-      "settings": {
-        "eyebrow": "WHAT HAPPENS NEXT",
-        "heading": "From checkout to your door",
-        "intro": "Clear confirmation, tracked dispatch and support from a real person throughout your order.",
-        "padding_top": 64,
-        "padding_bottom": 64
+        "feature_4_title": "Everyday Comfort"
       }
     },
     "featured_collection_NMabDU": {
@@ -241,12 +202,28 @@
         "padding_bottom": 12
       }
     },
+    "wa_lifestyle_gallery": {
+      "type": "wa-lifestyle-gallery",
+      "settings": {
+        "eyebrow": "THE SUMMER EDIT",
+        "heading": "On court. Off duty.",
+        "text": "Performance pieces built for movement and styled for everything after.",
+        "cta_text": "Shop the collection →",
+        "cta_link": "/collections/all",
+        "portrait_1_alt": "Wear Active athlete in a red performance polo",
+        "portrait_2_alt": "Wear Active athlete in a red polo beside racket sports equipment",
+        "portrait_3_alt": "Three Wear Active athletes in performance clothing",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
     "wa_shop_by_product_category": {
       "type": "wa-shop-by-category",
       "blocks": {
         "category_shirts": {
           "type": "category",
           "settings": {
+            "icon": "shirt",
             "title": "Shirts",
             "collection": "shirts",
             "link": "",
@@ -256,6 +233,7 @@
         "category_trousers": {
           "type": "category",
           "settings": {
+            "icon": "trousers",
             "title": "Trousers",
             "collection": "trousers",
             "link": "",
@@ -265,6 +243,7 @@
         "category_womens": {
           "type": "category",
           "settings": {
+            "icon": "womens",
             "title": "Women's",
             "collection": "women-s-performance-collection",
             "link": "",
@@ -274,6 +253,7 @@
         "category_shorts": {
           "type": "category",
           "settings": {
+            "icon": "shorts",
             "title": "Shorts",
             "collection": "shorts",
             "link": "",
@@ -283,6 +263,7 @@
         "category_all": {
           "type": "category",
           "settings": {
+            "icon": "hanger",
             "title": "All Products",
             "collection": "all-products",
             "link": "",
@@ -292,6 +273,7 @@
         "category_best_selling": {
           "type": "category",
           "settings": {
+            "icon": "breathable",
             "title": "Best Selling",
             "collection": "✨-best-selling-collection-✨",
             "link": "",
@@ -319,15 +301,25 @@
         "padding_top": 64,
         "padding_bottom": 64
       }
+    },
+    "wa_closing_banner": {
+      "type": "wa-image-banner",
+      "settings": {
+        "alt_text": "Wear Active details that matter campaign",
+        "link": "",
+        "color_scheme": "scheme-1"
+      }
     }
   },
   "order": [
-    "slideshow_LtamGJ",
+    "wa_hero_carousel",
     "wa_trust_strip",
     "wa_shop_by_category",
+    "wa_campaign_story",
     "wa_performance_features",
-    "wa_order_journey",
     "featured_collection_NMabDU",
-    "wa_shop_by_product_category"
+    "wa_lifestyle_gallery",
+    "wa_shop_by_product_category",
+    "wa_closing_banner"
   ]
 }

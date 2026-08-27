@@ -8,10 +8,10 @@
     <ul class="wa-trust-strip__grid" role="list">
       {%- for block in section.blocks -%}
         <li class="wa-trust-strip__item" {{ block.shopify_attributes }}>
-          <span class="wa-trust-strip__title">{{ block.settings.title | escape }}</span>
-          {%- if block.settings.text != blank -%}
-            <span class="wa-trust-strip__text">{{ block.settings.text | escape }}</span>
+          {%- if block.settings.icon != blank and block.settings.icon != 'none' -%}
+            {% render 'wa-brand-icon', icon: block.settings.icon, class: 'wa-trust-strip__icon' %}
           {%- endif -%}
+          <span class="wa-trust-strip__title">{{ block.settings.title | escape }}</span>
         </li>
       {%- endfor -%}
     </ul>
@@ -30,16 +30,27 @@
       "name": "Trust item",
       "settings": [
         {
+          "type": "select",
+          "id": "icon",
+          "label": "Brand icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "globe", "label": "Globe" },
+            { "value": "dispatch", "label": "Dispatch" },
+            { "value": "hanger", "label": "Hanger" },
+            { "value": "payment", "label": "Payment" },
+            { "value": "phone", "label": "Phone" },
+            { "value": "email", "label": "Email" },
+            { "value": "breathable", "label": "Breathable" },
+            { "value": "recycle", "label": "Recycle" }
+          ],
+          "default": "none"
+        },
+        {
           "type": "text",
           "id": "title",
           "label": "Title",
           "default": "Free Delivery"
-        },
-        {
-          "type": "text",
-          "id": "text",
-          "label": "Supporting text",
-          "default": "Across Pakistan"
         }
       ]
     }
@@ -51,29 +62,29 @@
         {
           "type": "trust_item",
           "settings": {
-            "title": "Free Delivery",
-            "text": "Across Pakistan"
+            "icon": "globe",
+            "title": "Free Delivery"
           }
         },
         {
           "type": "trust_item",
           "settings": {
-            "title": "2–5 Working Days",
-            "text": "Tracking shared on WhatsApp"
+            "icon": "dispatch",
+            "title": "2–5 Working Days"
           }
         },
         {
           "type": "trust_item",
           "settings": {
-            "title": "7-Day Size Exchange",
-            "text": "Discounted products included"
+            "icon": "hanger",
+            "title": "7-Day Size Exchange"
           }
         },
         {
           "type": "trust_item",
           "settings": {
-            "title": "Flexible Payment",
-            "text": "COD · Bank Transfer · JazzCash"
+            "icon": "payment",
+            "title": "COD · Bank · JazzCash"
           }
         }
       ]

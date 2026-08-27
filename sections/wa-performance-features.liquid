@@ -119,37 +119,46 @@
   }
 
   .wa-performance-features--{{ section.id }} .wa-performance-features__strip {
-    padding: 5.6rem 0;
+    padding: 3.6rem 0;
     background-color: var(--wa-color-parchment);
     border-top: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.1);
     border-bottom: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.1);
   }
 
   .wa-performance-features--{{ section.id }} .wa-performance-features__strip-inner {
-    max-width: 1400px;
+    max-width: 1600px;
     margin: 0 auto;
     padding: 0 2rem;
   }
 
   .wa-performance-features--{{ section.id }} .wa-performance-features__list {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 3.2rem 2.4rem;
+    grid-auto-columns: max-content;
+    grid-auto-flow: column;
+    gap: 2.4rem;
+    overflow-x: auto;
+    scrollbar-width: none;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
+  .wa-performance-features--{{ section.id }} .wa-performance-features__list::-webkit-scrollbar {
+    display: none;
+  }
+
   .wa-performance-features--{{ section.id }} .wa-performance-features__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
     min-width: 0;
-    text-align: center;
   }
 
   .wa-performance-features--{{ section.id }} .wa-performance-features__icon {
-    display: block;
+    --wa-brand-icon-size: 3rem;
     width: 3rem;
     height: 3rem;
-    margin: 0 auto 1.8rem;
     color: currentColor;
     opacity: 0.92;
   }
@@ -161,23 +170,14 @@
   }
 
   .wa-performance-features--{{ section.id }} .wa-performance-features__title {
-    margin: 0 0 0.9rem;
+    margin: 0;
+    white-space: nowrap;
     font-size: var(--wa-text-sm);
     font-weight: var(--wa-weight-semibold);
     letter-spacing: var(--wa-tracking-wider);
     line-height: var(--wa-leading-snug);
     text-transform: uppercase;
     color: var(--wa-color-evergreen);
-  }
-
-  .wa-performance-features--{{ section.id }} .wa-performance-features__description {
-    max-width: 24rem;
-    margin: 0 auto;
-    font-size: var(--wa-text-sm);
-    font-weight: var(--wa-weight-regular);
-    letter-spacing: var(--wa-tracking-normal);
-    line-height: var(--wa-leading-relaxed);
-    color: rgba(var(--wa-color-evergreen-rgb), 0.7);
   }
 
   @media screen and (min-width: 750px) {
@@ -220,10 +220,6 @@
       padding: 0 5rem;
     }
 
-    .wa-performance-features--{{ section.id }} .wa-performance-features__list {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 3.2rem;
-    }
   }
 
   @media screen and (min-width: 990px) {
@@ -234,6 +230,16 @@
 
     .wa-performance-features--{{ section.id }} .wa-performance-features__strip-inner {
       padding: 0 6rem;
+    }
+  }
+
+  @media screen and (min-width: 1400px) {
+    .wa-performance-features--{{ section.id }} .wa-performance-features__list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-auto-columns: auto;
+      grid-auto-flow: row;
+      gap: 2.4rem;
+      overflow-x: visible;
     }
   }
 
@@ -310,60 +316,29 @@
       <ul class="wa-performance-features__list" role="list">
         {%- if section.settings.enable_feature_1 -%}
           <li class="wa-performance-features__item">
-            <span class="wa-performance-features__icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none" focusable="false">
-                <path d="M4 16.5c4.2-3 7.8-3 12 0s7.8 3 12 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M4 21.5c4.2-3 7.8-3 12 0s7.8 3 12 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M13.5 4.5c-2.2 2.7-3.4 4.8-3.4 6.4a3.9 3.9 0 0 0 7.8 0c0-1.6-1.2-3.7-3.4-6.4a.7.7 0 0 0-1 0Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-              </svg>
-            </span>
+            {% render 'wa-brand-icon', icon: 'moisture', class: 'wa-performance-features__icon' %}
             <h3 class="wa-performance-features__title">{{ section.settings.feature_1_title | escape }}</h3>
-            <p class="wa-performance-features__description">{{ section.settings.feature_1_description | escape }}</p>
           </li>
         {%- endif -%}
 
         {%- if section.settings.enable_feature_2 -%}
           <li class="wa-performance-features__item">
-            <span class="wa-performance-features__icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none" focusable="false">
-                <path d="M7.5 14h13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="m11 9-5 5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="m17 9 5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M14 6.5v15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="1.5 4"/>
-              </svg>
-            </span>
+            {% render 'wa-brand-icon', icon: 'stretch', class: 'wa-performance-features__icon' %}
             <h3 class="wa-performance-features__title">{{ section.settings.feature_2_title | escape }}</h3>
-            <p class="wa-performance-features__description">{{ section.settings.feature_2_description | escape }}</p>
           </li>
         {%- endif -%}
 
         {%- if section.settings.enable_feature_3 -%}
           <li class="wa-performance-features__item">
-            <span class="wa-performance-features__icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none" focusable="false">
-                <path d="M4 10h12.6a3.2 3.2 0 1 0-3.2-3.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M4 15h17.8a3.2 3.2 0 1 1-3.2 3.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M4 20h8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-            </span>
+            {% render 'wa-brand-icon', icon: 'breathable', class: 'wa-performance-features__icon' %}
             <h3 class="wa-performance-features__title">{{ section.settings.feature_3_title | escape }}</h3>
-            <p class="wa-performance-features__description">{{ section.settings.feature_3_description | escape }}</p>
           </li>
         {%- endif -%}
 
         {%- if section.settings.enable_feature_4 -%}
           <li class="wa-performance-features__item">
-            <span class="wa-performance-features__icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none" focusable="false">
-                <path d="M14 24a10 10 0 1 0-10-10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M14 8v6l4 2.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M4 14h3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M14 4v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M24 14h-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-            </span>
+            {% render 'wa-brand-icon', icon: 'shirt', class: 'wa-performance-features__icon' %}
             <h3 class="wa-performance-features__title">{{ section.settings.feature_4_title | escape }}</h3>
-            <p class="wa-performance-features__description">{{ section.settings.feature_4_description | escape }}</p>
           </li>
         {%- endif -%}
       </ul>
@@ -455,12 +430,6 @@
       "default": "Moisture-Wicking"
     },
     {
-      "type": "text",
-      "id": "feature_1_description",
-      "label": "Description",
-      "default": "Keeps you dry during training and daily movement."
-    },
-    {
       "type": "header",
       "content": "Feature 2"
     },
@@ -475,12 +444,6 @@
       "id": "feature_2_title",
       "label": "Title",
       "default": "4-Way Stretch"
-    },
-    {
-      "type": "text",
-      "id": "feature_2_description",
-      "label": "Description",
-      "default": "Moves naturally with your body without restriction."
     },
     {
       "type": "header",
@@ -499,12 +462,6 @@
       "default": "Breathable Fabric"
     },
     {
-      "type": "text",
-      "id": "feature_3_description",
-      "label": "Description",
-      "default": "Designed to maximize airflow and lasting comfort."
-    },
-    {
       "type": "header",
       "content": "Feature 4"
     },
@@ -519,12 +476,6 @@
       "id": "feature_4_title",
       "label": "Title",
       "default": "Everyday Comfort"
-    },
-    {
-      "type": "text",
-      "id": "feature_4_description",
-      "label": "Description",
-      "default": "Made for the gym, work, travel, and everything in between."
     }
   ],
   "presets": [

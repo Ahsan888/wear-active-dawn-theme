@@ -219,3 +219,14 @@ button.shopify-payment-button__button--unbranded {
     transition: none;
   }
 }
+.wa-brand-icon {
+  --wa-brand-icon-size: 2.4rem;
+  display: inline-block;
+  flex: 0 0 auto;
+  width: var(--wa-brand-icon-size);
+  height: var(--wa-brand-icon-size);
+  color: inherit;
+  background-color: currentColor;
+  -webkit-mask: var(--wa-brand-icon-source) center / contain no-repeat;
+  mask: var(--wa-brand-icon-source) center / contain no-repeat;
+}
