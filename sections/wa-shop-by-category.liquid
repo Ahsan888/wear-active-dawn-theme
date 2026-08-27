@@ -129,6 +129,11 @@
                   {%- else -%}
                     {{ 'collection-1' | placeholder_svg_tag: 'wa-shop-by-category__placeholder' }}
                   {%- endif -%}
+                  {%- if block.settings.icon != blank and block.settings.icon != 'none' -%}
+                    <span class="wa-shop-by-category__icon-badge">
+                      {% render 'wa-brand-icon', icon: block.settings.icon, class: 'wa-shop-by-category__brand-icon' %}
+                    </span>
+                  {%- endif -%}
                   <span class="wa-shop-by-category__overlay" aria-hidden="true"></span>
                 </div>
 
@@ -298,6 +303,25 @@
           "label": "Category image"
         },
         {
+          "type": "select",
+          "id": "icon",
+          "label": "Brand icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "shirt", "label": "Shirt" },
+            { "value": "polo", "label": "Polo" },
+            { "value": "tank", "label": "Tank" },
+            { "value": "trousers", "label": "Trousers" },
+            { "value": "shorts", "label": "Shorts" },
+            { "value": "hoodie", "label": "Hoodie" },
+            { "value": "jacket", "label": "Jacket" },
+            { "value": "womens", "label": "Women's activewear" },
+            { "value": "hanger", "label": "Hanger" },
+            { "value": "breathable", "label": "Breathable" }
+          ],
+          "default": "none"
+        },
+        {
           "type": "text",
           "id": "title",
           "label": "Category title",
@@ -330,36 +354,42 @@
         {
           "type": "category",
           "settings": {
+            "icon": "shirt",
             "title": "Shirts"
           }
         },
         {
           "type": "category",
           "settings": {
+            "icon": "trousers",
             "title": "Trousers"
           }
         },
         {
           "type": "category",
           "settings": {
+            "icon": "womens",
             "title": "Women's"
           }
         },
         {
           "type": "category",
           "settings": {
+            "icon": "shorts",
             "title": "Shorts"
           }
         },
         {
           "type": "category",
           "settings": {
+            "icon": "hoodie",
             "title": "Hoodies"
           }
         },
         {
           "type": "category",
           "settings": {
+            "icon": "jacket",
             "title": "Jackets"
           }
         }

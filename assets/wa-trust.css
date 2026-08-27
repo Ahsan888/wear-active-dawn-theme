@@ -10,44 +10,44 @@
 
 .wa-trust-strip__grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-columns: max-content;
+  grid-auto-flow: column;
+  overflow-x: auto;
+  scrollbar-width: none;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.wa-trust-strip__item {
-  min-width: 0;
-  padding: 1.5rem 1rem;
-  text-align: center;
+.wa-trust-strip__grid::-webkit-scrollbar {
+  display: none;
 }
 
-.wa-trust-strip__item:nth-child(2n) {
+.wa-trust-strip__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  min-width: 0;
+  padding: 1.5rem 2rem;
+}
+
+.wa-trust-strip__icon {
+  --wa-brand-icon-size: 2rem;
+  color: var(--wa-color-parchment);
+}
+
+.wa-trust-strip__item + .wa-trust-strip__item {
   border-left: 0.1rem solid rgba(var(--wa-color-parchment-rgb), 0.18);
 }
 
-.wa-trust-strip__item:nth-child(n + 3) {
-  border-top: 0.1rem solid rgba(var(--wa-color-parchment-rgb), 0.18);
-}
-
-.wa-trust-strip__title,
-.wa-trust-strip__text {
-  display: block;
-}
-
 .wa-trust-strip__title {
+  white-space: nowrap;
   font-size: var(--wa-text-xs);
   font-weight: var(--wa-weight-bold);
   letter-spacing: var(--wa-tracking-wider);
   line-height: var(--wa-leading-snug);
   text-transform: uppercase;
-}
-
-.wa-trust-strip__text {
-  margin-top: 0.35rem;
-  color: rgba(var(--wa-color-parchment-rgb), 0.72);
-  font-size: var(--wa-text-2xs);
-  line-height: var(--wa-leading-normal);
 }
 
 .wa-order-journey {
@@ -286,23 +286,22 @@
   text-underline-offset: 0.35rem;
 }
 
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 1200px) {
   .wa-trust-strip__grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-columns: auto;
+    grid-auto-flow: row;
+    overflow-x: visible;
   }
 
   .wa-trust-strip__item {
-    padding: 1.8rem 1.4rem;
+    min-height: 7.2rem;
+    padding: 1.6rem 1.2rem;
   }
 
-  .wa-trust-strip__item:nth-child(n + 3) {
-    border-top: 0;
-  }
+}
 
-  .wa-trust-strip__item + .wa-trust-strip__item {
-    border-left: 0.1rem solid rgba(var(--wa-color-parchment-rgb), 0.18);
-  }
-
+@media screen and (min-width: 750px) {
   .wa-order-journey__header {
     grid-template-columns: minmax(0, 1.15fr) minmax(28rem, 0.85fr);
     align-items: end;

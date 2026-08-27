@@ -1,0 +1,78 @@
+{{ 'wa-image-banner.css' | asset_url | stylesheet_tag }}
+
+<div class="wa-image-banner color-{{ section.settings.color_scheme }} gradient">
+  {%- if section.settings.link != blank -%}
+    <a class="wa-image-banner__link" href="{{ section.settings.link }}">
+  {%- endif -%}
+
+  {%- if section.settings.image != blank -%}
+    {%- assign image_alt = section.settings.alt_text | default: section.settings.image.alt -%}
+    {{
+      section.settings.image
+      | image_url: width: 2400
+      | image_tag:
+        class: 'wa-image-banner__image',
+        widths: '480, 750, 960, 1280, 1600, 2048, 2400',
+        sizes: '100vw',
+        loading: 'lazy',
+        alt: image_alt
+    }}
+  {%- else -%}
+    <picture class="wa-image-banner__picture">
+      <source media="(max-width: 749px)" srcset="{{ 'wa-home-closing-banner-mobile.webp' | asset_url }}">
+      <img
+        class="wa-image-banner__image"
+        src="{{ 'wa-home-closing-banner.webp' | asset_url }}"
+        width="2048"
+        height="1152"
+        alt="{{ section.settings.alt_text | escape }}"
+        loading="lazy"
+      >
+    </picture>
+  {%- endif -%}
+
+  {%- if section.settings.link != blank -%}
+    </a>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "WA image banner",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Custom image",
+      "info": "The included Details That Matter artwork is used when this is blank."
+    },
+    {
+      "type": "text",
+      "id": "alt_text",
+      "label": "Image alt text",
+      "default": "Wear Active details that matter campaign"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Optional link"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "WA image banner"
+    }
+  ]
+}
+{% endschema %}

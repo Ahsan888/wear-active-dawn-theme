@@ -1,0 +1,239 @@
+{{ 'wa-campaign-story.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .wa-campaign-story--{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .wa-campaign-story--{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="wa-campaign-story wa-campaign-story--{{ section.id }}">
+  <div class="wa-campaign-story__inner">
+    <header class="wa-campaign-story__header">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="wa-campaign-story__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="wa-campaign-story__heading">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+      </div>
+      <div class="wa-campaign-story__copy">
+        {%- if section.settings.text != blank -%}
+          <p class="wa-campaign-story__text">{{ section.settings.text | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.cta_text != blank -%}
+          <a
+            class="wa-campaign-story__cta"
+            {% if section.settings.cta_link != blank %}
+              href="{{ section.settings.cta_link }}"
+            {% else %}
+              role="link" aria-disabled="true"
+            {% endif %}
+          >
+            {{ section.settings.cta_text | escape }}
+          </a>
+        {%- endif -%}
+      </div>
+    </header>
+
+    <div class="wa-campaign-story__gallery">
+      <div class="wa-campaign-story__media wa-campaign-story__media--primary">
+        {%- if section.settings.primary_image != blank -%}
+          {{
+            section.settings.primary_image
+            | image_url: width: 1800
+            | image_tag:
+              class: 'wa-campaign-story__image',
+              widths: '480, 720, 960, 1200, 1500, 1800',
+              sizes: '(min-width: 750px) 55vw, 100vw',
+              loading: 'lazy',
+              alt: section.settings.primary_alt
+          }}
+        {%- else -%}
+          <picture class="wa-campaign-story__picture">
+            <source media="(max-width: 749px)" srcset="{{ 'wa-lifestyle-00930-mobile.webp' | asset_url }}">
+            <img
+              class="wa-campaign-story__image"
+              src="{{ 'wa-lifestyle-00930.webp' | asset_url }}"
+              width="1200"
+              height="1801"
+              loading="lazy"
+              alt="{{ section.settings.primary_alt | escape }}"
+            >
+          </picture>
+        {%- endif -%}
+      </div>
+
+      <div class="wa-campaign-story__secondary">
+        <div class="wa-campaign-story__media wa-campaign-story__media--detail">
+          {%- if section.settings.detail_image != blank -%}
+            {{
+              section.settings.detail_image
+              | image_url: width: 1500
+              | image_tag:
+                class: 'wa-campaign-story__image',
+                widths: '375, 550, 720, 960, 1200, 1500',
+                sizes: '(min-width: 750px) 42vw, 100vw',
+                loading: 'lazy',
+                alt: section.settings.detail_alt
+            }}
+          {%- else -%}
+            <picture class="wa-campaign-story__picture">
+              <source media="(max-width: 749px)" srcset="{{ 'wa-lifestyle-01127-mobile.webp' | asset_url }}">
+              <img
+                class="wa-campaign-story__image"
+                src="{{ 'wa-lifestyle-01127.webp' | asset_url }}"
+                width="1200"
+                height="1801"
+                loading="lazy"
+                alt="{{ section.settings.detail_alt | escape }}"
+              >
+            </picture>
+          {%- endif -%}
+        </div>
+
+        <div class="wa-campaign-story__media wa-campaign-story__media--wide">
+          {%- if section.settings.wide_image != blank -%}
+            {{
+              section.settings.wide_image
+              | image_url: width: 2000
+              | image_tag:
+                class: 'wa-campaign-story__image',
+                widths: '480, 720, 960, 1200, 1600, 2000',
+                sizes: '(min-width: 750px) 42vw, 100vw',
+                loading: 'lazy',
+                alt: section.settings.wide_alt
+            }}
+          {%- else -%}
+            <picture class="wa-campaign-story__picture">
+              <source media="(max-width: 749px)" srcset="{{ 'wa-lifestyle-wide-women-mobile.webp' | asset_url }}">
+              <img
+                class="wa-campaign-story__image"
+                src="{{ 'wa-lifestyle-wide-women.webp' | asset_url }}"
+                width="1800"
+                height="993"
+                loading="lazy"
+                alt="{{ section.settings.wide_alt | escape }}"
+              >
+            </picture>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "WA campaign story",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "SUMMER ESSENTIALS 26"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Made for the way you move."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Technical comfort, clean silhouettes and versatile layers for training, recovery and every plan in between."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button label",
+      "default": "Explore the collection →"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Campaign images"
+    },
+    {
+      "type": "image_picker",
+      "id": "primary_image",
+      "label": "Primary portrait",
+      "info": "The included group portrait is used when blank."
+    },
+    {
+      "type": "text",
+      "id": "primary_alt",
+      "label": "Primary image alt text",
+      "default": "Wear Active athletes with racket sports equipment"
+    },
+    {
+      "type": "image_picker",
+      "id": "detail_image",
+      "label": "Product detail image",
+      "info": "The included garment detail is used when blank."
+    },
+    {
+      "type": "text",
+      "id": "detail_alt",
+      "label": "Detail image alt text",
+      "default": "Wear Active performance trouser and top details"
+    },
+    {
+      "type": "image_picker",
+      "id": "wide_image",
+      "label": "Wide image",
+      "info": "The included women’s campaign image is used when blank."
+    },
+    {
+      "type": "text",
+      "id": "wide_alt",
+      "label": "Wide image alt text",
+      "default": "Wear Active athlete tossing a tennis ball"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "WA campaign story"
+    }
+  ]
+}
+{% endschema %}

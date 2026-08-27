@@ -1,0 +1,18 @@
+.wa-image-banner {
+  width: 100%;
+  background: #000;
+}
+
+.wa-image-banner__link,
+.wa-image-banner__picture,
+.wa-image-banner__image {
+  display: block;
+  width: 100%;
+}
+
+.wa-image-banner__image {
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  object-position: center;
+}

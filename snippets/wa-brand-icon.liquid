@@ -1,0 +1,59 @@
+{% comment %}
+  Wear Active custom code start — wa-brand-icon.liquid
+  Renders an approved Wear Active brand icon as a currentColor CSS mask.
+
+  Accepts:
+  - icon: {String} Approved icon key.
+  - class: {String} Optional additional class names.
+{% endcomment %}
+
+{%- liquid
+  assign wa_icon_asset = blank
+
+  case icon
+    when 'breathable'
+      assign wa_icon_asset = 'wa-brand-icon-breathable.png'
+    when 'dispatch'
+      assign wa_icon_asset = 'wa-brand-icon-dispatch.png'
+    when 'email'
+      assign wa_icon_asset = 'wa-brand-icon-email.png'
+    when 'globe'
+      assign wa_icon_asset = 'wa-brand-icon-globe.png'
+    when 'hanger'
+      assign wa_icon_asset = 'wa-brand-icon-hanger.png'
+    when 'hoodie'
+      assign wa_icon_asset = 'wa-brand-icon-hoodie.png'
+    when 'jacket'
+      assign wa_icon_asset = 'wa-brand-icon-jacket.png'
+    when 'moisture'
+      assign wa_icon_asset = 'wa-brand-icon-moisture.svg'
+    when 'payment'
+      assign wa_icon_asset = 'wa-brand-icon-payment.svg'
+    when 'phone'
+      assign wa_icon_asset = 'wa-brand-icon-phone.png'
+    when 'polo'
+      assign wa_icon_asset = 'wa-brand-icon-polo.png'
+    when 'recycle'
+      assign wa_icon_asset = 'wa-brand-icon-recycle.png'
+    when 'shirt'
+      assign wa_icon_asset = 'wa-brand-icon-shirt.png'
+    when 'shorts'
+      assign wa_icon_asset = 'wa-brand-icon-shorts.png'
+    when 'stretch'
+      assign wa_icon_asset = 'wa-brand-icon-stretch.svg'
+    when 'tank'
+      assign wa_icon_asset = 'wa-brand-icon-tank.png'
+    when 'trousers'
+      assign wa_icon_asset = 'wa-brand-icon-trousers.png'
+    when 'womens'
+      assign wa_icon_asset = 'wa-brand-icon-womens.png'
+  endcase
+-%}
+
+{%- if wa_icon_asset != blank -%}
+  <span
+    class="wa-brand-icon{% if class != blank %} {{ class }}{% endif %}"
+    style="--wa-brand-icon-source: url('{{ wa_icon_asset | asset_url }}');"
+    aria-hidden="true"
+  ></span>
+{%- endif -%}
