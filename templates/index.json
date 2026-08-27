@@ -89,6 +89,7 @@
           "type": "category",
           "settings": {
             "image": "shopify://shop_images/Shirt.webp",
+            "icon": "none",
             "title": "Men",
             "collection": "men",
             "link": "shopify://collections/men",
@@ -99,6 +100,7 @@
           "type": "category",
           "settings": {
             "image": "shopify://shop_images/Women.webp",
+            "icon": "none",
             "title": "Women",
             "collection": "women",
             "link": "",
@@ -109,6 +111,7 @@
           "type": "category",
           "settings": {
             "image": "shopify://shop_images/All.webp",
+            "icon": "none",
             "title": "Sale",
             "collection": "sale",
             "link": "/collections/sale",
@@ -224,8 +227,8 @@
           "type": "category",
           "settings": {
             "icon": "shirt",
-            "title": "Shirts",
-            "collection": "shirts",
+            "title": "Men's Shirts",
+            "collection": "mens-shirts",
             "link": "",
             "cta_text": "Shop Shirts"
           }
@@ -234,8 +237,8 @@
           "type": "category",
           "settings": {
             "icon": "trousers",
-            "title": "Trousers",
-            "collection": "trousers",
+            "title": "Men's Trousers",
+            "collection": "mens-trousers",
             "link": "",
             "cta_text": "Shop Trousers"
           }
