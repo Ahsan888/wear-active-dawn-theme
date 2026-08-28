@@ -158,7 +158,7 @@
 .wa-reviews-hub__widget .jdgm-review-card {
   border: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.12);
   border-radius: 0.8rem !important;
-  background: var(--wa-color-evergreen);
+  background: var(--wa-color-coffee);
   box-shadow: 0 1.2rem 3.2rem rgba(var(--wa-color-evergreen-rgb), 0.08);
 }
 
