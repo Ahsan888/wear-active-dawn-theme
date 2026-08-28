@@ -19,8 +19,9 @@
   }
 {%- endstyle -%}
 
-{%- if section.blocks.size > 0 or request.design_mode -%}
-  <section class="wa-reviews-showcase wa-reviews-showcase--{{ section.id }}">
+<section
+  class="wa-reviews-showcase wa-reviews-showcase--{{ section.id }}{% if section.blocks.size == 0 %} wa-reviews-showcase--empty{% endif %}"
+>
     <div class="wa-reviews-showcase__inner">
       <header class="wa-reviews-showcase__header">
         <div class="wa-reviews-showcase__heading-group">
@@ -53,16 +54,13 @@
             {% render block %}
           </div>
         {%- else -%}
-          {%- if request.design_mode -%}
-            <div class="wa-reviews-showcase__editor-note">
-              Add the Judge.me Cards Carousel app block to publish customer reviews here.
-            </div>
-          {%- endif -%}
+          <div class="wa-reviews-showcase__editor-note">
+            Add the Judge.me Cards Carousel app block to publish customer reviews here.
+          </div>
         {%- endfor -%}
       </div>
     </div>
   </section>
-{%- endif -%}
 
 {% schema %}
 {

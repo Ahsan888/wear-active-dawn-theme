@@ -9,6 +9,16 @@
   border-top: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.14);
 }
 
+/* Keep an unconfigured showcase off the storefront while making it selectable
+   inside Shopify's Theme Editor. */
+.wa-reviews-showcase--empty {
+  display: none;
+}
+
+.shopify-design-mode .wa-reviews-showcase--empty {
+  display: block;
+}
+
 .wa-reviews-showcase__inner {
   width: min(100%, 144rem);
   margin: 0 auto;
