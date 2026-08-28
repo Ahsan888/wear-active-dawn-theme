@@ -1,0 +1,56 @@
+{% comment %}
+  Wear Active custom code start — wa-header-reviews-menu-item.liquid
+  Adds the Customer Reviews destination until it is managed in Shopify Navigation.
+
+  Accepts:
+  - menu: Shopify linklist used by the header
+  - context: "desktop" or "drawer"
+{% endcomment %}
+
+{%- liquid
+  assign wa_reviews_url = '/pages/customer-reviews'
+  if pages['customer-reviews'] != blank
+    assign wa_reviews_url = pages['customer-reviews'].url
+  endif
+
+  assign wa_reviews_in_menu = false
+  for wa_menu_link in menu.links
+    if wa_menu_link.url contains '/pages/customer-reviews'
+      assign wa_reviews_in_menu = true
+      break
+    endif
+  endfor
+
+  assign wa_reviews_current = false
+  if request.path contains '/pages/customer-reviews'
+    assign wa_reviews_current = true
+  endif
+-%}
+
+{%- unless wa_reviews_in_menu -%}
+  <li>
+    {%- if context == 'drawer' -%}
+      <a
+        id="HeaderDrawer-reviews"
+        href="{{ wa_reviews_url }}"
+        class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if wa_reviews_current %} menu-drawer__menu-item--active{% endif %}"
+        {% if wa_reviews_current %}
+          aria-current="page"
+        {% endif %}
+      >
+        Reviews
+      </a>
+    {%- else -%}
+      <a
+        id="HeaderMenu-reviews"
+        href="{{ wa_reviews_url }}"
+        class="header__menu-item list-menu__item link link--text focus-inset"
+        {% if wa_reviews_current %}
+          aria-current="page"
+        {% endif %}
+      >
+        <span{% if wa_reviews_current %} class="header__active-menu-item"{% endif %}>Reviews</span>
+      </a>
+    {%- endif -%}
+  </li>
+{%- endunless -%}
