@@ -315,6 +315,18 @@
         "padding_bottom": 64
       }
     },
+    "wa_reviews_showcase": {
+      "type": "wa-reviews-showcase",
+      "settings": {
+        "eyebrow": "CUSTOMER REVIEWS",
+        "heading": "Worn by you. Proven in motion.",
+        "text": "Honest feedback on fit, comfort and performance from the people who wear Wear Active.",
+        "link_label": "Read all reviews",
+        "link": "shopify://pages/customer-reviews",
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
     "wa_closing_banner": {
       "type": "wa-image-banner",
       "settings": {
@@ -333,6 +345,7 @@
     "wa_performance_edit",
     "wa_lifestyle_gallery",
     "wa_shop_by_product_category",
+    "wa_reviews_showcase",
     "wa_closing_banner"
   ]
 }

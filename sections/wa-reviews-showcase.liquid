@@ -1,0 +1,138 @@
+{% comment %}
+  Wear Active custom code start — wa-reviews-showcase.liquid
+  Homepage frame for a live Judge.me reviews carousel or grid app block.
+{% endcomment %}
+
+{{ 'wa-reviews-showcase.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .wa-reviews-showcase--{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.6 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.6 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .wa-reviews-showcase--{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- if section.blocks.size > 0 or request.design_mode -%}
+  <section class="wa-reviews-showcase wa-reviews-showcase--{{ section.id }}">
+    <div class="wa-reviews-showcase__inner">
+      <header class="wa-reviews-showcase__header">
+        <div class="wa-reviews-showcase__heading-group">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="wa-reviews-showcase__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+          {%- endif -%}
+
+          {%- if section.settings.heading != blank -%}
+            <h2 class="wa-reviews-showcase__heading">{{ section.settings.heading | escape }}</h2>
+          {%- endif -%}
+        </div>
+
+        <div class="wa-reviews-showcase__intro-group">
+          {%- if section.settings.text != blank -%}
+            <p class="wa-reviews-showcase__text">{{ section.settings.text | escape }}</p>
+          {%- endif -%}
+
+          {%- if section.settings.link != blank and section.settings.link_label != blank -%}
+            <a class="wa-reviews-showcase__link" href="{{ section.settings.link }}">
+              {{ section.settings.link_label | escape }}
+              <span aria-hidden="true">→</span>
+            </a>
+          {%- endif -%}
+        </div>
+      </header>
+
+      <div class="wa-reviews-showcase__widget" aria-label="Wear Active customer reviews">
+        {%- for block in section.blocks -%}
+          <div class="wa-reviews-showcase__app-block" {{ block.shopify_attributes }}>
+            {% render block %}
+          </div>
+        {%- else -%}
+          {%- if request.design_mode -%}
+            <div class="wa-reviews-showcase__editor-note">
+              Add the Judge.me Cards Carousel app block to publish customer reviews here.
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "WA reviews showcase",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "CUSTOMER REVIEWS"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Worn by you. Proven in motion."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Honest feedback on fit, comfort and performance from the people who wear Wear Active."
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "Read all reviews"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Reviews page link",
+      "info": "Leave blank until the Customer Reviews page is published."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 72
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "WA reviews showcase"
+    }
+  ]
+}
+{% endschema %}
