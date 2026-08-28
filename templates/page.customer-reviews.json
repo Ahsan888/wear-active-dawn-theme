@@ -2,11 +2,49 @@
   "sections": {
     "wa_reviews_hub": {
       "type": "wa-reviews-hub",
+      "blocks": {
+        "judge_me_reviews_reviews_grid_widget_YeNMrF": {
+          "type": "shopify://apps/judge-me-reviews/blocks/reviews_grid_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "show_sample_reviews": true,
+            "review_selection": "all",
+            "products": [],
+            "filter_pinned": false,
+            "filter_featured": false,
+            "filter_custom_tags": "",
+            "show_media_only": false,
+            "display_order": "media_first",
+            "card_grouping": "per_media",
+            "columns_desktop": 3,
+            "rows_desktop": 3,
+            "columns_mobile": "2",
+            "rows_mobile": 6,
+            "show_stars": true,
+            "show_reviewer_name": true,
+            "show_review_title_on_hover_desktop": true,
+            "max_width": 1100,
+            "corner_styling": "soft",
+            "card_spacing": "medium",
+            "header_text_color": "#000000",
+            "star_and_reviewer_name_color": "#F9F9F9",
+            "drop_shadow_color": "#000000",
+            "overlay_and_background_color": "#000000",
+            "content_color": "#F9F9F9",
+            "header_text": "From our customers",
+            "show_average_rating": true,
+            "rating_display": "default"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_reviews_grid_widget_YeNMrF"
+      ],
       "settings": {
         "eyebrow": "CUSTOMER REVIEWS",
         "heading": "Real fit. Real feedback.",
         "intro": "Verified feedback from customers who train, move and live in Wear Active.",
         "show_reward": true,
+        "review_form_url": "",
         "review_cta_text": "Write a product review",
         "padding_top": 64,
         "padding_bottom": 64
