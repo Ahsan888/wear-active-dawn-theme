@@ -35,6 +35,25 @@
       {%- endif -%}
     </header>
 
+    {%- if page.content != blank -%}
+      <div class="wa-reviews-hub__page-content rte">
+        {{ page.content }}
+      </div>
+    {%- endif -%}
+
+    <div class="wa-reviews-hub__widget" aria-label="Wear Active customer reviews">
+      {%- for block in section.blocks -%}
+        {% render block %}
+      {%- else -%}
+        {%- if request.design_mode -%}
+          <div class="wa-reviews-hub__editor-note">
+            Add the Judge.me “Reviews Grid” or “All Reviews” app block here when you are ready to publish the
+            reviews page.
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
     {%- if section.settings.show_reward -%}
       <aside class="wa-reviews-hub__reward" aria-labelledby="WaReviewReward-{{ section.id }}">
         <div class="wa-reviews-hub__reward-mark" aria-hidden="true">Rs.300</div>
@@ -63,25 +82,6 @@
         </div>
       </aside>
     {%- endif -%}
-
-    {%- if page.content != blank -%}
-      <div class="wa-reviews-hub__page-content rte">
-        {{ page.content }}
-      </div>
-    {%- endif -%}
-
-    <div class="wa-reviews-hub__widget" aria-label="Wear Active customer reviews">
-      {%- for block in section.blocks -%}
-        {% render block %}
-      {%- else -%}
-        {%- if request.design_mode -%}
-          <div class="wa-reviews-hub__editor-note">
-            Add the Judge.me “Reviews Grid” or “All Reviews” app block here when you are ready to publish the
-            reviews page.
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
   </div>
 </section>
 
