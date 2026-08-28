@@ -144,6 +144,87 @@
   padding-top: 3.2rem;
 }
 
+/* Judge.me Reviews Grid — scoped to the Wear Active reviews page. */
+.wa-reviews-hub__widget .jdgm-reviews-grid-widget {
+  padding-block: 0;
+  font-family: inherit;
+}
+
+.wa-reviews-hub__widget .jdgm-grid-body {
+  gap: clamp(1.2rem, 1.5vw, 2rem) !important;
+  border-radius: 0 !important;
+}
+
+.wa-reviews-hub__widget .jdgm-review-card {
+  border: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.12);
+  border-radius: 0.8rem !important;
+  background: var(--wa-color-evergreen);
+  box-shadow: 0 1.2rem 3.2rem rgba(var(--wa-color-evergreen-rgb), 0.08);
+}
+
+.wa-reviews-hub__widget .jdgm-review-card__details {
+  padding: clamp(1.8rem, 2.4vw, 2.8rem) !important;
+}
+
+.wa-reviews-hub__widget .jdgm-review-card__details-title {
+  margin-bottom: 0.8rem;
+  font-size: clamp(1.7rem, 1.4vw, 2.1rem) !important;
+  font-weight: var(--wa-weight-semibold) !important;
+  line-height: 1.25 !important;
+}
+
+.wa-reviews-hub__widget .jdgm-review-card__details-description {
+  max-width: 34ch;
+  font-size: clamp(1.55rem, 1.2vw, 1.85rem) !important;
+  line-height: 1.5 !important;
+}
+
+.wa-reviews-hub__widget
+  .jdgm-review-card__details:not(.jdgm-review-card__details--media)
+  .jdgm-review-card__details-body {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-bottom: 7.8rem;
+  text-align: left;
+}
+
+.wa-reviews-hub__widget
+  .jdgm-review-card__details:not(.jdgm-review-card__details--media)
+  .jdgm-review-card__details-body::before {
+  content: '\201C';
+  display: block;
+  height: 4.8rem;
+  margin-bottom: 0.8rem;
+  color: rgba(var(--wa-color-parchment-rgb), 0.42);
+  font-family: Georgia, serif;
+  font-size: 7rem;
+  line-height: 1;
+}
+
+.wa-reviews-hub__widget
+  .jdgm-review-card__details:not(.jdgm-review-card__details--media)
+  :is(.jdgm-review-card__details-title, .jdgm-review-card__details-description) {
+  text-align: left !important;
+}
+
+.wa-reviews-hub__widget
+  .jdgm-review-card__details:not(.jdgm-review-card__details--media)
+  .jdgm-review-card__footer-inner {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.wa-reviews-hub__widget .jdgm-review-card__reviewer-name {
+  font-size: clamp(1.45rem, 1.05vw, 1.7rem) !important;
+  font-weight: var(--wa-weight-semibold) !important;
+  line-height: 1.3 !important;
+}
+
+.wa-reviews-hub__widget .jm-grid-header__text {
+  color: var(--wa-color-evergreen);
+  font-weight: var(--wa-weight-semibold) !important;
+}
+
 .wa-reviews-hub__editor-note {
   padding: 2rem;
   border: 0.1rem dashed rgba(var(--wa-color-evergreen-rgb), 0.36);
@@ -181,6 +262,10 @@
 
   .wa-reviews-hub__widget {
     padding-top: 4.8rem;
+  }
+
+  .wa-reviews-hub__widget .jdgm-review-card::before {
+    padding-top: 86% !important;
   }
 }
 
