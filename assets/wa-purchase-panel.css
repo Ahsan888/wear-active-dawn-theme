@@ -168,16 +168,22 @@
 }
 
 .wa-purchase-options .wa-size-chart__fit-summary {
+  display: block;
+  width: 100%;
+  margin: 0.4rem 0 0;
+  padding: 1.1rem 1.2rem;
+  border: 0;
+  border-left: 0.3rem solid var(--wa-color-coffee);
+  border-radius: 0 0.4rem 0.4rem 0;
+  background: rgba(var(--color-foreground), 0.035);
+  color: rgba(var(--color-foreground), 0.72);
+  font-size: var(--wa-text-xs);
+}
+
+.wa-purchase-options .wa-size-chart__fit-summary-heading {
   display: flex;
   align-items: baseline;
   gap: 0.65rem;
-  width: 100%;
-  margin: 0.25rem 0 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: rgba(var(--color-foreground), 0.72);
-  font-size: var(--wa-text-xs);
 }
 
 .wa-purchase-options .wa-size-chart__fit-summary-label {
@@ -189,6 +195,13 @@
 .wa-purchase-options .wa-size-chart__fit-summary-copy {
   color: rgb(var(--color-foreground));
   font-weight: var(--wa-weight-semibold);
+}
+
+.wa-purchase-options .wa-size-chart__fit-summary-guidance {
+  margin: 0.45rem 0 0;
+  color: rgba(var(--color-foreground), 0.68);
+  font-size: var(--wa-text-2xs);
+  line-height: var(--wa-leading-normal);
 }
 
 .wa-purchase-options .wa-linked-colors--product {
