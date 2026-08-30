@@ -2,8 +2,11 @@
  * Wear Active custom code start — wa-product.js
  * Product template enhancements. Loaded only on product pages via theme.liquid.
  */
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('[data-wa-size-chart]').forEach((container) => {
+function initWaProductPage(root = document) {
+  initWaProductFamilyRatingScroll();
+  root.querySelectorAll('[data-wa-size-chart]').forEach((container) => {
+    if (container.dataset.waSizeChartInitialized === 'true') return;
+
     const trigger = container.querySelector('[data-wa-size-chart-open]');
     if (!trigger) return;
 
@@ -11,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modal = modalId ? document.getElementById(modalId) : null;
     if (!modal) return;
 
+    container.dataset.waSizeChartInitialized = 'true';
     relocateSizeGuideTrigger(container, trigger);
 
     trigger.addEventListener('click', (event) => {
@@ -22,7 +26,70 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(modal, { attributes: true, attributeFilter: ['open'] });
     syncSizeChartModal(modal, trigger);
   });
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => initWaProductPage(), { once: true });
+} else {
+  initWaProductPage();
+}
+
+document.addEventListener('shopify:section:load', (event) => initWaProductPage(event.target));
+
+/**
+ * Scrolls to the Judge.me reviews widget with sticky-header offset.
+ */
+function initWaProductFamilyRatingScroll() {
+  const links = document.querySelectorAll('[data-wa-scroll-reviews]');
+  if (!links.length) return;
+
+  const reviewsTarget = findWaProductReviewsTarget();
+  if (reviewsTarget && !reviewsTarget.id) {
+    reviewsTarget.id = 'wa-product-reviews';
+  }
+
+  links.forEach((link) => {
+    if (link.dataset.waReviewScrollInitialized === 'true') return;
+    link.dataset.waReviewScrollInitialized = 'true';
+
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      scrollToWaProductReviews();
+    });
+  });
+}
+
+/**
+ * @returns {HTMLElement | null}
+ */
+function findWaProductReviewsTarget() {
+  const widget =
+    document.getElementById('judgeme_product_reviews') ||
+    document.querySelector('.jdgm-review-widget, .jdgm-rev-widg, .jdgm-widget');
+
+  return widget?.closest('section.shopify-section') || widget;
+}
+
+/**
+ * Smooth-scrolls to the product reviews section.
+ */
+function scrollToWaProductReviews() {
+  const target = findWaProductReviewsTarget();
+  if (!target) return;
+
+  if (!target.id) {
+    target.id = 'wa-product-reviews';
+  }
+
+  const header =
+    document.querySelector('sticky-header') ||
+    document.querySelector('.section-header') ||
+    document.querySelector('.shopify-section-group-header-group');
+  const headerHeight = header instanceof HTMLElement ? header.offsetHeight : 0;
+  const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - 16;
+
+  window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
+}
 
 /**
  * Moves the Size Guide trigger beside the Size variant label when present.

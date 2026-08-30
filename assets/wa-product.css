@@ -42,12 +42,84 @@
   line-height: var(--wa-leading-tight);
 }
 
+/* Family rating — title and price */
+.wa-product-family-rating {
+  margin: 0.4rem 0 0.8rem;
+}
+
+.wa-product-family-rating__link {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  color: rgba(var(--color-foreground), 0.82);
+  font-size: var(--wa-text-sm);
+  font-weight: var(--wa-weight-medium);
+  letter-spacing: var(--wa-tracking-snug);
+  line-height: var(--wa-leading-snug);
+  text-decoration: none;
+}
+
+.wa-product-family-rating__link:hover,
+.wa-product-family-rating__link:focus-visible {
+  color: var(--wa-color-evergreen);
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+}
+
+.wa-product-family-rating .rating-star {
+  --letter-spacing: 0.7;
+  --font-size: 1.35;
+  --color-rating-star: var(--wa-color-coffee);
+}
+
+.wa-product-family-rating__value {
+  font-weight: var(--wa-weight-semibold);
+  color: rgb(var(--color-foreground));
+}
+
+.wa-product-family-rating__separator {
+  color: rgba(var(--color-foreground), 0.45);
+}
+
+.wa-product-family-rating__count {
+  color: rgba(var(--color-foreground), 0.72);
+}
+
+/* Keep Judge.me preview badge hidden if re-added in the theme editor. */
+.product__info-container .jdgm-preview-badge {
+  display: none !important;
+}
+
 .product__info-container .price .price-item--regular,
 .product__info-container .price .price-item--sale,
 .product__info-container .price__regular .price-item--regular {
   font-weight: var(--wa-weight-semibold);
   letter-spacing: var(--wa-tracking-snug);
   line-height: var(--wa-leading-snug);
+}
+
+.wa-product-shipping-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.45rem 0 1rem;
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-medium);
+  letter-spacing: var(--wa-tracking-snug);
+  line-height: var(--wa-leading-snug);
+  color: rgba(var(--color-foreground), 0.72);
+}
+
+.wa-product-shipping-note__icon {
+  flex: 0 0 auto;
+  width: 1.6rem;
+  height: 1.6rem;
+  color: var(--wa-color-evergreen);
+}
+
+.wa-product-shipping-note__text {
+  text-wrap: balance;
 }
 
 .product__info-container .product-form__input .form__label,
@@ -86,6 +158,20 @@
   .product__info-container .product__title .h1 {
     letter-spacing: var(--wa-tracking-snug);
     line-height: var(--wa-leading-snug);
+  }
+
+  .wa-product-family-rating {
+    margin: 0.35rem 0 0.65rem;
+  }
+
+  .wa-product-family-rating__link {
+    font-size: var(--wa-text-xs);
+    gap: 0.35rem;
+  }
+
+  .wa-product-shipping-note {
+    margin: 0.35rem 0 0.85rem;
+    font-size: var(--wa-text-2xs);
   }
 
   .product__info-container .product__description.rte {

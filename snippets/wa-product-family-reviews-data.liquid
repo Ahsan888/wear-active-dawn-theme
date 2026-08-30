@@ -1,0 +1,218 @@
+{% comment %}
+  Wear Active custom code start — wa-product-family-reviews-data.liquid
+  Shared colour-family review aggregation for PDP header, collection cards, and reviews widget.
+
+  Accepts:
+  - product: {Object} Current product.
+  - format: {String} markup, json, widget-summary. Default: markup.
+  - mode: {String} product (PDP) or card (collection grid). Default: product.
+  - card_collection: {Object} Collection for contextual sibling resolution on cards.
+  - product_url: {String} Product URL for card links.
+  - block: {Object} Optional theme block for shopify_attributes.
+{% endcomment %}
+
+{%- liquid
+  assign wa_format = format | default: 'markup'
+  assign wa_mode = mode | default: 'product'
+  assign wa_siblings = product.metafields.custom.color_siblings.value
+  assign wa_context = ''
+
+  if wa_mode == 'card' and card_collection != blank
+    capture wa_card_context
+      render 'wa-contextual-card-image', card_collection: card_collection
+    endcapture
+    assign wa_card_context = wa_card_context | strip
+    if wa_card_context == 'womens'
+      assign wa_context = 'women'
+    elsif wa_card_context == 'mens'
+      assign wa_context = 'men'
+    endif
+  else
+    capture wa_view_context
+      render 'wa-product-view-context'
+    endcapture
+    assign wa_context = wa_view_context | strip
+  endif
+
+  if wa_context == 'women' and product.metafields.custom.linked_color_products.value != blank
+    assign wa_siblings = product.metafields.custom.linked_color_products.value
+  endif
+
+  assign wa_family_total_reviews = 0
+  assign wa_family_weighted_tenths = 0
+  assign wa_rating_scale_max = 5
+  assign wa_family_product_ids = product.id | append: ''
+
+  assign wa_member_review_count = product.metafields.reviews.rating_count | default: 0 | plus: 0
+  if wa_member_review_count > 0 and product.metafields.reviews.rating.value != blank
+    assign wa_member_rating = product.metafields.reviews.rating.value.rating
+    assign wa_member_tenths = wa_member_rating | times: 10 | round
+    assign wa_member_weight = wa_member_tenths | times: wa_member_review_count
+    assign wa_family_weighted_tenths = wa_family_weighted_tenths | plus: wa_member_weight
+    assign wa_family_total_reviews = wa_family_total_reviews | plus: wa_member_review_count
+    assign wa_rating_scale_max = product.metafields.reviews.rating.value.scale_max
+  endif
+
+  if wa_siblings != blank and wa_siblings.size > 0
+    for wa_sibling in wa_siblings
+      if wa_sibling.id != product.id
+        assign wa_family_product_ids = wa_family_product_ids | append: ',' | append: wa_sibling.id
+
+        assign wa_sibling_review_count = wa_sibling.metafields.reviews.rating_count | default: 0 | plus: 0
+        if wa_sibling_review_count > 0 and wa_sibling.metafields.reviews.rating.value != blank
+          assign wa_sibling_rating = wa_sibling.metafields.reviews.rating.value.rating
+          assign wa_sibling_tenths = wa_sibling_rating | times: 10 | round
+          assign wa_sibling_weight = wa_sibling_tenths | times: wa_sibling_review_count
+          assign wa_family_weighted_tenths = wa_family_weighted_tenths | plus: wa_sibling_weight
+          assign wa_family_total_reviews = wa_family_total_reviews | plus: wa_sibling_review_count
+        endif
+      endif
+    endfor
+  endif
+-%}
+
+{%- if wa_format == 'json' -%}
+  {%- liquid
+    assign wa_avg_rating_display = 0
+    assign wa_reviews_label = '0 reviews'
+
+    if wa_family_total_reviews > 0
+      assign wa_avg_tenths = wa_family_weighted_tenths | divided_by: wa_family_total_reviews
+      assign wa_avg_rating = wa_avg_tenths | divided_by: 10.0
+      assign wa_avg_rating_display = wa_avg_rating | round: 1
+
+      if wa_family_total_reviews == 1
+        assign wa_reviews_label = '1 review'
+      else
+        assign wa_reviews_label = wa_family_total_reviews | append: ' reviews'
+      endif
+    endif
+  -%}
+  <script type="application/json" id="WaProductFamilyReviewsData">
+    {
+      "shopDomain": {{ shop.permanent_domain | json }},
+      "currentProductId": {{ product.id | json }},
+      "shopifyProductIds": {{ wa_family_product_ids | split: ',' | json }},
+      "siblingProducts": [
+        {%- assign wa_sibling_json_first = true -%}
+        {%- if wa_siblings != blank and wa_siblings.size > 0 -%}
+          {%- for wa_sibling in wa_siblings -%}
+            {%- if wa_sibling.id != product.id -%}
+              {%- assign wa_sibling_review_count = wa_sibling.metafields.reviews.rating_count | default: 0 | plus: 0 -%}
+              {%- if wa_sibling_review_count > 0 and wa_sibling.metafields.reviews.rating.value != blank -%}
+                {%- unless wa_sibling_json_first -%},{%- endunless -%}
+                {"id": {{ wa_sibling.id | json }}, "title": {{ wa_sibling.title | json }}, "handle": {{ wa_sibling.handle | json }}, "url": {{ wa_sibling.url | json }}}
+                {%- assign wa_sibling_json_first = false -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      ],
+      "averageRating": {{ wa_avg_rating_display | json }},
+      "totalReviews": {{ wa_family_total_reviews | json }},
+      "scaleMax": {{ wa_rating_scale_max | json }},
+      "reviewsLabel": {{ wa_reviews_label | json }}
+    }
+  </script>
+{%- elsif wa_format == 'widget-summary' and wa_family_total_reviews > 0 -%}
+  {%- liquid
+    assign wa_avg_tenths = wa_family_weighted_tenths | divided_by: wa_family_total_reviews
+    assign wa_avg_rating = wa_avg_tenths | divided_by: 10.0
+    assign wa_avg_rating_display = wa_avg_rating | round: 1
+
+    if wa_family_total_reviews == 1
+      assign wa_reviews_label = '1 review'
+    else
+      assign wa_reviews_label = wa_family_total_reviews | append: ' reviews'
+    endif
+
+    assign wa_rating_decimal = 0
+    assign wa_decimal = wa_avg_rating | modulo: 1
+    if wa_decimal >= 0.3 and wa_decimal <= 0.7
+      assign wa_rating_decimal = 0.5
+    elsif wa_decimal > 0.7
+      assign wa_rating_decimal = 1
+    endif
+  -%}
+  <div
+    class="wa-product-reviews-summary"
+    data-wa-product-reviews-summary
+    aria-label="{{ wa_avg_rating_display }} out of {{ wa_rating_scale_max }} stars, {{ wa_reviews_label }}"
+  >
+    <div class="wa-product-reviews-summary__stats" aria-hidden="true">
+      <span class="rating">
+        <span
+          class="rating-star"
+          style="--rating: {{ wa_avg_rating | floor }}; --rating-max: {{ wa_rating_scale_max }}; --rating-decimal: {{ wa_rating_decimal }};"
+        ></span>
+      </span>
+      <span class="wa-product-reviews-summary__value">{{ wa_avg_rating_display }}</span>
+      <span class="wa-product-reviews-summary__separator">·</span>
+      <span class="wa-product-reviews-summary__count">{{ wa_reviews_label }}</span>
+    </div>
+  </div>
+{%- elsif wa_family_total_reviews > 0 -%}
+  {%- liquid
+    assign wa_avg_tenths = wa_family_weighted_tenths | divided_by: wa_family_total_reviews
+    assign wa_avg_rating = wa_avg_tenths | divided_by: 10.0
+    assign wa_avg_rating_display = wa_avg_rating | round: 1
+
+    if wa_family_total_reviews == 1
+      assign wa_reviews_label = '1 review'
+    else
+      assign wa_reviews_label = wa_family_total_reviews | append: ' reviews'
+    endif
+
+    assign wa_rating_href = '#wa-product-reviews'
+    if wa_mode == 'card' and product_url != blank
+      assign wa_rating_href = product_url | append: '#wa-product-reviews'
+    endif
+  -%}
+
+  {%- if wa_mode == 'card' -%}
+    <div class="wa-product-family-rating wa-product-family-rating--card">
+      <a
+        class="wa-product-family-rating__link"
+        href="{{ wa_rating_href }}"
+        aria-label="{{ wa_avg_rating_display }} out of {{ wa_rating_scale_max }} stars, {{ wa_reviews_label }}"
+      >
+        <span class="wa-product-family-rating__star" aria-hidden="true">★</span>
+        <span class="wa-product-family-rating__value" aria-hidden="true">{{ wa_avg_rating_display }}</span>
+        <span class="wa-product-family-rating__separator" aria-hidden="true">·</span>
+        <span class="wa-product-family-rating__count" aria-hidden="true">{{ wa_reviews_label }}</span>
+      </a>
+    </div>
+  {%- else -%}
+    {%- liquid
+      assign wa_rating_decimal = 0
+      assign wa_decimal = wa_avg_rating | modulo: 1
+      if wa_decimal >= 0.3 and wa_decimal <= 0.7
+        assign wa_rating_decimal = 0.5
+      elsif wa_decimal > 0.7
+        assign wa_rating_decimal = 1
+      endif
+    -%}
+
+    <div
+      class="wa-product-family-rating"
+      {% if block %}{{ block.shopify_attributes }}{% endif %}
+    >
+      <a
+        class="wa-product-family-rating__link"
+        href="{{ wa_rating_href }}"
+        data-wa-scroll-reviews
+        aria-label="{{ wa_avg_rating_display }} out of {{ wa_rating_scale_max }} stars, {{ wa_reviews_label }}"
+      >
+        <span class="rating" aria-hidden="true">
+          <span
+            class="rating-star"
+            style="--rating: {{ wa_avg_rating | floor }}; --rating-max: {{ wa_rating_scale_max }}; --rating-decimal: {{ wa_rating_decimal }};"
+          ></span>
+        </span>
+        <span class="wa-product-family-rating__value" aria-hidden="true">{{ wa_avg_rating_display }}</span>
+        <span class="wa-product-family-rating__separator" aria-hidden="true">·</span>
+        <span class="wa-product-family-rating__count" aria-hidden="true">{{ wa_reviews_label }}</span>
+      </a>
+    </div>
+  {%- endif -%}
+{%- endif -%}

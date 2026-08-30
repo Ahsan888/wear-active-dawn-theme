@@ -1,0 +1,13 @@
+{% comment %}
+  Wear Active custom code start — wa-product-family-rating.liquid
+  Thin wrapper around wa-product-family-reviews-data for rating display markup.
+{% endcomment %}
+
+{% render 'wa-product-family-reviews-data',
+  product: product,
+  format: 'markup',
+  mode: mode,
+  card_collection: card_collection,
+  product_url: product_url,
+  block: block
+%}

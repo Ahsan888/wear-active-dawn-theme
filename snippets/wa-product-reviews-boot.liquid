@@ -1,0 +1,144 @@
+{% comment %}
+  Wear Active custom code start — wa-product-reviews-boot.liquid
+  Preloads sibling review data and merges it into jdgm.data before the Vue widget mounts.
+{% endcomment %}
+
+{%- liquid
+  assign wa_siblings = product.metafields.custom.color_siblings.value
+  assign wa_context = ''
+
+  capture wa_view_context
+    render 'wa-product-view-context'
+  endcapture
+  assign wa_context = wa_view_context | strip
+
+  if wa_context == 'women' and product.metafields.custom.linked_color_products.value != blank
+    assign wa_siblings = product.metafields.custom.linked_color_products.value
+  endif
+
+  assign wa_has_sibling_reviews = false
+
+  if wa_siblings != blank and wa_siblings.size > 0
+    for wa_sibling in wa_siblings
+      if wa_sibling.id != product.id
+        assign wa_sibling_review_count = wa_sibling.metafields.reviews.rating_count | default: 0 | plus: 0
+        if wa_sibling_review_count > 0 and wa_sibling.metafields.reviews.rating.value != blank
+          assign wa_has_sibling_reviews = true
+          break
+        endif
+      endif
+    endfor
+  endif
+-%}
+
+{%- if wa_has_sibling_reviews -%}
+  <script>
+    (function () {
+      try {
+        var dataEl = document.getElementById('WaProductFamilyReviewsData');
+        if (!dataEl) return;
+
+        var data = JSON.parse(dataEl.textContent);
+        if (!data.siblingProducts || !data.siblingProducts.length) return;
+
+        function parseReviewWidgetData(html, productId) {
+          var marker = 'jdgm.data.reviewWidget[' + productId + ']';
+          var markerIndex = html.indexOf(marker);
+          if (markerIndex === -1) return null;
+
+          var openBraceIndex = html.indexOf('{', markerIndex);
+          if (openBraceIndex === -1) return null;
+
+          var depth = 0;
+          for (var index = openBraceIndex; index < html.length; index += 1) {
+            var char = html[index];
+            if (char === '{') depth += 1;
+            else if (char === '}') {
+              depth -= 1;
+              if (depth === 0) {
+                return JSON.parse(html.slice(openBraceIndex, index + 1));
+              }
+            }
+          }
+
+          return null;
+        }
+
+        function mergeWidgetData(base, payloads) {
+          var merged = (base.reviews || []).slice();
+          var seen = new Set(merged.map(function (review) { return review.uuid; }).filter(Boolean));
+
+          payloads.forEach(function (payload) {
+            (payload.reviews || []).forEach(function (review) {
+              if (review.uuid && seen.has(review.uuid)) return;
+              if (review.uuid) seen.add(review.uuid);
+              merged.push(review);
+            });
+          });
+
+          if (merged.length <= base.number_of_reviews) return base;
+
+          merged.sort(function (a, b) {
+            return Date.parse(b.created_at) - Date.parse(a.created_at);
+          });
+
+          var averageRating = (
+            merged.reduce(function (sum, review) {
+              return sum + Number(review.rating || 0);
+            }, 0) / merged.length
+          ).toFixed(2);
+
+          return Object.assign({}, base, {
+            reviews: merged,
+            number_of_reviews: merged.length,
+            average_rating: averageRating,
+            review_summary_text: 'Based on ' + merged.length + ' reviews',
+          });
+        }
+
+        var siblingPayloads = [];
+
+        data.siblingProducts.forEach(function (sibling) {
+          try {
+            var fetchUrl = sibling.url || (sibling.handle ? '/products/' + sibling.handle : '');
+            if (!fetchUrl) return;
+
+            var request = new XMLHttpRequest();
+            request.open('GET', fetchUrl, false);
+            request.send();
+
+            if (request.status !== 200) return;
+
+            var payload = parseReviewWidgetData(request.responseText, sibling.id);
+            if (payload && payload.reviews && payload.reviews.length) {
+              siblingPayloads.push(payload);
+            }
+          } catch (error) {}
+        });
+
+        if (!siblingPayloads.length) return;
+
+        window.jdgm = window.jdgm || {};
+        window.jdgm.data = window.jdgm.data || {};
+        var store = window.jdgm.data.reviewWidget || {};
+
+        window.jdgm.data.reviewWidget = new Proxy(store, {
+          set: function (target, property, value) {
+            if (String(property) === String(data.currentProductId)) {
+              value = mergeWidgetData(value, siblingPayloads);
+            }
+
+            target[property] = value;
+            return true;
+          },
+        });
+
+        if (store[data.currentProductId]) {
+          store[data.currentProductId] = mergeWidgetData(store[data.currentProductId], siblingPayloads);
+        }
+      } catch (error) {
+        console.warn('[wa-product-reviews] Boot merge failed.', error);
+      }
+    })();
+  </script>
+{%- endif -%}

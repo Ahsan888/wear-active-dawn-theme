@@ -12,34 +12,28 @@
     assign wa_whatsapp_message = 'Hi Wear Active, I need help choosing this product.' | url_encode
   -%}
 
-  <aside class="wa-product-trust quick-add-hidden" aria-label="Delivery, exchange and payment information" {{ block.shopify_attributes }}>
+  <aside class="wa-product-trust quick-add-hidden" aria-label="Purchase reassurance" {{ block.shopify_attributes }}>
     <ul class="wa-product-trust__list" role="list">
       <li class="wa-product-trust__item">
-        {% render 'wa-brand-icon', icon: 'dispatch', class: 'wa-product-trust__icon' %}
-        <span class="wa-product-trust__text">
-          Free delivery across Pakistan · {{ settings.wa_delivery_window | escape }}
-        </span>
+        {% render 'wa-brand-icon', icon: 'hanger', class: 'wa-product-trust__icon' %}
+        <span class="wa-product-trust__text">{% render 'wa-exchange-policy', mode: 'label' %}</span>
       </li>
       <li class="wa-product-trust__item">
-        {% render 'wa-brand-icon', icon: 'hanger', class: 'wa-product-trust__icon' %}
-        <span class="wa-product-trust__text">{% render 'wa-exchange-policy', mode: 'compact' %}</span>
+        {% render 'wa-brand-icon', icon: 'payment', class: 'wa-product-trust__icon' %}
+        <span class="wa-product-trust__text">COD · Bank · JazzCash</span>
       </li>
     </ul>
 
-    <div class="wa-product-trust__meta">
-      <span class="wa-product-trust__payment">
-        {% render 'wa-brand-icon', icon: 'payment', class: 'wa-product-trust__meta-icon' %}
-        <span>{{ settings.wa_payment_methods | escape }}</span>
-      </span>
-      <a
-        class="wa-product-trust__support"
-        href="https://wa.me/{{ wa_whatsapp_digits }}?text={{ wa_whatsapp_message }}"
-        target="_blank"
-        rel="noopener"
-      >
-        {% render 'wa-brand-icon', icon: 'whatsapp', class: 'wa-product-trust__support-icon' %}
-        <span>Need help? WhatsApp us</span>
-      </a>
-    </div>
+    <a
+      class="wa-product-trust__support"
+      href="https://wa.me/{{ wa_whatsapp_digits }}?text={{ wa_whatsapp_message }}"
+      target="_blank"
+      rel="noopener"
+    >
+      {% render 'wa-brand-icon', icon: 'whatsapp', class: 'wa-product-trust__support-icon' %}
+      <span>Need sizing help?</span>
+      <strong>Chat on WhatsApp</strong>
+      <span class="wa-product-trust__support-arrow" aria-hidden="true">→</span>
+    </a>
   </aside>
 {%- endif -%}

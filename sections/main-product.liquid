@@ -28,6 +28,7 @@
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+  {{ 'wa-purchase-panel.css' | asset_url | stylesheet_tag }}
 
   {% unless product.has_only_default_variant %}
     {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
@@ -118,6 +119,12 @@
                     </h2>
                   </a>
                 </div>
+              {%- when 'wa_family_rating' -%}
+                {%- comment -%} Wear Active custom code start {%- endcomment -%}
+                {%- if block.settings.enable -%}
+                  {% render 'wa-product-family-rating', product: product, block: block %}
+                {%- endif -%}
+                {%- comment -%} Wear Active custom code end {%- endcomment -%}
               {%- when 'price' -%}
                 <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
                   {%- render 'price',
@@ -132,7 +139,8 @@
                     <span>{{ 'products.product.volume_pricing.note' | t }}</span>
                   </div>
                 {%- endif -%}
-                {%- if cart.taxes_included or cart.duties_included or shop.shipping_policy.body != blank -%}
+                {%- comment -%} Wear Active custom code start {%- endcomment -%}
+                {%- if cart.duties_included or cart.taxes_included -%}
                   <div class="product__tax caption rte">
                     {%- if cart.duties_included and cart.taxes_included -%}
                       {{ 'products.product.duties_and_taxes_included' | t }}
@@ -141,11 +149,10 @@
                     {%- elsif cart.duties_included -%}
                       {{ 'products.product.duties_included' | t }}
                     {%- endif -%}
-                    {%- if shop.shipping_policy.body != blank -%}
-                      {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
-                    {%- endif -%}
                   </div>
                 {%- endif -%}
+                {% render 'wa-product-shipping-note' %}
+                {%- comment -%} Wear Active custom code end {%- endcomment -%}
                 <div {{ block.shopify_attributes }}>
                   {%- assign product_form_installment_id = 'product-form-installment-' | append: section.id -%}
                   {%- form 'product', product, id: product_form_installment_id, class: 'installment caption-large' -%}
@@ -493,11 +500,13 @@
                 %}
 
               {%- when 'variant_picker' -%}
-                {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
-                {%- comment -%} Wear Active custom code start {%- endcomment -%}
-                {% render 'wa-linked-color-swatches', product: product, mode: 'product', section_id: section.id %}
-                {% render 'wa-size-chart', product: product, section_id: section.id %}
-                {%- comment -%} Wear Active custom code end {%- endcomment -%}
+                <div class="wa-purchase-options">
+                  {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+                  {%- comment -%} Wear Active custom code start {%- endcomment -%}
+                  {% render 'wa-linked-color-swatches', product: product, mode: 'product', section_id: section.id %}
+                  {% render 'wa-size-chart', product: product, section_id: section.id %}
+                  {%- comment -%} Wear Active custom code end {%- endcomment -%}
+                </div>
               {%- when 'buy_buttons' -%}
                 {%- comment -%} Wear Active custom code start {%- endcomment -%}
                 <div data-wa-sticky-atc-sentinel="{{ section.id }}">
@@ -1080,6 +1089,19 @@
           "id": "show_cta",
           "default": true,
           "label": "Show collection CTA link"
+        }
+      ]
+    },
+    {
+      "type": "wa_family_rating",
+      "name": "Family rating",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enable",
+          "default": true,
+          "label": "Show aggregated family rating"
         }
       ]
     },

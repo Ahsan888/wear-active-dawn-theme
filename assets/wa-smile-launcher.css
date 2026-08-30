@@ -1,0 +1,72 @@
+/* ==========================================================================
+   Wear Active custom code start — wa-smile-launcher.css
+   Mobile-only Smile Rewards launcher: compact circle + safe positioning.
+   Desktop launcher styling is unchanged.
+   ========================================================================== */
+
+@media screen and (max-width: 749px) {
+  :root {
+    --wa-smile-launcher-size: 4.8rem;
+    --wa-smile-launcher-edge: 1.4rem;
+    --wa-smile-launcher-bottom: calc(var(--wa-smile-launcher-edge) + env(safe-area-inset-bottom, 0px));
+    --wa-smile-launcher-bottom-lifted: calc(8.8rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Lite launcher (iframe) — injected by smile-lite */
+  body #smile-ui-lite-launcher-frame-container,
+  /* React launcher container */
+  body #smile-ui-lite-container .smile-launcher-frame-container,
+  body .smile-launcher-frame-container {
+    width: var(--wa-smile-launcher-size) !important;
+    height: var(--wa-smile-launcher-size) !important;
+    min-width: 4.4rem !important;
+    min-height: 4.4rem !important;
+    max-width: 5.2rem !important;
+    max-height: 5.2rem !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    bottom: var(--wa-smile-launcher-bottom) !important;
+    box-shadow: 0 0.2rem 1.2rem rgba(0, 0, 0, 0.18) !important;
+  }
+
+  /* Keep launcher above sticky ATC / cart CTAs without covering them */
+  html[data-wa-smile-lift='sticky-atc'] body #smile-ui-lite-launcher-frame-container,
+  html[data-wa-smile-lift='sticky-atc'] body #smile-ui-lite-container .smile-launcher-frame-container,
+  html[data-wa-smile-lift='sticky-atc'] body .smile-launcher-frame-container {
+    bottom: var(--wa-smile-launcher-bottom-lifted) !important;
+  }
+
+  /* React launcher — hide pill text, keep icon only */
+  body .smile-launcher-frame-container .launcher-text {
+    display: none !important;
+  }
+
+  body .smile-launcher-frame-container .launcher-content-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+  }
+
+  body .smile-launcher-frame-container .launcher-icon,
+  body .smile-launcher-frame-container .launcher-image {
+    width: 2rem !important;
+    height: 2rem !important;
+    margin: 0 !important;
+  }
+
+  body .smile-launcher-frame-container.smile-launcher-open {
+    width: var(--wa-smile-launcher-size) !important;
+  }
+
+  /* Cart — reserve corner space so checkout is not covered */
+  body.template-cart #main-cart-footer::after {
+    content: '';
+    display: block;
+    height: calc(
+      var(--wa-smile-launcher-size) + var(--wa-smile-launcher-edge) + env(safe-area-inset-bottom, 0px)
+    );
+  }
+}

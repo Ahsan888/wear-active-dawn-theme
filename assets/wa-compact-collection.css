@@ -1,0 +1,174 @@
+/* ==========================================================================
+   Wear Active custom code start — wa-compact-collection.css
+   Compact collection row with a native mobile swipe experience.
+   ========================================================================== */
+
+.wa-compact-collection {
+  color: var(--wa-color-evergreen);
+  background: var(--wa-color-parchment);
+}
+
+.wa-compact-collection__inner {
+  width: min(100%, 144rem);
+  margin: 0 auto;
+  padding-inline: 2rem;
+}
+
+.wa-compact-collection__header {
+  margin-bottom: 2.4rem;
+}
+
+.wa-compact-collection__heading {
+  margin: 0;
+  color: inherit;
+  font-size: clamp(2.8rem, 7vw, 4.6rem);
+  font-weight: var(--wa-weight-extrabold);
+  letter-spacing: var(--wa-tracking-tighter);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.wa-compact-collection__subheading {
+  margin: 1rem 0 0;
+  color: rgba(var(--wa-color-evergreen-rgb), 0.7);
+  font-size: var(--wa-text-sm);
+  line-height: var(--wa-leading-normal);
+}
+
+.wa-compact-collection__products {
+  display: flex;
+  gap: 1.2rem;
+  margin: 0 -2rem;
+  padding: 0 2rem 0.8rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-padding-inline: 2rem;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  list-style: none;
+}
+
+.wa-compact-collection__products::-webkit-scrollbar {
+  display: none;
+}
+
+.wa-compact-collection__item {
+  flex: 0 0 min(62vw, 25rem);
+  min-width: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+.wa-compact-collection .wa-product-card .card__information {
+  padding-top: 1.2rem;
+}
+
+.wa-compact-collection .wa-product-card .card-information {
+  margin-top: 0.5rem;
+}
+
+.wa-compact-collection .wa-product-card .card__heading {
+  font-size: calc(var(--font-heading-scale) * 1.35rem);
+}
+
+.wa-compact-collection .wa-product-card .card-information .price {
+  font-size: var(--wa-text-sm);
+}
+
+.wa-compact-collection .wa-product-card .rating {
+  margin-top: 0.6rem;
+}
+
+.wa-compact-collection .wa-product-card .wa-linked-colors--card {
+  margin-top: 0.7rem;
+}
+
+.wa-compact-collection__footer {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 2.4rem;
+}
+
+.wa-compact-collection__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  min-height: 4.4rem;
+  padding: 1.1rem 1.8rem;
+  border: 0.1rem solid var(--wa-color-evergreen);
+  color: var(--wa-color-parchment);
+  background: var(--wa-color-evergreen);
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: var(--wa-tracking-wider);
+  line-height: var(--wa-leading-snug);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 180ms ease, background-color 180ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .wa-compact-collection__cta:hover {
+    color: var(--wa-color-evergreen);
+    background: transparent;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .wa-compact-collection__inner {
+    padding-inline: 5rem;
+  }
+
+  .wa-compact-collection__header {
+    margin-bottom: 3.2rem;
+  }
+
+  .wa-compact-collection__subheading {
+    margin-top: 1.2rem;
+    font-size: var(--wa-text-base);
+  }
+
+  .wa-compact-collection__products {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.6rem;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .wa-compact-collection__item {
+    min-width: 0;
+  }
+
+  .wa-compact-collection .wa-product-card .card__information {
+    padding-top: 1.5rem;
+  }
+
+  .wa-compact-collection .wa-product-card .card__heading {
+    font-size: calc(var(--font-heading-scale) * 1.4rem);
+  }
+
+  .wa-compact-collection .wa-product-card .card-information .price {
+    font-size: var(--wa-text-base);
+  }
+
+  .wa-compact-collection__footer {
+    justify-content: flex-end;
+    margin-top: 3.2rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .wa-compact-collection__inner {
+    padding-inline: 6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-compact-collection__cta {
+    transition: none;
+  }
+}

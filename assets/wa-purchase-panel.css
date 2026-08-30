@@ -1,0 +1,477 @@
+/* ==========================================================================
+   Wear Active custom code start — wa-purchase-panel.css
+   Calm, conversion-focused hierarchy for the PDP purchase column.
+   ========================================================================== */
+
+.product__info-container > .product__title {
+  margin: 0;
+}
+
+.product__info-container .product__title .h1 {
+  max-width: 12ch;
+  font-size: clamp(3.4rem, 4vw, 5.4rem);
+  line-height: 1.02;
+}
+
+.product__info-container > .wa-product-family-rating {
+  margin: 1rem 0 0;
+}
+
+.product__info-container > [id^='price-'] {
+  margin: 1.2rem 0 0;
+}
+
+.product__info-container > [id^='price-'] .price--large {
+  font-size: clamp(2rem, 2vw, 2.6rem);
+}
+
+.product__info-container .wa-product-shipping-note {
+  gap: 0.65rem;
+  margin: 1rem 0 0;
+  color: rgba(var(--color-foreground), 0.7);
+  font-size: var(--wa-text-xs);
+}
+
+.product__info-container .wa-product-shipping-note__icon {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+/* Product choices are one clear visual step. */
+.product__info-container > .wa-purchase-options {
+  margin: 2.4rem 0 0;
+  padding: 2rem 0;
+  border-top: 0.1rem solid rgba(var(--color-foreground), 0.13);
+  border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.13);
+}
+
+.wa-purchase-options .product-form__input {
+  max-width: none;
+  margin-bottom: 1.8rem;
+}
+
+.wa-purchase-options .product-form__input:last-child {
+  margin-bottom: 0;
+}
+
+/* Linked product swatches replace redundant one-value native Color options. */
+.wa-purchase-options:has(.wa-linked-colors--product)
+  :is(.wa-variant-option--color, .wa-variant-option--colour).wa-variant-option--single-value {
+  display: none;
+}
+
+.wa-purchase-options .product-form__input .form__label,
+.wa-purchase-options .wa-linked-colors__legend {
+  margin-bottom: 1rem;
+  color: rgba(var(--color-foreground), 0.68);
+  font-size: var(--wa-text-2xs);
+  font-weight: var(--wa-weight-semibold);
+}
+
+/* Size tiles: equal rhythm, clear selection and comfortable touch targets. */
+.wa-purchase-options .product-form__input--pill {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.wa-purchase-options .product-form__input--pill .form__label {
+  flex: 0 0 100%;
+  margin-bottom: 0.2rem;
+}
+
+.wa-purchase-options .product-form__input--pill input[type='radio'] + label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 1 calc((100% - 3.2rem) / 5);
+  min-width: 5.4rem;
+  min-height: 5.6rem;
+  margin: 0;
+  padding: 1rem 0.65rem;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.24);
+  border-radius: 0.6rem;
+  background: rgba(var(--color-foreground), 0.025);
+  color: rgb(var(--color-foreground));
+  font-size: var(--wa-text-sm);
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: var(--wa-tracking-wide);
+  line-height: 1;
+  box-shadow: inset 0 -0.2rem 0 rgba(var(--color-foreground), 0.06);
+  transition:
+    border-color var(--duration-short) ease,
+    background-color var(--duration-short) ease,
+    color var(--duration-short) ease,
+    transform var(--duration-short) ease;
+}
+
+.wa-purchase-options .product-form__input--pill input[type='radio'] + label:hover {
+  border-color: var(--wa-color-evergreen);
+  background: rgba(var(--wa-color-evergreen-rgb), 0.06);
+  transform: translateY(-0.1rem);
+}
+
+.wa-purchase-options .product-form__input--pill input[type='radio']:checked + label {
+  border-color: var(--wa-color-evergreen);
+  background: var(--wa-color-evergreen);
+  color: var(--wa-color-parchment);
+  box-shadow:
+    inset 0 -0.3rem 0 var(--wa-color-coffee),
+    0 0.5rem 1.2rem rgba(var(--wa-color-evergreen-rgb), 0.14);
+}
+
+.wa-purchase-options .product-form__input--pill input[type='radio']:focus-visible + label,
+.wa-purchase-options .product-form__input--pill input[type='radio'].focused + label {
+  outline: 0.2rem solid var(--wa-color-evergreen);
+  outline-offset: 0.25rem;
+  box-shadow: none;
+}
+
+.wa-purchase-options .product-form__input--pill input[type='radio'].disabled + label,
+.wa-purchase-options .product-form__input--pill input[type='radio']:disabled + label {
+  border-color: rgba(var(--color-foreground), 0.12);
+  background-color: rgba(var(--color-foreground), 0.02);
+  background-image: linear-gradient(
+    to bottom right,
+    transparent 48.5%,
+    rgba(var(--color-foreground), 0.2) 49%,
+    rgba(var(--color-foreground), 0.2) 51%,
+    transparent 51.5%
+  );
+  color: rgba(var(--color-foreground), 0.38);
+  text-decoration: none;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.wa-purchase-options .wa-size-chart__legend-action {
+  margin-left: auto;
+}
+
+.wa-purchase-options .wa-size-chart__trigger {
+  min-height: 4.4rem;
+  padding: 0.4rem 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--wa-color-evergreen);
+  text-decoration: underline;
+  text-decoration-color: rgba(var(--wa-color-evergreen-rgb), 0.35);
+  text-underline-offset: 0.35rem;
+}
+
+.wa-purchase-options .wa-size-chart__trigger:hover,
+.wa-purchase-options .wa-size-chart__trigger:focus-visible {
+  color: var(--wa-color-coffee);
+  background: transparent;
+  text-decoration-color: currentColor;
+}
+
+.wa-purchase-options .wa-size-chart__fit-summary {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  width: 100%;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(var(--color-foreground), 0.72);
+  font-size: var(--wa-text-xs);
+}
+
+.wa-purchase-options .wa-size-chart__fit-summary-label {
+  font-size: inherit;
+  letter-spacing: var(--wa-tracking-snug);
+  text-transform: none;
+}
+
+.wa-purchase-options .wa-size-chart__fit-summary-copy {
+  color: rgb(var(--color-foreground));
+  font-weight: var(--wa-weight-semibold);
+}
+
+.wa-purchase-options .wa-linked-colors--product {
+  margin: 0;
+  padding-top: 1.9rem;
+  border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
+}
+
+.wa-purchase-options .wa-linked-colors--product .wa-linked-colors__legend {
+  margin-bottom: 0.8rem;
+}
+
+/* Keep the main purchase action visually dominant. */
+.product__info-container > [data-wa-sticky-atc-sentinel] {
+  margin: 2rem 0 0;
+}
+
+.product__info-container > [data-wa-sticky-atc-sentinel] .product-form {
+  margin: 0;
+}
+
+.product__info-container .product-form__submit {
+  min-height: 6rem;
+  margin: 0;
+  border-radius: 0;
+  font-size: var(--wa-text-base);
+}
+
+/* Short reassurance labels, with policy details retained in the accordion. */
+.product__info-container > .wa-product-trust {
+  margin: 1.2rem 0 0;
+}
+
+.wa-product-trust .wa-product-trust__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0.9rem 0;
+  border: 0;
+  border-top: 0.1rem solid rgba(var(--color-foreground), 0.12);
+  border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.12);
+  background: transparent;
+}
+
+.wa-product-trust .wa-product-trust__item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.65rem;
+  min-width: 0;
+  padding: 0.2rem 1rem;
+  border: 0;
+  text-align: left;
+}
+
+.wa-product-trust .wa-product-trust__item + .wa-product-trust__item {
+  border-top: 0;
+  border-left: 0.1rem solid rgba(var(--color-foreground), 0.12);
+}
+
+.wa-product-trust .wa-product-trust__icon {
+  width: 1.8rem;
+  height: 1.8rem;
+  color: var(--wa-color-coffee);
+}
+
+.wa-product-trust .wa-product-trust__text {
+  color: rgba(var(--color-foreground), 0.82);
+  font-size: var(--wa-text-2xs);
+  font-weight: var(--wa-weight-medium);
+  letter-spacing: var(--wa-tracking-snug);
+  line-height: 1.3;
+  text-transform: none;
+}
+
+.wa-product-trust .wa-product-trust__support {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 4.4rem;
+  padding: 0.7rem 0.2rem;
+  color: rgba(var(--color-foreground), 0.72);
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-regular);
+  text-decoration: none;
+}
+
+.wa-product-trust .wa-product-trust__support strong {
+  color: var(--wa-color-evergreen);
+  font-weight: var(--wa-weight-semibold);
+}
+
+.wa-product-trust .wa-product-trust__support-icon {
+  width: 1.9rem;
+  height: 1.9rem;
+}
+
+.wa-product-trust__support-arrow {
+  margin-left: auto;
+  color: var(--wa-color-evergreen);
+}
+
+.wa-product-trust .wa-product-trust__support:hover,
+.wa-product-trust .wa-product-trust__support:focus-visible {
+  color: var(--wa-color-evergreen);
+  text-decoration: none;
+}
+
+/* Bundle details stay available without crowding the buying decision. */
+.product__info-container > .wa-bundle-save {
+  margin: 0.4rem 0 0;
+}
+
+.wa-bundle-save__details {
+  border-top: 0.1rem solid rgba(var(--color-foreground), 0.12);
+  border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.12);
+}
+
+.wa-bundle-save__summary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 5.6rem;
+  padding: 0.8rem 0.2rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.wa-bundle-save__summary::-webkit-details-marker {
+  display: none;
+}
+
+.wa-bundle-save__summary:focus-visible {
+  outline: 0.2rem solid rgba(var(--wa-color-evergreen-rgb), 0.55);
+  outline-offset: 0.2rem;
+}
+
+.wa-bundle-save__summary .wa-bundle-save__icon {
+  width: 1.8rem;
+  height: 1.8rem;
+  color: var(--wa-color-coffee);
+}
+
+.wa-bundle-save__summary .wa-bundle-save__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.wa-bundle-save__summary-copy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.8rem;
+  min-width: 0;
+  font-size: var(--wa-text-xs);
+  line-height: 1.3;
+}
+
+.wa-bundle-save__summary-copy strong {
+  color: rgb(var(--color-foreground));
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: var(--wa-tracking-wide);
+  text-transform: uppercase;
+}
+
+.wa-bundle-save__summary-copy span {
+  color: var(--wa-color-coffee);
+  font-weight: var(--wa-weight-semibold);
+}
+
+.wa-bundle-save__chevron {
+  color: rgba(var(--color-foreground), 0.65);
+  font-size: 1.8rem;
+  line-height: 1;
+  transition: transform 180ms ease;
+}
+
+.wa-bundle-save__details[open] .wa-bundle-save__chevron {
+  transform: rotate(180deg);
+}
+
+.wa-bundle-save__content {
+  padding: 0 0.2rem 1.4rem;
+}
+
+.wa-bundle-save__content .wa-bundle-save__tiers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.wa-bundle-save__content .wa-bundle-save__tiers--single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.wa-bundle-save__content .wa-bundle-save__tier,
+.wa-bundle-save__content .wa-bundle-save__tier + .wa-bundle-save__tier {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem;
+  border: 0;
+  border-radius: 0.4rem;
+  background: rgba(var(--color-foreground), 0.04);
+  color: rgba(var(--color-foreground), 0.74);
+  font-size: var(--wa-text-xs);
+}
+
+.wa-bundle-save__content .wa-bundle-save__tier strong {
+  color: var(--wa-color-coffee);
+  font-size: var(--wa-text-sm);
+}
+
+.wa-bundle-save__content .wa-bundle-save__tier--best {
+  background: rgba(var(--wa-color-evergreen-rgb), 0.07);
+}
+
+.wa-bundle-save__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem 1.2rem;
+  margin-top: 1rem;
+}
+
+.wa-bundle-save__footer .wa-bundle-save__note,
+.wa-bundle-save__footer .wa-bundle-save__cta {
+  margin: 0;
+  font-size: var(--wa-text-2xs);
+}
+
+@media screen and (max-width: 749px) {
+  .product__info-container .product__title .h1 {
+    max-width: 14ch;
+    font-size: clamp(3.2rem, 11vw, 4.4rem);
+  }
+
+  .product__info-container > .wa-purchase-options {
+    margin-top: 2rem;
+    padding: 1.7rem 0;
+  }
+
+  .wa-purchase-options .product-form__input--pill input[type='radio'] + label {
+    min-width: 5.2rem;
+    min-height: 5.2rem;
+    padding-inline: 0.4rem;
+  }
+
+  .wa-product-trust .wa-product-trust__item {
+    padding-inline: 0.7rem;
+  }
+
+  .wa-product-trust .wa-product-trust__item:first-child {
+    padding-left: 0.2rem;
+  }
+
+  .wa-product-trust .wa-product-trust__text {
+    font-size: 1.05rem;
+  }
+
+  .wa-product-trust .wa-product-trust__support {
+    flex-wrap: wrap;
+  }
+
+  .wa-product-trust .wa-product-trust__support strong {
+    white-space: nowrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-purchase-options .product-form__input--pill input[type='radio'] + label {
+    transition: none;
+  }
+
+  .wa-purchase-options .product-form__input--pill input[type='radio'] + label:hover {
+    transform: none;
+  }
+
+  .wa-bundle-save__chevron {
+    transition: none;
+  }
+}

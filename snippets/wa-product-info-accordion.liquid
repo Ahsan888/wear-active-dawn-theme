@@ -10,6 +10,11 @@
 
 {%- if block.settings.enable -%}
   {%- liquid
+    capture wa_exchange_policy_url
+      render 'wa-exchange-policy-url'
+    endcapture
+    assign wa_exchange_policy_url = wa_exchange_policy_url | strip
+
     assign wa_info_description_id = 'WaProductInfo-Description-' | append: section.id
     assign wa_info_service_id = 'WaProductInfo-Service-' | append: section.id
     assign wa_info_care_id = 'WaProductInfo-Care-' | append: section.id
@@ -21,7 +26,7 @@
   <div class="wa-product-info quick-add-hidden" {{ block.shopify_attributes }}>
     {%- if product.description != blank -%}
       <div class="wa-product-info__accordion accordion product__accordion">
-        <details id="{{ wa_info_description_id }}" open>
+        <details id="{{ wa_info_description_id }}">
           <summary aria-controls="{{ wa_info_description_content_id }}">
             <div class="summary__title">
               <h2 class="h4 accordion__title">{{ block.settings.description_heading | escape }}</h2>
@@ -57,9 +62,7 @@
             {%- if shop.shipping_policy.body != blank -%}
               <a href="{{ shop.shipping_policy.url }}">Shipping policy</a>
             {%- endif -%}
-            {%- if shop.refund_policy.body != blank -%}
-              <a href="{{ shop.refund_policy.url }}">Size exchange policy</a>
-            {%- endif -%}
+            <a href="{{ wa_exchange_policy_url }}">Size exchange policy</a>
           </p>
         </div>
       </details>

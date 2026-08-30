@@ -158,6 +158,13 @@
                         </div>
                       {%- endif -%}
                       <p class="predictive-search__item-heading h5">{{ product.title | escape }}</p>
+                      {%- comment -%} Wear Active custom code start {%- endcomment -%}
+                      {% render 'wa-product-family-rating',
+                        product: product,
+                        mode: 'card',
+                        product_url: product.url
+                      %}
+                      {%- comment -%} Wear Active custom code end {%- endcomment -%}
                       {%- if settings.predictive_search_show_price -%}
                         {% render 'price', product: product, use_variant: true, show_badges: false %}
                       {%- endif -%}

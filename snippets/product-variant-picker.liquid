@@ -18,6 +18,12 @@
       {%- liquid
         assign swatch_count = option.values | map: 'swatch' | compact | size
         assign picker_type = block.settings.picker_type
+        assign wa_option_handle = option.name | handle
+        assign wa_option_class = ' wa-variant-option wa-variant-option--' | append: wa_option_handle
+
+        if option.values.size == 1
+          assign wa_option_class = wa_option_class | append: ' wa-variant-option--single-value'
+        endif
 
         if swatch_count > 0 and block.settings.swatch_shape != 'none'
           if block.settings.picker_type == 'dropdown'
@@ -28,7 +34,7 @@
         endif
       -%}
       {%- if picker_type == 'swatch' -%}
-        <fieldset class="js product-form__input product-form__input--swatch">
+        <fieldset class="js product-form__input product-form__input--swatch{{ wa_option_class }}">
           <legend class="form__label">
             {{ option.name }}:
             <span data-selected-value>
@@ -43,7 +49,7 @@
           %}
         </fieldset>
       {%- elsif picker_type == 'button' -%}
-        <fieldset class="js product-form__input product-form__input--pill">
+        <fieldset class="js product-form__input product-form__input--pill{{ wa_option_class }}">
           <legend class="form__label">{{ option.name }}</legend>
           {% render 'product-variant-options',
             product: product,
@@ -53,7 +59,7 @@
           %}
         </fieldset>
       {%- else -%}
-        <div class="product-form__input product-form__input--dropdown">
+        <div class="product-form__input product-form__input--dropdown{{ wa_option_class }}">
           <label class="form__label" for="Option-{{ section.id }}-{{ forloop.index0 }}">
             {{ option.name }}
           </label>

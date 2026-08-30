@@ -6,13 +6,17 @@
   - mode: {String} "label" or "compact" for abbreviated contexts; defaults to full policy copy.
 {% endcomment %}
 
+{%- liquid
+  assign wa_exchange_days = settings.wa_exchange_window | split: ' ' | first
+-%}
+
 {%- if mode == 'label' -%}
-  Size exchange within {{ settings.wa_exchange_window | escape }}
+  {{- wa_exchange_days -}}-Day Size Exchange
 {%- elsif mode == 'compact' -%}
-  Size exchange within {{ settings.wa_exchange_window | escape }} · {{ settings.wa_exchange_fee | escape }} delivery fee
+  {{- wa_exchange_days -}}-day size exchange · {{ settings.wa_exchange_fee | escape }} delivery fee
 {%- else -%}
   Size exchanges are available within {{ settings.wa_exchange_window | escape }} of delivery, including discounted
-  products. Items must be unused, unwashed, and have their original tags attached. A fixed
-  {{ settings.wa_exchange_fee | escape }} exchange delivery fee applies. If the item received is incorrect or
-  defective, Wear Active covers the delivery charges.
+  products. A {{ settings.wa_exchange_fee | escape }} exchange delivery fee applies. Items must be unused, unworn,
+  unwashed, and have original tags attached. If Wear Active sends an incorrect or defective item, replacement delivery
+  is free.
 {%- endif -%}

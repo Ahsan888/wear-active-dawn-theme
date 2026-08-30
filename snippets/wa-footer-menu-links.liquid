@@ -21,25 +21,10 @@
     assign wa_footer_about_url = pages['about-us'].url
   endif
 
-  assign wa_footer_exchange_url = blank
-  if pages['exchange-return-policy'] != blank
-    assign wa_footer_exchange_url = pages['exchange-return-policy'].url
-  elsif pages.returns != blank
-    assign wa_footer_exchange_url = pages.returns.url
-  elsif pages['return-policy'] != blank
-    assign wa_footer_exchange_url = pages['return-policy'].url
-  endif
-  if wa_footer_exchange_url == blank
-    for policy in shop.policies
-      if policy.handle == 'refund-policy' or policy.handle == 'return-policy'
-        assign wa_footer_exchange_url = policy.url
-        break
-      endif
-    endfor
-  endif
-  if wa_footer_exchange_url == blank
-    assign wa_footer_exchange_url = '/policies/refund-policy'
-  endif
+  capture wa_footer_exchange_url
+    render 'wa-exchange-policy-url'
+  endcapture
+  assign wa_footer_exchange_url = wa_footer_exchange_url | strip
 
   assign wa_footer_shipping_url = blank
   if pages['shipping-delivery'] != blank

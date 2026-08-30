@@ -1,0 +1,176 @@
+{% comment %}
+  Wear Active custom code start — wa-compact-collection.liquid
+  A compact, conversion-focused collection row using the shared product card.
+{% endcomment %}
+
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-rating.css' | asset_url | stylesheet_tag }}
+{{ 'wa-compact-collection.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .wa-compact-collection--{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .wa-compact-collection--{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<section
+  class="wa-compact-collection wa-compact-collection--{{ section.id }}"
+  aria-labelledby="WaCompactCollectionHeading-{{ section.id }}"
+>
+  <div class="wa-compact-collection__inner">
+    <header class="wa-compact-collection__header">
+      {%- if section.settings.heading != blank -%}
+        <h2 id="WaCompactCollectionHeading-{{ section.id }}" class="wa-compact-collection__heading">
+          {{ section.settings.heading | escape }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.subheading != blank -%}
+        <p class="wa-compact-collection__subheading">{{ section.settings.subheading | escape }}</p>
+      {%- endif -%}
+    </header>
+
+    <ul class="wa-compact-collection__products" role="list">
+      {%- if section.settings.collection != blank and section.settings.collection.products.size > 0 -%}
+        {%- for product in section.settings.collection.products limit: section.settings.products_to_show -%}
+          <li class="wa-compact-collection__item">
+            {% render 'card-product',
+              card_product: product,
+              card_collection: section.settings.collection,
+              media_aspect_ratio: 'portrait',
+              image_shape: 'default',
+              lazy_load: true,
+              show_secondary_image: false,
+              show_vendor: false,
+              show_rating: section.settings.show_rating,
+              show_swatches: section.settings.show_swatches,
+              skip_styles: true,
+              section_id: section.id,
+              quick_add: 'none'
+            %}
+          </li>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for index in (1..section.settings.products_to_show) -%}
+          <li class="wa-compact-collection__item">
+            {% render 'card-product',
+              media_aspect_ratio: 'portrait',
+              image_shape: 'default',
+              lazy_load: true,
+              show_rating: section.settings.show_rating,
+              show_swatches: section.settings.show_swatches,
+              skip_styles: true,
+              section_id: section.id,
+              quick_add: 'none',
+              placeholder_image: 'product-apparel-2'
+            %}
+          </li>
+        {%- endfor -%}
+      {%- endif -%}
+    </ul>
+
+    {%- if section.settings.collection != blank and section.settings.cta_label != blank -%}
+      <div class="wa-compact-collection__footer">
+        <a class="wa-compact-collection__cta" href="{{ section.settings.collection.url }}">
+          <span>{{ section.settings.cta_label | escape }}</span>
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "WA compact collection",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Best Sellers"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Most-loved performance essentials."
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Products to show",
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show ratings",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_swatches",
+      "label": "Show colour swatches",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Shop all best sellers"
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "WA compact collection"
+    }
+  ]
+}
+{% endschema %}

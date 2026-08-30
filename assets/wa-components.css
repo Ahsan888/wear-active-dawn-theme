@@ -285,6 +285,79 @@ wa-modal.wa-modal--closing .wa-modal__dialog {
   }
 }
 
+/* Product card — numeric family rating with filled star */
+.wa-product-family-rating--card {
+  margin: 0.15rem 0 0.35rem;
+}
+
+.wa-product-family-rating--card .wa-product-family-rating__link {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  color: rgba(var(--color-foreground), 0.82);
+  font-size: var(--wa-text-2xs);
+  font-weight: var(--wa-weight-medium);
+  letter-spacing: var(--wa-tracking-snug);
+  line-height: 1.25;
+  text-decoration: none;
+}
+
+.wa-product-family-rating--card .wa-product-family-rating__link:hover,
+.wa-product-family-rating--card .wa-product-family-rating__link:focus-visible {
+  color: var(--wa-color-evergreen);
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+
+.wa-product-family-rating--card .wa-product-family-rating__star {
+  flex: 0 0 auto;
+  color: var(--wa-color-coffee);
+  font-size: 1.25rem;
+  font-family: Times, serif;
+  line-height: 1;
+}
+
+.wa-product-family-rating--card .wa-product-family-rating__value {
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-semibold);
+  color: var(--wa-color-coffee);
+}
+
+.wa-product-family-rating--card .wa-product-family-rating__separator {
+  color: rgba(var(--color-foreground), 0.4);
+}
+
+.wa-product-family-rating--card .wa-product-family-rating__count {
+  color: rgba(var(--color-foreground), 0.62);
+}
+
+.card__information > .wa-product-family-rating--card + .card-information {
+  margin-top: 0;
+}
+
+.predictive-search__item-content .wa-product-family-rating--card {
+  margin: 0.1rem 0 0.2rem;
+}
+
+.predictive-search__item-content .wa-product-family-rating--card .wa-product-family-rating__link {
+  font-size: 1.1rem;
+}
+
+@media screen and (max-width: 749px) {
+  .wa-product-family-rating--card {
+    margin: 0.1rem 0 0.25rem;
+  }
+
+  .wa-product-family-rating--card .wa-product-family-rating__star {
+    font-size: 1.15rem;
+  }
+
+  .wa-product-family-rating--card .wa-product-family-rating__value {
+    font-size: var(--wa-text-2xs);
+  }
+}
+
 /* Product card swatch image preview — desktop only */
 @media (hover: hover) and (pointer: fine) {
   .wa-product-card__image--swatch-preview {

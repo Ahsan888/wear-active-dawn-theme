@@ -19,13 +19,6 @@
     assign wa_column_order = 'chest,waist,hips,length,inseam' | split: ','
     assign wa_column_labels = 'Chest,Waist,Hips,Length,Inseam' | split: ','
     assign wa_fit_type = size_chart.fit_type.value | default: size_chart.fit_type
-
-    capture wa_fit_description
-      if size_chart.description != blank
-        echo size_chart.description | metafield_tag
-      endif
-    endcapture
-    assign wa_fit_description = wa_fit_description | strip_html | strip
   -%}
 
   <div class="wa-size-chart" data-wa-size-chart>
@@ -46,17 +39,10 @@
       <span>Size Guide</span>
     </button>
 
-    {%- if wa_fit_type != blank or wa_fit_description != blank -%}
+    {%- if wa_fit_type != blank -%}
       <div class="wa-size-chart__fit-summary" data-wa-size-fit-summary>
         <span class="wa-size-chart__fit-summary-label">Fit</span>
-        <span class="wa-size-chart__fit-summary-copy">
-          {%- if wa_fit_type != blank -%}
-            <strong>{{ wa_fit_type | escape }}</strong>
-          {%- endif -%}
-          {%- if wa_fit_description != blank -%}
-            <span>{{ wa_fit_description | escape }}</span>
-          {%- endif -%}
-        </span>
+        <strong class="wa-size-chart__fit-summary-copy">{{ wa_fit_type | escape }}</strong>
       </div>
     {%- endif -%}
 

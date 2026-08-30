@@ -103,14 +103,12 @@
     {%- liquid
       if wa_bundle_kind == 'tee'
         assign wa_item_plural = 'Tees'
-        assign wa_highlight_badge = block.settings.tee_highlight_badge
         assign wa_save_2 = block.settings.tee_save_2
         assign wa_save_3 = block.settings.tee_save_3
         assign wa_cta_text = block.settings.tee_cta_text
         assign wa_cta_url = block.settings.tee_collection_url
       else
         assign wa_item_plural = 'Trousers'
-        assign wa_highlight_badge = block.settings.trouser_highlight_badge
         assign wa_save_2 = block.settings.trouser_save_2
         assign wa_save_3 = blank
         assign wa_cta_text = block.settings.trouser_cta_text
@@ -119,67 +117,58 @@
 
       assign wa_heading = block.settings.heading
       assign wa_checkout_note = block.settings.checkout_note
+      assign wa_best_save = wa_save_3 | default: wa_save_2
     -%}
 
     <div class="wa-bundle-save quick-add-hidden" {{ block.shopify_attributes }}>
-      <div class="wa-bundle-save__strip" aria-label="{{ wa_heading | default: 'Bundle and save' | escape }}">
-        <div class="wa-bundle-save__header">
+      <details class="wa-bundle-save__details">
+        <summary class="wa-bundle-save__summary">
           <span class="wa-bundle-save__icon" aria-hidden="true">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" focusable="false">
               <path d="M11.2 2.5h5.3l1 1v5.3l-8.8 8.8a1.4 1.4 0 0 1-2 0L2.5 12.6a1.4 1.4 0 0 1 0-2L11.2 2.5Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/>
               <circle cx="13.8" cy="6.2" r="0.95" fill="currentColor"/>
             </svg>
           </span>
-          {%- if wa_heading != blank -%}
-            <h3 class="wa-bundle-save__heading">{{ wa_heading | escape }}</h3>
-          {%- endif -%}
-        </div>
+          <span class="wa-bundle-save__summary-copy">
+            <strong>{{ wa_heading | default: 'Bundle & Save' | escape }}</strong>
+            {%- if wa_best_save != blank -%}
+              <span>Save up to {{ wa_best_save | escape }}</span>
+            {%- endif -%}
+          </span>
+          <span class="wa-bundle-save__chevron" aria-hidden="true">⌄</span>
+        </summary>
 
-        <div class="wa-bundle-save__tiers{% unless wa_bundle_kind == 'tee' and wa_save_3 != blank %} wa-bundle-save__tiers--single{% endunless %}">
-          <div class="wa-bundle-save__tier">
-            <p class="wa-bundle-save__tier-head">
+        <div class="wa-bundle-save__content">
+          <div class="wa-bundle-save__tiers{% unless wa_bundle_kind == 'tee' and wa_save_3 != blank %} wa-bundle-save__tiers--single{% endunless %}">
+            <div class="wa-bundle-save__tier">
               <span>Buy 2 {{ wa_item_plural }}</span>
-              {%- if wa_bundle_kind == 'tee' and wa_highlight_badge != blank -%}
-                <span class="wa-bundle-save__badge">{{ wa_highlight_badge | escape }}</span>
+              {%- if wa_save_2 != blank -%}
+                <strong>{{ block.settings.save_prefix | escape }}{{ wa_save_2 | escape }}</strong>
               {%- endif -%}
-            </p>
-            {%- if wa_save_2 != blank -%}
-              <p class="wa-bundle-save__tier-save">
-                {{- block.settings.save_prefix | escape }}{{ wa_save_2 | escape -}}
-              </p>
+            </div>
+
+            {%- if wa_bundle_kind == 'tee' and wa_save_3 != blank -%}
+              <div class="wa-bundle-save__tier wa-bundle-save__tier--best">
+                <span>Buy 3 {{ wa_item_plural }}</span>
+                <strong>{{ block.settings.save_prefix | escape }}{{ wa_save_3 | escape }}</strong>
+              </div>
             {%- endif -%}
           </div>
 
-          {%- if wa_bundle_kind == 'tee' and wa_save_3 != blank -%}
-            <div class="wa-bundle-save__tier">
-              <p class="wa-bundle-save__tier-head">
-                <span>Buy 3 {{ wa_item_plural }}</span>
-              </p>
-              <p class="wa-bundle-save__tier-save">
-                {{- block.settings.save_prefix | escape }}{{ wa_save_3 | escape -}}
-              </p>
-            </div>
-          {%- endif -%}
+          <div class="wa-bundle-save__footer">
+            {%- if wa_checkout_note != blank -%}
+              <span class="wa-bundle-save__note">Applied automatically at checkout</span>
+            {%- endif -%}
+
+            {%- if block.settings.show_cta and wa_cta_text != blank and wa_cta_url != blank -%}
+              <a href="{{ wa_cta_url | escape }}" class="wa-bundle-save__cta link underlined-link">
+                <span>{{ wa_cta_text | escape }}</span>
+                <span aria-hidden="true">→</span>
+              </a>
+            {%- endif -%}
+          </div>
         </div>
-
-        {%- if wa_checkout_note != blank -%}
-          <p class="wa-bundle-save__note">
-            <span class="wa-bundle-save__note-icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" focusable="false">
-                <path d="M3 8.15 6.25 11.4 13 4.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            <span>{{ wa_checkout_note | escape }}</span>
-          </p>
-        {%- endif -%}
-
-        {%- if block.settings.show_cta and wa_cta_text != blank and wa_cta_url != blank -%}
-          <a href="{{ wa_cta_url | escape }}" class="wa-bundle-save__cta link underlined-link">
-            <span>{{ wa_cta_text | escape }}</span>
-            <span aria-hidden="true">→</span>
-          </a>
-        {%- endif -%}
-      </div>
+      </details>
     </div>
   {%- endif -%}
 {%- endif -%}

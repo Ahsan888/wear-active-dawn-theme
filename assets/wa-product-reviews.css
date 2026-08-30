@@ -1,0 +1,101 @@
+/* ==========================================================================
+   Wear Active custom code start — wa-product-reviews.css
+   Product page reviews section.
+   ========================================================================== */
+
+.wa-product-reviews__inner {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.wa-product-reviews__header {
+  margin-bottom: 1.2rem;
+}
+
+.wa-product-reviews__heading {
+  margin: 0;
+  font-weight: var(--wa-weight-extrabold);
+  letter-spacing: var(--wa-tracking-snug);
+  line-height: var(--wa-leading-tight);
+}
+
+.wa-product-reviews__widget {
+  position: relative;
+}
+
+.wa-product-reviews__widget .jdgm-review-widget {
+  margin-top: 0;
+}
+
+.wa-product-reviews-summary {
+  margin: 0 0 1.2rem;
+}
+
+.wa-product-reviews-summary__stats {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: var(--wa-text-sm);
+  font-weight: var(--wa-weight-medium);
+  letter-spacing: var(--wa-tracking-snug);
+  line-height: var(--wa-leading-snug);
+  color: rgba(var(--color-foreground), 0.82);
+}
+
+.wa-product-reviews-summary .rating-star {
+  --letter-spacing: 0.7;
+  --font-size: 1.35;
+  --color-rating-star: var(--wa-color-coffee);
+}
+
+.wa-product-reviews-summary__value {
+  font-weight: var(--wa-weight-semibold);
+  color: rgb(var(--color-foreground));
+}
+
+.wa-product-reviews-summary__separator {
+  color: rgba(var(--color-foreground), 0.45);
+}
+
+.wa-product-reviews-summary__count {
+  color: rgba(var(--color-foreground), 0.72);
+}
+
+/* Hide Judge.me per-product summary — family aggregate is shown above. */
+.wa-product-reviews__widget .jdgm-rev-widg__summary,
+.wa-product-reviews__widget .jdgm-rev-widg__summary-text,
+.wa-product-reviews__widget .jdgm-histogram,
+.wa-product-reviews__widget .jdgm-rev-widg__title,
+.wa-product-reviews__widget .jdgm-ssr-rating-distribution,
+.wa-product-reviews__widget .jdgm-ssr-ai-content,
+.wa-product-reviews__widget .jdgm-rev-widg__header [class*='average'],
+.wa-product-reviews__widget .jdgm-rev-widg__header [class*='summary'],
+.wa-product-reviews__widget .jm-review-widget-minimal-header__title,
+.wa-product-reviews__widget .jm-average-rating-display {
+  display: none !important;
+}
+
+.wa-product-review__product-label {
+  margin: 0 0 0.8rem;
+  font-size: var(--wa-text-2xs);
+  font-weight: var(--wa-weight-medium);
+  letter-spacing: var(--wa-tracking-wide);
+  line-height: var(--wa-leading-snug);
+  text-transform: uppercase;
+  color: rgba(var(--color-foreground), 0.58);
+}
+
+@media screen and (max-width: 749px) {
+  .wa-product-reviews__header {
+    margin-bottom: 1rem;
+  }
+
+  .wa-product-reviews-summary {
+    margin-bottom: 1rem;
+  }
+
+  .wa-product-reviews-summary__stats {
+    font-size: var(--wa-text-xs);
+  }
+}

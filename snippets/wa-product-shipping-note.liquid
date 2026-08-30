@@ -1,0 +1,11 @@
+{% comment %}
+  Wear Active custom code start — wa-product-shipping-note.liquid
+  Compact free-shipping reassurance shown under the product price on PDPs.
+{% endcomment %}
+
+<p class="wa-product-shipping-note">
+  {% render 'wa-brand-icon', icon: 'dispatch', class: 'wa-product-shipping-note__icon' %}
+  <span class="wa-product-shipping-note__text">
+    Free delivery · {{ settings.wa_delivery_window | escape }}
+  </span>
+</p>
