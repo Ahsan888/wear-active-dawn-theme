@@ -376,6 +376,13 @@ if (!customElements.get('wa-bundle-picker')) {
               cartData: result,
             });
           }
+          window.waTrackAov?.('bundle_added', {
+            bundle_kind: this.dataset.kind,
+            quantity: this.quantity,
+            saving: this.savingFor() / 100,
+            subtotal: this.selectedSubtotal() / 100,
+            variant_ids: items.map((item) => item.id),
+          });
           if (cart?.renderContents) {
             cart.setActiveElement?.(this.submitButton);
             cart.renderContents(result);

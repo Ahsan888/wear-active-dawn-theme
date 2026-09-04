@@ -1,0 +1,120 @@
+{% comment %}
+  Wear Active custom code start — wa-cart-complete-look.liquid
+
+  Shows one in-stock, full-price Complete Your Look recommendation from the
+  products already in the cart. Products already present in the cart are
+  excluded. Recommendations are maintained by custom.complete_the_look.
+{% endcomment %}
+
+{%- liquid
+  assign wa_cart_recommendation = blank
+
+  for wa_source_item in cart.items
+    assign wa_recommendations = wa_source_item.product.metafields.custom.complete_the_look.value
+
+    for wa_product in wa_recommendations
+      if wa_product.available == false or wa_product.compare_at_price_max > wa_product.price
+        continue
+      endif
+
+      assign wa_product_in_cart = false
+      for wa_cart_item in cart.items
+        if wa_cart_item.product_id == wa_product.id
+          assign wa_product_in_cart = true
+          break
+        endif
+      endfor
+
+      unless wa_product_in_cart
+        assign wa_cart_recommendation = wa_product
+        break
+      endunless
+    endfor
+
+    if wa_cart_recommendation != blank
+      break
+    endif
+  endfor
+-%}
+
+{%- if wa_cart_recommendation != blank -%}
+  {%- assign wa_recommendation_variant = wa_cart_recommendation.selected_or_first_available_variant -%}
+  <wa-cart-complete-look
+    class="wa-cart-complete-look"
+    data-product-id="{{ wa_cart_recommendation.id }}"
+    data-product-handle="{{ wa_cart_recommendation.handle | escape }}"
+    data-product-title="{{ wa_cart_recommendation.title | escape }}"
+  >
+    <div class="wa-cart-complete-look__heading">
+      <span>Complete the outfit</span>
+      <small>Chosen to pair with your cart</small>
+    </div>
+
+    <div class="wa-cart-complete-look__product">
+      <a
+        class="wa-cart-complete-look__image"
+        href="{{ wa_cart_recommendation.url }}"
+        data-wa-aov-action="cart_recommendation_clicked"
+        aria-label="View {{ wa_cart_recommendation.title | escape }}"
+      >
+        {%- if wa_cart_recommendation.featured_image != blank -%}
+          <img
+            src="{{ wa_cart_recommendation.featured_image | image_url: width: 180 }}"
+            alt="{{ wa_cart_recommendation.featured_image.alt | default: wa_cart_recommendation.title | escape }}"
+            width="72"
+            height="90"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </a>
+
+      <div class="wa-cart-complete-look__details">
+        <a
+          class="wa-cart-complete-look__title"
+          href="{{ wa_cart_recommendation.url }}"
+          data-wa-aov-action="cart_recommendation_clicked"
+        >
+          {{- wa_cart_recommendation.title | escape -}}
+        </a>
+        <span class="wa-cart-complete-look__price" data-wa-cart-cross-sell-price>
+          {{- wa_recommendation_variant.price | money -}}
+        </span>
+
+        <div class="wa-cart-complete-look__actions">
+          {%- if wa_cart_recommendation.has_only_default_variant -%}
+            <input type="hidden" value="{{ wa_recommendation_variant.id }}" data-wa-cart-cross-sell-variant>
+          {%- else -%}
+            <label class="visually-hidden" for="WaCartCompleteLookVariant-{{ wa_cart_recommendation.id }}">
+              Choose options for {{ wa_cart_recommendation.title | escape }}
+            </label>
+            <select
+              id="WaCartCompleteLookVariant-{{ wa_cart_recommendation.id }}"
+              class="wa-cart-complete-look__select"
+              data-wa-cart-cross-sell-variant
+            >
+              {%- for variant in wa_cart_recommendation.variants -%}
+                <option
+                  value="{{ variant.id }}"
+                  data-price="{{ variant.price | money | escape }}"
+                  {% unless variant.available %}disabled{% endunless %}
+                  {% if variant.id == wa_recommendation_variant.id %}selected{% endif %}
+                >
+                  {{- variant.title | escape -}}{% unless variant.available %} — Sold out{% endunless %}
+                </option>
+              {%- endfor -%}
+            </select>
+          {%- endif -%}
+
+          <button class="wa-cart-complete-look__add" type="button" data-wa-cart-cross-sell-add>
+            <span>Add</span>
+            <span class="loading__spinner hidden">
+              <span class="spinner">{{ 'loading-spinner.svg' | inline_asset_content }}</span>
+            </span>
+          </button>
+        </div>
+        <p class="wa-cart-complete-look__error" role="alert" data-wa-cart-cross-sell-error hidden></p>
+      </div>
+    </div>
+  </wa-cart-complete-look>
+{%- endif -%}
+
