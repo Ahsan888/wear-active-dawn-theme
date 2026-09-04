@@ -280,7 +280,7 @@ if (!customElements.get('wa-bundle-picker')) {
       }
 
       savingFor(quantity = this.quantity) {
-        return Number(this.dataset[`save${quantity}`] || 0);
+        return Number(this.getAttribute(`data-save-${quantity}`) || 0);
       }
 
       selectedSubtotal() {
