@@ -51,8 +51,8 @@
           "settings": {
             "enable": true,
             "heading": "Bundle & Save",
-            "tee_save_2": 150,
-            "tee_save_3": 300,
+            "tee_save_2": 200,
+            "tee_save_3": 400,
             "tee_collection_handle": "bundle-eligible-tees",
             "bottom_save_2": 150,
             "bottom_collection_handle": "bundle-eligible-bottoms"
