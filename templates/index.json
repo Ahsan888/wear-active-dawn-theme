@@ -230,6 +230,21 @@
         "padding_bottom": 64
       }
     },
+    "wa_bundle_collection": {
+      "type": "wa-compact-collection",
+      "settings": {
+        "collection": "bundles-packs",
+        "heading": "Bundle & Save",
+        "subheading": "Coordinated outfits and multi-packs, built for better value.",
+        "products_to_show": 5,
+        "show_rating": false,
+        "show_swatches": false,
+        "cta_label": "Shop all bundles",
+        "color_scheme": "scheme-3",
+        "padding_top": 48,
+        "padding_bottom": 56
+      }
+    },
     "wa_lifestyle_gallery": {
       "type": "wa-lifestyle-gallery",
       "settings": {
@@ -399,6 +414,7 @@
     "wa_performance_features",
     "wa_compact_best_sellers",
     "wa_performance_edit",
+    "wa_bundle_collection",
     "wa_lifestyle_gallery",
     "wa_shop_by_product_category",
     "wa_reviews_showcase",
