@@ -17,6 +17,10 @@ if (!customElements.get('wa-bundle-picker')) {
         this.extraSlots = this.querySelector('[data-wa-bundle-extra-slots]');
         this.summary = this.querySelector('[data-wa-bundle-summary]');
         this.error = this.querySelector('[data-wa-bundle-error]');
+        this.dialog = this.querySelector('[data-wa-bundle-dialog]');
+        this.productGrid = this.querySelector('[data-wa-bundle-product-grid]');
+        this.search = this.querySelector('[data-wa-bundle-search]');
+        this.emptyState = this.querySelector('[data-wa-bundle-empty]');
         this.quantity = 1;
 
         this.currentProduct = this.parseJson('[data-wa-current-product]', null);
@@ -28,6 +32,11 @@ if (!customElements.get('wa-bundle-picker')) {
         this.querySelectorAll('[data-wa-bundle-tier]').forEach((button) => {
           button.addEventListener('click', () => this.selectTier(Number(button.dataset.waBundleTier || 1)));
         });
+        this.querySelector('[data-wa-bundle-dialog-close]')?.addEventListener('click', () => this.closeProductDialog());
+        this.dialog?.addEventListener('click', (event) => {
+          if (event.target === this.dialog) this.closeProductDialog();
+        });
+        this.search?.addEventListener('input', () => this.filterProductCards());
 
         this.form.addEventListener('submit', (event) => this.handleSubmit(event), true);
         if (typeof subscribe === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
@@ -81,8 +90,7 @@ if (!customElements.get('wa-bundle-picker')) {
         if (title) title.textContent = variant.title === 'Default Title' ? 'One size' : variant.title;
 
         this.extraSlots?.querySelectorAll('[data-wa-bundle-slot]').forEach((slot) => {
-          const productSelect = slot.querySelector('[data-wa-bundle-product]');
-          this.populateVariants(slot, productSelect?.value, variant.title);
+          this.populateVariants(slot, slot.dataset.productId, variant.title);
         });
         this.refreshPrices();
       }
@@ -111,35 +119,30 @@ if (!customElements.get('wa-bundle-picker')) {
           slot.dataset.waBundleSlot = String(index + 2);
           slot.innerHTML = `
             <div class="wa-bundle-picker__slot-number">${index + 2}</div>
-            <img class="wa-bundle-picker__slot-image" width="52" height="64" alt="" loading="lazy">
             <div class="wa-bundle-picker__fields">
-              <label>
-                <span>Style &amp; colour</span>
-                <select data-wa-bundle-product aria-label="Choose style and colour"></select>
-              </label>
-              <label>
+              <button class="wa-bundle-picker__product-trigger" type="button" data-wa-bundle-product-trigger>
+                <img class="wa-bundle-picker__slot-image" width="58" height="70" alt="" loading="lazy">
+                <span class="wa-bundle-picker__product-copy">
+                  <small>Style &amp; colour</small>
+                  <strong data-wa-bundle-product-title></strong>
+                  <span data-wa-bundle-product-meta></span>
+                </span>
+                <span class="wa-bundle-picker__change">Change</span>
+              </button>
+              <label class="wa-bundle-picker__size-field">
                 <span>Size</span>
                 <select data-wa-bundle-variant aria-label="Choose size"></select>
               </label>
             </div>`;
 
-          const productSelect = slot.querySelector('[data-wa-bundle-product]');
-          this.products.forEach((product) => {
-            const option = document.createElement('option');
-            option.value = String(product.id);
-            option.textContent = this.productLabel(product);
-            productSelect.appendChild(option);
-          });
-
           const defaultProduct = this.defaultProductForSlot(index);
-          if (defaultProduct) productSelect.value = String(defaultProduct.id);
-          productSelect.addEventListener('change', () => {
-            this.populateVariants(slot, productSelect.value, this.currentVariant()?.title);
-            this.refreshPrices();
+          if (defaultProduct) slot.dataset.productId = String(defaultProduct.id);
+          slot.querySelector('[data-wa-bundle-product-trigger]').addEventListener('click', () => {
+            this.openProductDialog(slot);
           });
           slot.querySelector('[data-wa-bundle-variant]').addEventListener('change', () => this.refreshPrices());
           this.extraSlots.appendChild(slot);
-          this.populateVariants(slot, productSelect.value, this.currentVariant()?.title);
+          this.populateVariants(slot, slot.dataset.productId, this.currentVariant()?.title);
         }
       }
 
@@ -157,6 +160,16 @@ if (!customElements.get('wa-bundle-picker')) {
         const variantSelect = slot.querySelector('[data-wa-bundle-variant]');
         const image = slot.querySelector('.wa-bundle-picker__slot-image');
         if (!product || !variantSelect) return;
+
+        slot.dataset.productId = String(product.id);
+        const productTitle = slot.querySelector('[data-wa-bundle-product-title]');
+        const productMeta = slot.querySelector('[data-wa-bundle-product-meta]');
+        const availablePrices = product.variants.filter((variant) => variant.available).map((variant) => Number(variant.price));
+        const lowestPrice = availablePrices.length ? Math.min(...availablePrices) : 0;
+        if (productTitle) productTitle.textContent = product.title;
+        if (productMeta) {
+          productMeta.textContent = [product.color, lowestPrice ? this.money(lowestPrice) : ''].filter(Boolean).join(' · ');
+        }
 
         const previous = variantSelect.value;
         variantSelect.innerHTML = '';
@@ -179,6 +192,73 @@ if (!customElements.get('wa-bundle-picker')) {
           image.alt = this.productLabel(product);
           image.hidden = !product.image;
         }
+      }
+
+      openProductDialog(slot) {
+        if (!this.dialog || !this.productGrid) return;
+        this.activeSlot = slot;
+        this.renderProductCards();
+        if (this.search) this.search.value = '';
+        this.filterProductCards();
+        if (typeof this.dialog.showModal === 'function') this.dialog.showModal();
+        else this.dialog.setAttribute('open', '');
+        window.requestAnimationFrame(() => this.search?.focus());
+      }
+
+      closeProductDialog() {
+        if (!this.dialog) return;
+        if (typeof this.dialog.close === 'function') this.dialog.close();
+        else this.dialog.removeAttribute('open');
+        this.activeSlot?.querySelector('[data-wa-bundle-product-trigger]')?.focus();
+      }
+
+      renderProductCards() {
+        const selectedId = String(this.activeSlot?.dataset.productId || '');
+        this.productGrid.innerHTML = '';
+        this.products.forEach((product) => {
+          const availablePrices = product.variants.filter((variant) => variant.available).map((variant) => Number(variant.price));
+          const card = document.createElement('button');
+          card.type = 'button';
+          card.className = 'wa-bundle-picker__product-card';
+          card.dataset.search = `${product.title} ${product.color || ''}`.toLowerCase();
+          card.classList.toggle('is-selected', String(product.id) === selectedId);
+          card.setAttribute('aria-pressed', String(product.id) === selectedId ? 'true' : 'false');
+
+          const image = document.createElement('img');
+          image.width = 180;
+          image.height = 220;
+          image.loading = 'lazy';
+          image.alt = this.productLabel(product);
+          image.src = product.image || '';
+          image.hidden = !product.image;
+
+          const copy = document.createElement('span');
+          copy.className = 'wa-bundle-picker__product-card-copy';
+          const title = document.createElement('strong');
+          title.textContent = product.title;
+          const meta = document.createElement('span');
+          const price = availablePrices.length ? Math.min(...availablePrices) : 0;
+          meta.textContent = [product.color, price ? this.money(price) : ''].filter(Boolean).join(' · ');
+          copy.append(title, meta);
+          card.append(image, copy);
+          card.addEventListener('click', () => {
+            this.populateVariants(this.activeSlot, product.id, this.currentVariant()?.title);
+            this.refreshPrices();
+            this.closeProductDialog();
+          });
+          this.productGrid.appendChild(card);
+        });
+      }
+
+      filterProductCards() {
+        const term = String(this.search?.value || '').trim().toLowerCase();
+        let visible = 0;
+        this.productGrid?.querySelectorAll('.wa-bundle-picker__product-card').forEach((card) => {
+          const match = !term || card.dataset.search.includes(term);
+          card.hidden = !match;
+          if (match) visible += 1;
+        });
+        if (this.emptyState) this.emptyState.hidden = visible > 0;
       }
 
       selectedItems() {

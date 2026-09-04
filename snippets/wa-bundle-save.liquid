@@ -124,6 +124,24 @@
       </div>
 
       <div data-wa-bundle-extra-slots></div>
+
+      <dialog class="wa-bundle-picker__dialog" data-wa-bundle-dialog aria-labelledby="WaBundleDialogTitle-{{ block.id }}">
+        <div class="wa-bundle-picker__dialog-header">
+          <div>
+            <p class="wa-bundle-picker__eyebrow">Build your bundle</p>
+            <h4 id="WaBundleDialogTitle-{{ block.id }}">Choose a style &amp; colour</h4>
+          </div>
+          <button class="wa-bundle-picker__dialog-close" type="button" data-wa-bundle-dialog-close aria-label="Close">
+            {{- 'icon-close.svg' | inline_asset_content -}}
+          </button>
+        </div>
+        <label class="wa-bundle-picker__search">
+          <span class="visually-hidden">Search eligible products</span>
+          <input type="search" placeholder="Search style or colour" data-wa-bundle-search>
+        </label>
+        <div class="wa-bundle-picker__product-grid" data-wa-bundle-product-grid></div>
+        <p class="wa-bundle-picker__empty" data-wa-bundle-empty hidden>No matching styles found.</p>
+      </dialog>
     </div>
 
     <p class="wa-bundle-picker__summary" aria-live="polite" data-wa-bundle-summary></p>
