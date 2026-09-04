@@ -40,6 +40,15 @@
             "show_gift_card_recipient": true
           }
         },
+        "wa_complete_look": {
+          "type": "wa_complete_look",
+          "settings": {
+            "enable": true,
+            "heading": "Complete Your Look",
+            "products_to_show": 3,
+            "enable_quick_add": true
+          }
+        },
         "wa_trust_block": {
           "type": "wa_trust_block",
           "settings": {
@@ -76,6 +85,7 @@
         "variant_picker",
         "wa_bundle_save",
         "buy_buttons",
+        "wa_complete_look",
         "wa_trust_block",
         "wa_product_info"
       ],

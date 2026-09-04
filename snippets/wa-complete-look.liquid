@@ -1,0 +1,56 @@
+{% comment %}
+  Wear Active custom code start — wa-complete-look.liquid
+
+  Compact product-page cross-sell sourced from the native
+  custom.complete_the_look list.product_reference metafield.
+
+  Accepts:
+  - block: {Object} Theme editor block settings.
+  - product: {Object} Current product.
+  - section: {Object} Current product section.
+{% endcomment %}
+
+{%- assign wa_complete_products = product.metafields.custom.complete_the_look.value -%}
+
+{%- if block.settings.enable and wa_complete_products != blank -%}
+  {{ 'component-card.css' | asset_url | stylesheet_tag }}
+  {{ 'component-price.css' | asset_url | stylesheet_tag }}
+  {{ 'wa-complete-look.css' | asset_url | stylesheet_tag }}
+  {%- if block.settings.enable_quick_add -%}
+    {{ 'quick-add.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
+
+  <aside class="wa-complete-look" aria-labelledby="WaCompleteLookTitle-{{ block.id }}" {{ block.shopify_attributes }}>
+    <div class="wa-complete-look__header">
+      <p class="wa-complete-look__eyebrow">Style it together</p>
+      <h3 id="WaCompleteLookTitle-{{ block.id }}">{{ block.settings.heading | escape }}</h3>
+    </div>
+    <ul class="wa-complete-look__list list-unstyled" role="list">
+      {%- for wa_product in wa_complete_products limit: block.settings.products_to_show -%}
+        {%- if wa_product.available -%}
+          <li class="wa-complete-look__item">
+            {%- if block.settings.enable_quick_add -%}
+              {%- assign wa_quick_add = 'standard' -%}
+            {%- else -%}
+              {%- assign wa_quick_add = 'none' -%}
+            {%- endif -%}
+            {% render 'card-product',
+              card_product: wa_product,
+              media_aspect_ratio: 'portrait',
+              show_secondary_image: false,
+              show_vendor: false,
+              show_rating: false,
+              lazy_load: true,
+              quick_add: wa_quick_add,
+              section_id: section.id,
+              horizontal_class: true,
+              horizontal_quick_add: true
+            %}
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </aside>
+{%- endif -%}
+

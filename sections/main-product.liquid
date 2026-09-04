@@ -525,6 +525,10 @@
                 {%- comment -%} Wear Active custom code start {%- endcomment -%}
                 {% render 'wa-bundle-save', block: block, product: product, product_form_id: product_form_id %}
                 {%- comment -%} Wear Active custom code end {%- endcomment -%}
+              {%- when 'wa_complete_look' -%}
+                {%- comment -%} Wear Active custom code start {%- endcomment -%}
+                {% render 'wa-complete-look', block: block, product: product, section: section %}
+                {%- comment -%} Wear Active custom code end {%- endcomment -%}
               {%- when 'wa_trust_block' -%}
                 {%- comment -%} Wear Active custom code start {%- endcomment -%}
                 {% render 'wa-product-trust-block', block: block %}
@@ -1050,6 +1054,40 @@
           "id": "enable",
           "default": true,
           "label": "Show aggregated family rating"
+        }
+      ]
+    },
+    {
+      "type": "wa_complete_look",
+      "name": "WA — Complete Your Look",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enable",
+          "default": true,
+          "label": "Enable Complete Your Look"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Complete Your Look",
+          "label": "Heading"
+        },
+        {
+          "type": "range",
+          "id": "products_to_show",
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "default": 3,
+          "label": "Products to show"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_quick_add",
+          "default": true,
+          "label": "Enable quick add"
         }
       ]
     },

@@ -1,0 +1,97 @@
+/* Wear Active product-page Complete Your Look cross-sell */
+.wa-complete-look {
+  margin-top: 1.6rem;
+  padding: 1.5rem;
+  border: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.18);
+  background: color-mix(in srgb, var(--wa-color-parchment) 94%, var(--wa-color-coffee) 6%);
+}
+
+.wa-complete-look__header {
+  margin-bottom: 1rem;
+}
+
+.wa-complete-look__eyebrow {
+  margin: 0 0 0.2rem;
+  color: var(--wa-color-coffee);
+  font-size: var(--wa-text-2xs);
+  font-weight: var(--wa-weight-bold);
+  letter-spacing: var(--wa-tracking-widest);
+  text-transform: uppercase;
+}
+
+.wa-complete-look__header h3 {
+  margin: 0;
+  color: var(--wa-color-evergreen);
+  font-size: var(--wa-text-lg);
+  line-height: 1.2;
+}
+
+.wa-complete-look__list {
+  display: grid;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+}
+
+.wa-complete-look__item {
+  padding-top: 0.8rem;
+  border-top: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.12);
+}
+
+.wa-complete-look__item:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.wa-complete-look .card-wrapper {
+  width: 100%;
+}
+
+.wa-complete-look .card--horizontal {
+  grid-template-columns: 8rem minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+}
+
+.wa-complete-look .card--horizontal .card__inner {
+  width: 8rem;
+  min-height: 10rem;
+  background: rgba(var(--wa-color-parchment-rgb), 0.78);
+}
+
+.wa-complete-look .card__media .media img {
+  object-fit: contain;
+}
+
+.wa-complete-look .card__heading {
+  color: var(--wa-color-evergreen);
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-bold);
+  line-height: 1.3;
+}
+
+.wa-complete-look .price {
+  color: rgba(var(--wa-color-evergreen-rgb), 0.75);
+  font-size: var(--wa-text-xs);
+}
+
+.wa-complete-look .quick-add {
+  margin: 0.7rem 0 0;
+}
+
+.wa-complete-look .quick-add__submit {
+  min-height: 3.8rem;
+  padding: 0.7rem 1rem;
+  border-radius: 0;
+  font-size: var(--wa-text-2xs);
+  font-weight: var(--wa-weight-bold);
+  letter-spacing: var(--wa-tracking-wide);
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 749px) {
+  .wa-complete-look {
+    padding: 1.3rem;
+  }
+}
+
