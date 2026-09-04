@@ -355,14 +355,14 @@ wa-modal.wa-modal--closing .wa-modal__dialog {
 
 .wa-product-family-rating--card .wa-product-family-rating__link:hover,
 .wa-product-family-rating--card .wa-product-family-rating__link:focus-visible {
-  color: var(--wa-color-evergreen);
+  color: rgb(var(--color-foreground));
   text-decoration: underline;
   text-underline-offset: 0.2rem;
 }
 
 .wa-product-family-rating--card .wa-product-family-rating__star {
   flex: 0 0 auto;
-  color: var(--wa-color-coffee);
+  color: rgb(var(--color-foreground));
   font-size: 1.25rem;
   font-family: Times, serif;
   line-height: 1;
@@ -371,7 +371,7 @@ wa-modal.wa-modal--closing .wa-modal__dialog {
 .wa-product-family-rating--card .wa-product-family-rating__value {
   font-size: var(--wa-text-xs);
   font-weight: var(--wa-weight-semibold);
-  color: var(--wa-color-coffee);
+  color: rgb(var(--color-foreground));
 }
 
 .wa-product-family-rating--card .wa-product-family-rating__separator {
@@ -822,6 +822,21 @@ wa-modal.wa-modal--closing .wa-modal__dialog {
   letter-spacing: 0.12em;
   line-height: 1;
   text-transform: uppercase;
+}
+
+.wa-product-card .wa-product-card__pack-save,
+.wa-pack-save {
+  margin: 0.4rem 0 0;
+  color: rgb(var(--color-foreground));
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: var(--wa-tracking-snug);
+  line-height: var(--wa-leading-snug);
+}
+
+.product .wa-pack-save {
+  margin: 0.6rem 0 0;
+  font-size: var(--wa-text-sm);
 }
 
 .wa-product-card .wa-linked-colors--card .wa-linked-colors__list {
