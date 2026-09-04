@@ -1,0 +1,32 @@
+{% comment %}
+  Wear Active — pack card savings label.
+  Usage:
+    {% render 'wa-product-card-pack-save', product: card_product, mode: 'badge' %}
+    {% render 'wa-product-card-pack-save', product: card_product, mode: 'price' %}
+{% endcomment %}
+
+{%- liquid
+  assign wa_pack_save_product = product | default: card_product
+  assign wa_pack_save_mode = mode | default: 'price'
+  assign wa_pack_save_amount = 0
+  assign wa_pack_show_save = false
+
+  if wa_pack_save_product != blank
+    if wa_pack_save_product.tags contains 'wa-product-pack' and wa_pack_save_product.compare_at_price > wa_pack_save_product.price
+      assign wa_pack_save_amount = wa_pack_save_product.compare_at_price | minus: wa_pack_save_product.price
+      if wa_pack_save_amount > 0
+        assign wa_pack_show_save = true
+      endif
+    endif
+  endif
+-%}
+
+{%- if wa_pack_show_save -%}
+  {%- if wa_pack_save_mode == 'badge' -%}
+    Save {{ wa_pack_save_amount | money_without_trailing_zeros }}
+  {%- else -%}
+    <p class="wa-product-card__pack-save wa-pack-save">
+      Save {{ wa_pack_save_amount | money_without_trailing_zeros }}
+    </p>
+  {%- endif -%}
+{%- endif -%}

@@ -133,6 +133,9 @@
                     show_badges: true,
                     price_class: 'price--large'
                   -%}
+                  {%- comment -%} Wear Active custom code start {%- endcomment -%}
+                  {% render 'wa-product-card-pack-save', product: product, mode: 'price' %}
+                  {%- comment -%} Wear Active custom code end {%- endcomment -%}
                 </div>
                 {%- if product.quantity_price_breaks_configured? -%}
                   <div class="volume-pricing-note" id="Volume-Note-{{ section.id }}">
