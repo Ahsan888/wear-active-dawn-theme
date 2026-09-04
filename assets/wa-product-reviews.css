@@ -21,6 +21,13 @@
 
 .wa-product-reviews__widget {
   position: relative;
+  --jdgm-primary-color: var(--wa-color-evergreen);
+  --jdgm-secondary-color: rgba(var(--wa-color-evergreen-rgb), 0.08);
+  --jdgm-star-color: var(--wa-color-coffee);
+  --jdgm-write-review-bg-color: var(--wa-color-evergreen);
+  --jdgm-write-review-text-color: var(--wa-color-parchment);
+  --jdgm-paginate-color: var(--wa-color-evergreen);
+  --jdgm-reviewer-name-color: var(--wa-color-evergreen);
 }
 
 .wa-product-reviews__widget .jdgm-review-widget {
