@@ -248,6 +248,54 @@ wa-modal.wa-modal--closing .wa-modal__dialog {
   }
 }
 
+/* Product bundle card — show all included articles as one composed cover */
+.wa-product-card__media--bundle {
+  background: var(--wa-color-parchment);
+}
+
+.wa-bundle-card-collage {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.2rem;
+  overflow: hidden;
+  background: var(--wa-color-parchment);
+}
+
+.wa-bundle-card-collage--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.wa-bundle-card-collage__panel {
+  min-width: 0;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--wa-color-parchment) 90%, var(--wa-color-grey));
+}
+
+.wa-bundle-card-collage__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.wa-bundle-card-collage__badge {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 1;
+  padding: 0.55rem 0.85rem;
+  background: var(--wa-color-coffee);
+  color: var(--wa-color-parchment);
+  font-size: var(--wa-text-2xs);
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: var(--wa-tracking-wide);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
 /* Product card hover image — desktop fade */
 .wa-product-card__media--hover .wa-product-card__image--secondary {
   opacity: 0;

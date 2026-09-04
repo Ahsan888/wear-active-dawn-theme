@@ -64,6 +64,12 @@
     assign wa_card_has_hover = true
   endif
 
+  assign wa_card_is_bundle = false
+  if card_product.tags contains 'wa-product-pack' and card_product.media.size > 1
+    assign wa_card_is_bundle = true
+    assign wa_card_has_hover = false
+  endif
+
   assign wa_card_max_width = settings.page_width | minus: 130 | divided_by: 4
   assign wa_card_sizes = '(min-width: ' | append: settings.page_width | append: 'px) ' | append: wa_card_max_width | append: 'px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)'
   assign wa_card_show_swatch_preview = false
@@ -72,7 +78,35 @@
   endif
 -%}
 
-<div class="media media--transparent wa-product-card__media{% if wa_card_has_hover %} wa-product-card__media--hover{% endif %}">
+<div class="media media--transparent wa-product-card__media{% if wa_card_has_hover %} wa-product-card__media--hover{% endif %}{% if wa_card_is_bundle %} wa-product-card__media--bundle{% endif %}">
+  {%- if wa_card_is_bundle -%}
+    <div class="wa-bundle-card-collage wa-bundle-card-collage--{{ card_product.media.size | at_most: 3 }}">
+      {%- for wa_bundle_media in card_product.media limit: 3 -%}
+        {%- assign wa_bundle_image = wa_bundle_media.preview_image -%}
+        {%- if wa_bundle_image != blank -%}
+          <div class="wa-bundle-card-collage__panel">
+            <img
+              src="{{ wa_bundle_image | image_url: width: 480 }}"
+              srcset="
+                {{ wa_bundle_image | image_url: width: 180 }} 180w,
+                {{ wa_bundle_image | image_url: width: 320 }} 320w,
+                {{ wa_bundle_image | image_url: width: 480 }} 480w
+              "
+              sizes="{{ wa_card_sizes }}"
+              alt="{{ wa_bundle_image.alt | default: card_product.title | escape }} — item {{ forloop.index }}"
+              class="wa-bundle-card-collage__image"
+              loading="lazy"
+              width="{{ wa_bundle_image.width }}"
+              height="{{ wa_bundle_image.height }}"
+            >
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+      <span class="wa-bundle-card-collage__badge">
+        {{ card_product.media.size | at_most: 3 }}-piece bundle
+      </span>
+    </div>
+  {%- else -%}
   {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
   <img
     srcset="
@@ -126,5 +160,6 @@
       hidden
       decoding="async"
     >
+  {%- endif -%}
   {%- endif -%}
 </div>
