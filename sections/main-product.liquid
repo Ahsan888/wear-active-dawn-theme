@@ -523,7 +523,7 @@
                 {%- comment -%} Wear Active custom code end {%- endcomment -%}
               {%- when 'wa_bundle_save' -%}
                 {%- comment -%} Wear Active custom code start {%- endcomment -%}
-                {% render 'wa-bundle-save', block: block, product: product %}
+                {% render 'wa-bundle-save', block: block, product: product, product_form_id: product_form_id %}
                 {%- comment -%} Wear Active custom code end {%- endcomment -%}
               {%- when 'wa_trust_block' -%}
                 {%- comment -%} Wear Active custom code start {%- endcomment -%}
@@ -1001,94 +1001,42 @@
           "label": "Heading"
         },
         {
-          "type": "text",
-          "id": "regular_price_label",
-          "default": "Regular Price",
-          "label": "Single item price label"
-        },
-        {
-          "type": "text",
-          "id": "save_prefix",
-          "default": "Save ",
-          "label": "Save amount prefix"
-        },
-        {
-          "type": "text",
-          "id": "checkout_note",
-          "default": "Discount automatically applied at checkout",
-          "label": "Checkout note"
-        },
-        {
           "type": "header",
           "content": "Tee bundle"
         },
         {
-          "type": "text",
+          "type": "number",
           "id": "tee_save_2",
-          "default": "Rs. 200",
-          "label": "2 tees save amount"
+          "default": 150,
+          "label": "2 tees saving (PKR)"
         },
         {
-          "type": "text",
+          "type": "number",
           "id": "tee_save_3",
-          "default": "Rs. 500",
-          "label": "3 tees save amount"
+          "default": 300,
+          "label": "3 tees saving (PKR)"
         },
         {
           "type": "text",
-          "id": "tee_highlight_badge",
-          "default": "Most Popular",
-          "label": "Tee highlight badge"
-        },
-        {
-          "type": "text",
-          "id": "tee_cta_text",
-          "default": "Shop more tees",
-          "label": "Tee CTA text"
-        },
-        {
-          "type": "text",
-          "id": "tee_collection_url",
-          "default": "/collections/shirts",
-          "label": "Tee collection link"
+          "id": "tee_collection_handle",
+          "default": "bundle-eligible-tees",
+          "label": "Eligible tee collection handle"
         },
         {
           "type": "header",
-          "content": "Trouser bundle"
+          "content": "Bottom bundle"
+        },
+        {
+          "type": "number",
+          "id": "bottom_save_2",
+          "default": 150,
+          "label": "2 bottoms saving (PKR)"
         },
         {
           "type": "text",
-          "id": "trouser_save_2",
-          "default": "Rs. 300",
-          "label": "2 trousers save amount"
-        },
-        {
-          "type": "text",
-          "id": "trouser_highlight_badge",
-          "default": "Best Value",
-          "label": "Trouser highlight badge"
-        },
-        {
-          "type": "text",
-          "id": "trouser_cta_text",
-          "default": "Shop more trousers",
-          "label": "Trouser CTA text"
-        },
-        {
-          "type": "text",
-          "id": "trouser_collection_url",
-          "default": "/collections/trousers",
-          "label": "Trouser collection link"
-        },
-        {
-          "type": "header",
-          "content": "CTA"
-        },
-        {
-          "type": "checkbox",
-          "id": "show_cta",
-          "default": true,
-          "label": "Show collection CTA link"
+          "id": "bottom_collection_handle",
+          "default": "bundle-eligible-bottoms",
+          "label": "Eligible bottom collection handle"
         }
       ]
     },

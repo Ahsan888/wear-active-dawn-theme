@@ -51,19 +51,11 @@
           "settings": {
             "enable": true,
             "heading": "Bundle & Save",
-            "regular_price_label": "Regular Price",
-            "save_prefix": "Save ",
-            "checkout_note": "Discount automatically applied at checkout",
-            "tee_save_2": "Rs. 200",
-            "tee_save_3": "Rs. 500",
-            "tee_highlight_badge": "Most Popular",
-            "tee_cta_text": "Shop more tees",
-            "tee_collection_url": "/collections/shirts",
-            "trouser_save_2": "Rs. 300",
-            "trouser_highlight_badge": "Best Value",
-            "trouser_cta_text": "Shop more trousers",
-            "trouser_collection_url": "/collections/trousers",
-            "show_cta": true
+            "tee_save_2": 150,
+            "tee_save_3": 300,
+            "tee_collection_handle": "bundle-eligible-tees",
+            "bottom_save_2": 150,
+            "bottom_collection_handle": "bundle-eligible-bottoms"
           }
         },
         "wa_product_info": {
@@ -82,9 +74,9 @@
         "wa_family_rating",
         "price",
         "variant_picker",
+        "wa_bundle_save",
         "buy_buttons",
         "wa_trust_block",
-        "wa_bundle_save",
         "wa_product_info"
       ],
       "settings": {

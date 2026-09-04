@@ -1,0 +1,78 @@
+{% comment %}
+  Wear Active cart bundle progress. Eligibility follows the same explicit tags
+  as the PDP picker so the message cannot promise a discount on excluded stock.
+{% endcomment %}
+
+{%- liquid
+  assign wa_tee_count = 0
+  assign wa_bottom_count = 0
+
+  for item in cart.items
+    if item.product.tags contains 'bundle-tee'
+      assign wa_tee_count = wa_tee_count | plus: item.quantity
+    elsif item.product.tags contains 'bundle-bottom' or item.product.tags contains 'bundle-trouser'
+      assign wa_bottom_count = wa_bottom_count | plus: item.quantity
+    endif
+  endfor
+
+  assign wa_progress_kind = blank
+  assign wa_progress_percent = 0
+  assign wa_progress_message = blank
+  assign wa_progress_cta = blank
+  assign wa_progress_url = blank
+
+  if wa_tee_count == 1
+    assign wa_progress_kind = 'tee'
+    assign wa_progress_percent = 50
+    assign wa_progress_message = 'Add one more eligible tee and save Rs. 150.'
+    assign wa_progress_cta = 'Choose another tee'
+    assign wa_progress_url = '/collections/bundle-eligible-tees'
+  elsif wa_tee_count == 2
+    assign wa_progress_kind = 'tee'
+    assign wa_progress_percent = 67
+    assign wa_progress_message = 'Add one more eligible tee to increase your saving to Rs. 300.'
+    assign wa_progress_cta = 'Choose a third tee'
+    assign wa_progress_url = '/collections/bundle-eligible-tees'
+  elsif wa_tee_count >= 3
+    assign wa_progress_kind = 'qualified'
+    assign wa_progress_percent = 100
+    assign wa_progress_message = 'Your Rs. 300 tee bundle saving is unlocked.'
+  elsif wa_bottom_count == 1
+    assign wa_progress_kind = 'bottom'
+    assign wa_progress_percent = 50
+    assign wa_progress_message = 'Add one more eligible bottom and save Rs. 150.'
+    assign wa_progress_cta = 'Choose another bottom'
+    assign wa_progress_url = '/collections/bundle-eligible-bottoms'
+  elsif wa_bottom_count >= 2
+    assign wa_progress_kind = 'qualified'
+    assign wa_progress_percent = 100
+    assign wa_progress_message = 'Your Rs. 150 bottom bundle saving is unlocked.'
+  endif
+-%}
+
+{%- if wa_progress_kind != blank -%}
+  {{ 'wa-cart-bundle-progress.css' | asset_url | stylesheet_tag }}
+  <aside class="wa-cart-bundle-progress{% if wa_progress_kind == 'qualified' %} is-qualified{% endif %}" aria-live="polite">
+    <div class="wa-cart-bundle-progress__copy">
+      <span class="wa-cart-bundle-progress__icon" aria-hidden="true">
+        {{- 'icon-discount.svg' | inline_asset_content -}}
+      </span>
+      <p>{{ wa_progress_message }}</p>
+    </div>
+    <div
+      class="wa-cart-bundle-progress__track"
+      role="progressbar"
+      aria-label="Bundle progress"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="{{ wa_progress_percent }}"
+    >
+      <span style="--wa-bundle-progress: {{ wa_progress_percent }}%;"></span>
+    </div>
+    {%- if wa_progress_cta != blank -%}
+      <a class="wa-cart-bundle-progress__link" href="{{ wa_progress_url }}">
+        {{ wa_progress_cta }} <span aria-hidden="true">→</span>
+      </a>
+    {%- endif -%}
+  </aside>
+{%- endif -%}

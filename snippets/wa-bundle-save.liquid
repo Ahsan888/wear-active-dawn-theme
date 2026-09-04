@@ -1,174 +1,188 @@
 {% comment %}
   Wear Active custom code start — wa-bundle-save.liquid
-  Informational Bundle & Save offers for eligible PDPs.
-  Discounts are applied by Shopify automatic discounts at checkout.
+
+  Interactive, margin-safe quantity bundle picker. Eligibility is explicit:
+  - bundle-tee: Buy 2 / Buy 3
+  - bundle-bottom (or legacy bundle-trouser): Buy 2
+
+  Eligible products are loaded from hidden automated collections whose members
+  carry the matching tag. Shopify automatic discounts remain the pricing
+  authority; this component only assembles selected variants in one cart add.
 
   Accepts:
   - block: {Object} Theme editor block settings.
   - product: {Object} Current product.
+  - product_form_id: {String} Main product form ID.
 {% endcomment %}
 
-{%- if block.settings.enable -%}
-  {%- liquid
-    assign wa_bundle_kind = blank
-    assign wa_bundle_from_tag = false
-    assign wa_tee_terms = 'tee,t-shirt,shirt' | split: ','
-    assign wa_trouser_terms = 'trouser' | split: ','
-    assign wa_exclude_terms = 'hoodie,hoody,zipper,zip-up,zip up,winter,therma,jacket' | split: ','
+{%- liquid
+  assign wa_bundle_kind = blank
+  if product.tags contains 'bundle-tee'
+    assign wa_bundle_kind = 'tee'
+  elsif product.tags contains 'bundle-bottom' or product.tags contains 'bundle-trouser'
+    assign wa_bundle_kind = 'bottom'
+  endif
 
-    if product.tags contains 'bundle-tee'
-      assign wa_bundle_kind = 'tee'
-      assign wa_bundle_from_tag = true
-    elsif product.tags contains 'bundle-trouser'
-      assign wa_bundle_kind = 'trouser'
-      assign wa_bundle_from_tag = true
-    endif
+  if wa_bundle_kind == 'tee'
+    assign wa_bundle_collection = collections[block.settings.tee_collection_handle]
+    assign wa_save_2 = block.settings.tee_save_2
+    assign wa_save_3 = block.settings.tee_save_3
+    assign wa_item_label = 'tee'
+    assign wa_item_plural = 'tees'
+  elsif wa_bundle_kind == 'bottom'
+    assign wa_bundle_collection = collections[block.settings.bottom_collection_handle]
+    assign wa_save_2 = block.settings.bottom_save_2
+    assign wa_save_3 = 0
+    assign wa_item_label = 'bottom'
+    assign wa_item_plural = 'bottoms'
+  endif
+-%}
 
-    unless wa_bundle_from_tag
-      assign wa_type_lower = product.type | downcase
-      assign wa_title_lower = product.title | downcase
-      assign wa_exclude = false
+{%- if block.settings.enable and wa_bundle_kind != blank and wa_bundle_collection != blank -%}
+  {{ 'wa-bundle-picker.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'wa-bundle-picker.js' | asset_url }}" defer="defer"></script>
 
-      for wa_exclude_term in wa_exclude_terms
-        if wa_type_lower contains wa_exclude_term or wa_title_lower contains wa_exclude_term
-          assign wa_exclude = true
-          break
-        endif
-      endfor
+  {%- capture wa_current_color_data -%}
+    {%- render 'wa-color-from-product', product: product -%}
+  {%- endcapture -%}
+  {%- assign wa_current_color = wa_current_color_data | strip | split: '|' | first | strip -%}
 
-      unless wa_exclude
-        for wa_tag in product.tags
-          assign wa_tag_lower = wa_tag | downcase
-          for wa_exclude_term in wa_exclude_terms
-            if wa_tag_lower contains wa_exclude_term
-              assign wa_exclude = true
-              break
-            endif
-          endfor
-          if wa_exclude
-            break
-          endif
-        endfor
-      endunless
-
-      unless wa_exclude
-        for wa_term in wa_tee_terms
-          if wa_type_lower contains wa_term
-            assign wa_bundle_kind = 'tee'
-            break
-          endif
-        endfor
-
-        if wa_bundle_kind == blank
-          for wa_term in wa_trouser_terms
-            if wa_type_lower contains wa_term
-              assign wa_bundle_kind = 'trouser'
-              break
-            endif
-          endfor
-        endif
-
-        if wa_bundle_kind == blank
-          for wa_collection in product.collections
-            assign wa_handle_lower = wa_collection.handle | downcase
-
-            unless wa_bundle_kind == 'tee'
-              for wa_term in wa_tee_terms
-                if wa_handle_lower contains wa_term
-                  assign wa_bundle_kind = 'tee'
-                  break
-                endif
-              endfor
-            endunless
-
-            if wa_bundle_kind == blank
-              for wa_term in wa_trouser_terms
-                if wa_handle_lower contains wa_term
-                  assign wa_bundle_kind = 'trouser'
-                  break
-                endif
-              endfor
-            endif
-
-            if wa_bundle_kind != blank
-              break
-            endif
-          endfor
-        endif
-      endunless
-    endunless
-  -%}
-
-  {%- if wa_bundle_kind != blank -%}
-    {%- liquid
-      if wa_bundle_kind == 'tee'
-        assign wa_item_plural = 'Tees'
-        assign wa_save_2 = block.settings.tee_save_2
-        assign wa_save_3 = block.settings.tee_save_3
-        assign wa_cta_text = block.settings.tee_cta_text
-        assign wa_cta_url = block.settings.tee_collection_url
-      else
-        assign wa_item_plural = 'Trousers'
-        assign wa_save_2 = block.settings.trouser_save_2
-        assign wa_save_3 = blank
-        assign wa_cta_text = block.settings.trouser_cta_text
-        assign wa_cta_url = block.settings.trouser_collection_url
-      endif
-
-      assign wa_heading = block.settings.heading
-      assign wa_checkout_note = block.settings.checkout_note
-      assign wa_best_save = wa_save_3 | default: wa_save_2
-    -%}
-
-    <div class="wa-bundle-save quick-add-hidden" {{ block.shopify_attributes }}>
-      <details class="wa-bundle-save__details">
-        <summary class="wa-bundle-save__summary">
-          <span class="wa-bundle-save__icon" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" focusable="false">
-              <path d="M11.2 2.5h5.3l1 1v5.3l-8.8 8.8a1.4 1.4 0 0 1-2 0L2.5 12.6a1.4 1.4 0 0 1 0-2L11.2 2.5Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/>
-              <circle cx="13.8" cy="6.2" r="0.95" fill="currentColor"/>
-            </svg>
-          </span>
-          <span class="wa-bundle-save__summary-copy">
-            <strong>{{ wa_heading | default: 'Bundle & Save' | escape }}</strong>
-            {%- if wa_best_save != blank -%}
-              <span>Save up to {{ wa_best_save | escape }}</span>
-            {%- endif -%}
-          </span>
-          <span class="wa-bundle-save__chevron" aria-hidden="true">⌄</span>
-        </summary>
-
-        <div class="wa-bundle-save__content">
-          <div class="wa-bundle-save__tiers{% unless wa_bundle_kind == 'tee' and wa_save_3 != blank %} wa-bundle-save__tiers--single{% endunless %}">
-            <div class="wa-bundle-save__tier">
-              <span>Buy 2 {{ wa_item_plural }}</span>
-              {%- if wa_save_2 != blank -%}
-                <strong>{{ block.settings.save_prefix | escape }}{{ wa_save_2 | escape }}</strong>
-              {%- endif -%}
-            </div>
-
-            {%- if wa_bundle_kind == 'tee' and wa_save_3 != blank -%}
-              <div class="wa-bundle-save__tier wa-bundle-save__tier--best">
-                <span>Buy 3 {{ wa_item_plural }}</span>
-                <strong>{{ block.settings.save_prefix | escape }}{{ wa_save_3 | escape }}</strong>
-              </div>
-            {%- endif -%}
-          </div>
-
-          <div class="wa-bundle-save__footer">
-            {%- if wa_checkout_note != blank -%}
-              <span class="wa-bundle-save__note">Applied automatically at checkout</span>
-            {%- endif -%}
-
-            {%- if block.settings.show_cta and wa_cta_text != blank and wa_cta_url != blank -%}
-              <a href="{{ wa_cta_url | escape }}" class="wa-bundle-save__cta link underlined-link">
-                <span>{{ wa_cta_text | escape }}</span>
-                <span aria-hidden="true">→</span>
-              </a>
-            {%- endif -%}
-          </div>
-        </div>
-      </details>
+  <wa-bundle-picker
+    class="wa-bundle-picker"
+    data-kind="{{ wa_bundle_kind }}"
+    data-form-id="{{ product_form_id }}"
+    data-current-product-id="{{ product.id }}"
+    data-current-variant-id="{{ product.selected_or_first_available_variant.id }}"
+    data-save-2="{{ wa_save_2 | times: 100 }}"
+    data-save-3="{{ wa_save_3 | times: 100 }}"
+    data-item-label="{{ wa_item_label }}"
+    data-item-plural="{{ wa_item_plural }}"
+    {{ block.shopify_attributes }}
+  >
+    <div class="wa-bundle-picker__header">
+      <div>
+        <p class="wa-bundle-picker__eyebrow">Build your rotation</p>
+        <h3 class="wa-bundle-picker__heading">{{ block.settings.heading | default: 'Bundle & Save' | escape }}</h3>
+      </div>
+      <span class="wa-bundle-picker__automatic">Automatic saving</span>
     </div>
-  {%- endif -%}
+
+    <div class="wa-bundle-picker__tiers" role="radiogroup" aria-label="Choose bundle quantity">
+      <button
+        class="wa-bundle-picker__tier is-selected"
+        type="button"
+        role="radio"
+        aria-checked="true"
+        data-wa-bundle-tier="1"
+        data-wa-bundle-saving="0"
+      >
+        <span>Buy 1</span>
+        <strong data-wa-tier-price="1">{{ product.selected_or_first_available_variant.price | money }}</strong>
+        <small>Regular price</small>
+      </button>
+      <button
+        class="wa-bundle-picker__tier"
+        type="button"
+        role="radio"
+        aria-checked="false"
+        data-wa-bundle-tier="2"
+        data-wa-bundle-saving="{{ wa_save_2 | times: 100 }}"
+      >
+        <span>Buy 2</span>
+        <strong>Save {{ wa_save_2 | times: 100 | money }}</strong>
+        <small>Mix styles &amp; sizes</small>
+      </button>
+      {%- if wa_bundle_kind == 'tee' -%}
+        <button
+          class="wa-bundle-picker__tier wa-bundle-picker__tier--featured"
+          type="button"
+          role="radio"
+          aria-checked="false"
+          data-wa-bundle-tier="3"
+          data-wa-bundle-saving="{{ wa_save_3 | times: 100 }}"
+        >
+          <span class="wa-bundle-picker__badge">Best value</span>
+          <span>Buy 3</span>
+          <strong>Save {{ wa_save_3 | times: 100 | money }}</strong>
+          <small>Mix styles &amp; sizes</small>
+        </button>
+      {%- endif -%}
+    </div>
+
+    <div class="wa-bundle-picker__selection" data-wa-bundle-selection hidden>
+      <p class="wa-bundle-picker__selection-title">
+        Choose each <span>{{ wa_item_label }}</span>
+      </p>
+
+      <div class="wa-bundle-picker__slot wa-bundle-picker__slot--current" data-wa-bundle-current-slot>
+        <div class="wa-bundle-picker__slot-number">1</div>
+        <div class="wa-bundle-picker__slot-copy">
+          <strong>{{ product.title | escape }}{% if wa_current_color != blank %} · {{ wa_current_color | escape }}{% endif %}</strong>
+          <span data-wa-current-variant-title>{{ product.selected_or_first_available_variant.title | escape }}</span>
+        </div>
+        <span class="wa-bundle-picker__slot-status">Selected above</span>
+      </div>
+
+      <div data-wa-bundle-extra-slots></div>
+    </div>
+
+    <p class="wa-bundle-picker__summary" aria-live="polite" data-wa-bundle-summary></p>
+    <p class="wa-bundle-picker__error" role="alert" data-wa-bundle-error hidden></p>
+
+    <script type="application/json" data-wa-current-product>
+      {
+        "id": {{ product.id | json }},
+        "title": {{ product.title | json }},
+        "color": {{ wa_current_color | json }},
+        "image": {{ product.featured_image | image_url: width: 180 | json }},
+        "variants": [
+          {%- for variant in product.variants -%}
+            {%- unless forloop.first -%},{%- endunless -%}
+            {
+              "id": {{ variant.id | json }},
+              "title": {{ variant.title | json }},
+              "available": {{ variant.available | json }},
+              "price": {{ variant.price | json }},
+              "sku": {{ variant.sku | json }}
+            }
+          {%- endfor -%}
+        ]
+      }
+    </script>
+
+    <script type="application/json" data-wa-bundle-products>
+      [
+        {%- assign wa_first_bundle_product = true -%}
+        {%- for wa_product in wa_bundle_collection.products limit: 50 -%}
+          {%- if wa_product.available -%}
+            {%- capture wa_product_color_data -%}
+              {%- render 'wa-color-from-product', product: wa_product -%}
+            {%- endcapture -%}
+            {%- assign wa_product_color = wa_product_color_data | strip | split: '|' | first | strip -%}
+            {%- unless wa_first_bundle_product -%},{%- endunless -%}
+            {
+              "id": {{ wa_product.id | json }},
+              "title": {{ wa_product.title | json }},
+              "color": {{ wa_product_color | json }},
+              "url": {{ wa_product.url | json }},
+              "image": {{ wa_product.featured_image | image_url: width: 180 | json }},
+              "variants": [
+                {%- for variant in wa_product.variants -%}
+                  {%- unless forloop.first -%},{%- endunless -%}
+                  {
+                    "id": {{ variant.id | json }},
+                    "title": {{ variant.title | json }},
+                    "available": {{ variant.available | json }},
+                    "price": {{ variant.price | json }},
+                    "sku": {{ variant.sku | json }}
+                  }
+                {%- endfor -%}
+              ]
+            }
+            {%- assign wa_first_bundle_product = false -%}
+          {%- endif -%}
+        {%- endfor -%}
+      ]
+    </script>
+  </wa-bundle-picker>
 {%- endif -%}

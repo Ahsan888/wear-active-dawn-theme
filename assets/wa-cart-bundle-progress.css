@@ -1,0 +1,69 @@
+.wa-cart-bundle-progress {
+  margin: 0 1.5rem 1.2rem;
+  padding: 1.2rem 1.3rem;
+  border-left: 0.3rem solid var(--wa-color-coffee);
+  background: rgba(var(--wa-color-evergreen-rgb), 0.055);
+  color: var(--wa-color-evergreen);
+}
+
+.wa-cart-bundle-progress.is-qualified {
+  border-left-color: var(--wa-color-evergreen);
+  background: rgba(var(--wa-color-evergreen-rgb), 0.09);
+}
+
+.wa-cart-bundle-progress__copy {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+}
+
+.wa-cart-bundle-progress__copy p {
+  margin: 0;
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-semibold);
+  line-height: 1.4;
+}
+
+.wa-cart-bundle-progress__icon {
+  width: 1.7rem;
+  height: 1.7rem;
+  flex: 0 0 1.7rem;
+  color: var(--wa-color-coffee);
+}
+
+.wa-cart-bundle-progress__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.wa-cart-bundle-progress__track {
+  height: 0.3rem;
+  margin-top: 0.9rem;
+  overflow: hidden;
+  background: rgba(var(--wa-color-evergreen-rgb), 0.16);
+}
+
+.wa-cart-bundle-progress__track span {
+  display: block;
+  width: var(--wa-bundle-progress);
+  height: 100%;
+  background: var(--wa-color-coffee);
+}
+
+.wa-cart-bundle-progress__link {
+  display: inline-block;
+  margin-top: 0.8rem;
+  color: var(--wa-color-evergreen);
+  font-size: var(--wa-text-2xs);
+  font-weight: var(--wa-weight-bold);
+  letter-spacing: var(--wa-tracking-wide);
+  text-decoration-thickness: 0.1rem;
+  text-underline-offset: 0.3rem;
+  text-transform: uppercase;
+}
+
+@media screen and (min-width: 750px) {
+  .wa-cart-bundle-progress {
+    margin-inline: 2.5rem;
+  }
+}
