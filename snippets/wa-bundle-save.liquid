@@ -46,6 +46,13 @@
     {%- render 'wa-color-from-product', product: product -%}
   {%- endcapture -%}
   {%- assign wa_current_color = wa_current_color_data | strip | split: '|' | first | strip -%}
+  {%- for wa_option in product.options_with_values -%}
+    {%- assign wa_option_name = wa_option.name | downcase -%}
+    {%- if wa_option_name == 'color' or wa_option_name == 'colour' -%}
+      {%- assign wa_current_color = wa_option.selected_value | strip -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
 
   <wa-bundle-picker
     class="wa-bundle-picker"
@@ -89,7 +96,7 @@
         data-wa-bundle-saving="{{ wa_save_2 | times: 100 }}"
       >
         <span>Buy 2</span>
-        <strong>Save {{ wa_save_2 | times: 100 | money }}</strong>
+        <strong>Save Rs. {{ wa_save_2 }}</strong>
         <small>Mix styles &amp; sizes</small>
       </button>
       {%- if wa_bundle_kind == 'tee' -%}
@@ -103,7 +110,7 @@
         >
           <span class="wa-bundle-picker__badge">Best value</span>
           <span>Buy 3</span>
-          <strong>Save {{ wa_save_3 | times: 100 | money }}</strong>
+          <strong>Save Rs. {{ wa_save_3 }}</strong>
           <small>Mix styles &amp; sizes</small>
         </button>
       {%- endif -%}
@@ -116,11 +123,30 @@
 
       <div class="wa-bundle-picker__slot wa-bundle-picker__slot--current" data-wa-bundle-current-slot>
         <div class="wa-bundle-picker__slot-number">1</div>
-        <div class="wa-bundle-picker__slot-copy">
-          <strong>{{ product.title | escape }}{% if wa_current_color != blank %} · {{ wa_current_color | escape }}{% endif %}</strong>
-          <span data-wa-current-variant-title>{{ product.selected_or_first_available_variant.title | escape }}</span>
+        <div class="wa-bundle-picker__fields">
+          <div class="wa-bundle-picker__product-trigger wa-bundle-picker__product-trigger--current">
+            {%- if product.featured_image != blank -%}
+              <img
+                class="wa-bundle-picker__slot-image"
+                src="{{ product.featured_image | image_url: width: 180 }}"
+                alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                width="58"
+                height="70"
+                loading="lazy"
+              >
+            {%- endif -%}
+            <span class="wa-bundle-picker__product-copy">
+              <small>Current product</small>
+              <strong>{{ product.title | escape }}</strong>
+              <span>{{ wa_current_color | escape }}</span>
+            </span>
+          </div>
+          <div class="wa-bundle-picker__size-field wa-bundle-picker__size-field--current">
+            <span>Size</span>
+            <strong data-wa-current-variant-title>{{ product.selected_or_first_available_variant.title | escape }}</strong>
+            <small>Selected above</small>
+          </div>
         </div>
-        <span class="wa-bundle-picker__slot-status">Selected above</span>
       </div>
 
       <div data-wa-bundle-extra-slots></div>
@@ -153,6 +179,7 @@
         "title": {{ product.title | json }},
         "color": {{ wa_current_color | json }},
         "image": {{ product.featured_image | image_url: width: 180 | json }},
+        "options": {{ product.options | json }},
         "variants": [
           {%- for variant in product.variants -%}
             {%- unless forloop.first -%},{%- endunless -%}
@@ -161,7 +188,8 @@
               "title": {{ variant.title | json }},
               "available": {{ variant.available | json }},
               "price": {{ variant.price | json }},
-              "sku": {{ variant.sku | json }}
+              "sku": {{ variant.sku | json }},
+              "options": {{ variant.options | json }}
             }
           {%- endfor -%}
         ]
@@ -177,6 +205,13 @@
               {%- render 'wa-color-from-product', product: wa_product -%}
             {%- endcapture -%}
             {%- assign wa_product_color = wa_product_color_data | strip | split: '|' | first | strip -%}
+            {%- for wa_option in wa_product.options_with_values -%}
+              {%- assign wa_option_name = wa_option.name | downcase -%}
+              {%- if wa_option_name == 'color' or wa_option_name == 'colour' -%}
+                {%- assign wa_product_color = wa_option.selected_value | strip -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
             {%- unless wa_first_bundle_product -%},{%- endunless -%}
             {
               "id": {{ wa_product.id | json }},
@@ -184,6 +219,7 @@
               "color": {{ wa_product_color | json }},
               "url": {{ wa_product.url | json }},
               "image": {{ wa_product.featured_image | image_url: width: 180 | json }},
+              "options": {{ wa_product.options | json }},
               "variants": [
                 {%- for variant in wa_product.variants -%}
                   {%- unless forloop.first -%},{%- endunless -%}
@@ -192,7 +228,8 @@
                     "title": {{ variant.title | json }},
                     "available": {{ variant.available | json }},
                     "price": {{ variant.price | json }},
-                    "sku": {{ variant.sku | json }}
+                    "sku": {{ variant.sku | json }},
+                    "options": {{ variant.options | json }}
                   }
                 {%- endfor -%}
               ]

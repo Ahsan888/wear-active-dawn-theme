@@ -87,10 +87,10 @@ if (!customElements.get('wa-bundle-picker')) {
         if (!variant) return;
         this.dataset.currentVariantId = String(variant.id);
         const title = this.querySelector('[data-wa-current-variant-title]');
-        if (title) title.textContent = variant.title === 'Default Title' ? 'One size' : variant.title;
+        if (title) title.textContent = this.variantLabel(this.currentProduct, variant);
 
         this.extraSlots?.querySelectorAll('[data-wa-bundle-slot]').forEach((slot) => {
-          this.populateVariants(slot, slot.dataset.productId, variant.title);
+          this.populateVariants(slot, slot.dataset.productId, this.variantLabel(this.currentProduct, variant));
         });
         this.refreshPrices();
       }
@@ -126,8 +126,8 @@ if (!customElements.get('wa-bundle-picker')) {
                   <small>Style &amp; colour</small>
                   <strong data-wa-bundle-product-title></strong>
                   <span data-wa-bundle-product-meta></span>
+                  <em class="wa-bundle-picker__change">Change style</em>
                 </span>
-                <span class="wa-bundle-picker__change">Change</span>
               </button>
               <label class="wa-bundle-picker__size-field">
                 <span>Size</span>
@@ -142,12 +142,25 @@ if (!customElements.get('wa-bundle-picker')) {
           });
           slot.querySelector('[data-wa-bundle-variant]').addEventListener('change', () => this.refreshPrices());
           this.extraSlots.appendChild(slot);
-          this.populateVariants(slot, slot.dataset.productId, this.currentVariant()?.title);
+          this.populateVariants(
+            slot,
+            slot.dataset.productId,
+            this.variantLabel(this.currentProduct, this.currentVariant())
+          );
         }
       }
 
       productLabel(product) {
         return product.color ? `${product.title} · ${product.color}` : product.title;
+      }
+
+      variantLabel(product, variant) {
+        if (!variant) return '';
+        const sizeIndex = Array.isArray(product?.options)
+          ? product.options.findIndex((name) => String(name).toLowerCase().includes('size'))
+          : -1;
+        const label = sizeIndex >= 0 ? variant.options?.[sizeIndex] : variant.title;
+        return !label || label === 'Default Title' ? 'One size' : label;
       }
 
       defaultProductForSlot(index) {
@@ -178,11 +191,13 @@ if (!customElements.get('wa-bundle-picker')) {
           option.value = String(variant.id);
           option.dataset.price = String(variant.price);
           option.disabled = !variant.available;
-          option.textContent = `${variant.title === 'Default Title' ? 'One size' : variant.title}${variant.available ? '' : ' — Sold out'}`;
+          option.textContent = `${this.variantLabel(product, variant)}${variant.available ? '' : ' — Sold out'}`;
           variantSelect.appendChild(option);
         });
 
-        const preferred = product.variants.find((variant) => variant.available && variant.title === preferredTitle);
+        const preferred = product.variants.find(
+          (variant) => variant.available && this.variantLabel(product, variant) === preferredTitle
+        );
         const retained = product.variants.find((variant) => variant.available && String(variant.id) === previous);
         const selected = retained || preferred || product.variants.find((variant) => variant.available);
         if (selected) variantSelect.value = String(selected.id);
@@ -242,7 +257,11 @@ if (!customElements.get('wa-bundle-picker')) {
           copy.append(title, meta);
           card.append(image, copy);
           card.addEventListener('click', () => {
-            this.populateVariants(this.activeSlot, product.id, this.currentVariant()?.title);
+            this.populateVariants(
+              this.activeSlot,
+              product.id,
+              this.variantLabel(this.currentProduct, this.currentVariant())
+            );
             this.refreshPrices();
             this.closeProductDialog();
           });

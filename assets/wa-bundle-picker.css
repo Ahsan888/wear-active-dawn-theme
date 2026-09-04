@@ -131,9 +131,9 @@
 }
 
 .wa-bundle-picker__slot {
-  gap: 0.8rem;
-  min-height: 6.8rem;
-  padding: 0.8rem 0;
+  gap: 1rem;
+  min-height: 8.8rem;
+  padding: 1rem 0;
   border-top: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.1);
 }
 
@@ -143,9 +143,9 @@
 
 .wa-bundle-picker__slot-number {
   display: grid;
-  width: 2.5rem;
-  height: 2.5rem;
-  flex: 0 0 2.5rem;
+  width: 3.2rem;
+  height: 3.2rem;
+  flex: 0 0 3.2rem;
   place-items: center;
   background: var(--wa-color-coffee);
   color: var(--wa-color-parchment);
@@ -183,17 +183,24 @@
 }
 
 .wa-bundle-picker__fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 11rem;
   min-width: 0;
   flex: 1;
-  gap: 0.7rem;
+  align-items: stretch;
+  gap: 1rem;
 }
 
 .wa-bundle-picker__size-field {
   display: flex;
-  min-width: 9rem;
-  flex: 0 0 30%;
+  min-width: 0;
+  min-height: 8.8rem;
   flex-direction: column;
-  gap: 0.25rem;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.8rem 1rem;
+  border: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.25);
+  background: var(--wa-color-parchment);
   color: rgba(var(--wa-color-evergreen-rgb), 0.7);
   font-size: 1rem;
   font-weight: var(--wa-weight-semibold);
@@ -203,14 +210,29 @@
 
 .wa-bundle-picker__fields select {
   width: 100%;
-  min-height: 4.2rem;
-  padding: 0 2.8rem 0 0.9rem;
-  border: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.28);
+  min-height: 3.8rem;
+  padding: 0 2.4rem 0 0;
+  border: 0;
   border-radius: 0;
-  background-color: var(--wa-color-parchment);
+  background-color: transparent;
   color: var(--wa-color-evergreen);
   font: inherit;
-  font-size: var(--wa-text-xs);
+  font-size: var(--wa-text-base);
+  font-weight: var(--wa-weight-bold);
+  text-transform: none;
+}
+
+.wa-bundle-picker__size-field--current strong {
+  color: var(--wa-color-evergreen);
+  font-size: var(--wa-text-base);
+  line-height: 1.2;
+}
+
+.wa-bundle-picker__size-field--current small {
+  color: rgba(var(--wa-color-evergreen-rgb), 0.62);
+  font-size: 0.95rem;
+  font-weight: var(--wa-weight-medium);
+  letter-spacing: 0;
   text-transform: none;
 }
 
@@ -220,7 +242,8 @@
   flex: 1;
   align-items: center;
   gap: 0.8rem;
-  padding: 0.45rem;
+  min-height: 8.8rem;
+  padding: 0.7rem;
   border: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.25);
   background: var(--wa-color-parchment);
   color: var(--wa-color-evergreen);
@@ -229,7 +252,11 @@
   text-align: left;
 }
 
-.wa-bundle-picker__product-trigger:hover,
+.wa-bundle-picker__product-trigger--current {
+  cursor: default;
+}
+
+.wa-bundle-picker__product-trigger:not(.wa-bundle-picker__product-trigger--current):hover,
 .wa-bundle-picker__product-trigger:focus-visible {
   border-color: var(--wa-color-evergreen);
 }
@@ -255,24 +282,32 @@
 .wa-bundle-picker__product-copy > span {
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .wa-bundle-picker__product-copy strong {
+  display: -webkit-box;
   font-size: var(--wa-text-xs);
+  line-height: 1.25;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .wa-bundle-picker__product-copy > span {
   color: rgba(var(--wa-color-evergreen-rgb), 0.68);
   font-size: var(--wa-text-2xs);
+  white-space: nowrap;
 }
 
 .wa-bundle-picker__change {
-  margin-right: 0.5rem;
+  width: fit-content;
+  margin-top: 0.45rem;
   color: var(--wa-color-coffee);
   font-size: 0.95rem;
+  font-style: normal;
   font-weight: var(--wa-weight-bold);
   letter-spacing: var(--wa-tracking-wide);
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
   text-transform: uppercase;
 }
 
@@ -475,6 +510,7 @@
   }
 
   .wa-bundle-picker__fields {
+    display: flex;
     flex-direction: column;
     align-items: stretch;
   }
