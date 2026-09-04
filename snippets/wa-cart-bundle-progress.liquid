@@ -24,29 +24,29 @@
   if wa_tee_count == 1
     assign wa_progress_kind = 'tee'
     assign wa_progress_percent = 50
-    assign wa_progress_message = 'Add one more eligible top and save Rs. 200.'
+    assign wa_progress_message = 'Add one more eligible top and save Rs. 300.'
     assign wa_progress_cta = 'Choose another top'
     assign wa_progress_url = '/collections/bundle-eligible-tees'
   elsif wa_tee_count == 2
     assign wa_progress_kind = 'tee'
     assign wa_progress_percent = 67
-    assign wa_progress_message = 'Add one more eligible top to increase your saving to Rs. 400.'
+    assign wa_progress_message = 'Add one more eligible top to increase your saving to Rs. 550.'
     assign wa_progress_cta = 'Choose a third top'
     assign wa_progress_url = '/collections/bundle-eligible-tees'
   elsif wa_tee_count >= 3
     assign wa_progress_kind = 'qualified'
     assign wa_progress_percent = 100
-    assign wa_progress_message = 'Your Rs. 400 top bundle saving is unlocked.'
+    assign wa_progress_message = 'Your Rs. 550 top bundle saving is unlocked.'
   elsif wa_bottom_count == 1
     assign wa_progress_kind = 'bottom'
     assign wa_progress_percent = 50
-    assign wa_progress_message = 'Add one more eligible bottom and save Rs. 150.'
+    assign wa_progress_message = 'Add one more eligible bottom and save Rs. 200.'
     assign wa_progress_cta = 'Choose another bottom'
     assign wa_progress_url = '/collections/bundle-eligible-bottoms'
   elsif wa_bottom_count >= 2
     assign wa_progress_kind = 'qualified'
     assign wa_progress_percent = 100
-    assign wa_progress_message = 'Your Rs. 150 bottom bundle saving is unlocked.'
+    assign wa_progress_message = 'Your Rs. 200 bottom bundle saving is unlocked.'
   endif
 -%}
 
