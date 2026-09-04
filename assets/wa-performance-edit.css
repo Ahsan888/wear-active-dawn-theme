@@ -5,7 +5,7 @@
 
 .wa-performance-edit {
   color: var(--wa-color-evergreen);
-  background: var(--wa-color-parchment);
+  background: var(--wa-color-grey);
   border-top: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.14);
 }
 
@@ -77,7 +77,7 @@
   flex: 0 0 min(70vw, 29rem);
   aspect-ratio: 4 / 5;
   overflow: hidden;
-  background: var(--wa-color-grey);
+  background: var(--wa-color-parchment);
   scroll-snap-align: start;
 }
 
