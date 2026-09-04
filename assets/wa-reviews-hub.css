@@ -158,8 +158,18 @@
 .wa-reviews-hub__widget .jdgm-review-card {
   border: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.12);
   border-radius: 0.8rem !important;
-  background: var(--wa-color-coffee);
+  /* Use background-color only — the background shorthand resets background-image on media cards. */
+  background-color: var(--wa-color-coffee);
   box-shadow: 0 1.2rem 3.2rem rgba(var(--wa-color-evergreen-rgb), 0.08);
+}
+
+.wa-reviews-hub__widget .jdgm-review-card-media,
+.wa-reviews-hub__widget .jdgm-review-card-media__image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .wa-reviews-hub__widget .jdgm-review-card__details {
@@ -264,7 +274,7 @@
     padding-top: 4.8rem;
   }
 
-  .wa-reviews-hub__widget .jdgm-review-card::before {
+  .wa-reviews-hub__widget .jdgm-review-card:has(.jdgm-review-card-media)::before {
     padding-top: 86% !important;
   }
 }

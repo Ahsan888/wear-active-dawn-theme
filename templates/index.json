@@ -143,12 +143,13 @@
         "collection": "✨-best-selling-collection-✨",
         "heading": "Best Sellers",
         "subheading": "Most-loved performance essentials.",
-        "products_to_show": 4,
+        "products_to_show": 5,
         "show_rating": true,
         "show_swatches": true,
         "cta_label": "Shop all best sellers",
-        "padding_top": 48,
-        "padding_bottom": 64
+        "color_scheme": "scheme-3",
+        "padding_top": 40,
+        "padding_bottom": 56
       }
     },
     "wa_campaign_story": {
@@ -394,9 +395,9 @@
     "wa_hero_carousel",
     "wa_trust_strip",
     "wa_shop_by_category",
-    "wa_compact_best_sellers",
     "wa_campaign_story",
     "wa_performance_features",
+    "wa_compact_best_sellers",
     "wa_performance_edit",
     "wa_lifestyle_gallery",
     "wa_shop_by_product_category",

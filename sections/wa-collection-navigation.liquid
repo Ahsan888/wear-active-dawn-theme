@@ -1,0 +1,185 @@
+{% comment %}
+  Wear Active custom code start — wa-collection-navigation.liquid
+  Contextual collection navigation sourced from Shopify's native menu hierarchy.
+{% endcomment %}
+
+{{ 'wa-collection-navigation.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign wa_category_group = blank
+
+  for wa_parent_link in section.settings.menu.links
+    if wa_parent_link.type == 'collection_link'
+      if wa_parent_link.object.handle == collection.handle
+        assign wa_category_group = wa_parent_link
+        break
+      endif
+
+      for wa_child_link in wa_parent_link.links
+        if wa_child_link.type == 'collection_link' and wa_child_link.object.handle == collection.handle
+          assign wa_category_group = wa_parent_link
+          break
+        endif
+
+        for wa_grandchild_link in wa_child_link.links
+          if wa_grandchild_link.type == 'collection_link' and wa_grandchild_link.object.handle == collection.handle
+            assign wa_category_group = wa_parent_link
+            break
+          endif
+        endfor
+
+        if wa_category_group != blank
+          break
+        endif
+      endfor
+    endif
+
+    if wa_category_group != blank
+      break
+    endif
+  endfor
+
+  assign wa_has_directory = false
+  if wa_category_group.links.size > section.settings.max_visible
+    assign wa_has_directory = true
+  endif
+
+  for wa_category_link in wa_category_group.links
+    if wa_category_link.links.size > 0
+      assign wa_has_directory = true
+      break
+    endif
+  endfor
+-%}
+
+{%- if wa_category_group != blank and wa_category_group.links.size > 0 -%}
+  <nav
+    class="wa-collection-navigation color-{{ section.settings.color_scheme }} gradient"
+    aria-labelledby="WaCollectionNavigationHeading-{{ section.id }}"
+  >
+    <div class="wa-collection-navigation__inner page-width">
+      <h2 id="WaCollectionNavigationHeading-{{ section.id }}" class="wa-collection-navigation__heading">
+        {{ section.settings.heading_prefix | escape }} {{ wa_category_group.title | escape }}
+      </h2>
+
+      {%- if wa_category_group.links.size > 3 -%}
+        <p class="wa-collection-navigation__swipe-cue" aria-hidden="true">
+          <span>Swipe categories</span>
+          <span class="wa-collection-navigation__swipe-arrow">→</span>
+        </p>
+      {%- endif -%}
+
+      <ul class="wa-collection-navigation__rail" role="list">
+        {%- for wa_category_link in wa_category_group.links limit: section.settings.max_visible -%}
+          {%- liquid
+            assign wa_is_active = false
+            if wa_category_link.type == 'collection_link' and wa_category_link.object.handle == collection.handle
+              assign wa_is_active = true
+            endif
+          -%}
+          <li>
+            <a
+              class="wa-collection-navigation__link{% if wa_is_active %} is-active{% endif %}"
+              href="{{ wa_category_link.url }}"
+              {% if wa_is_active %}aria-current="page"{% endif %}
+            >
+              {{ wa_category_link.title | escape }}
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if wa_has_directory -%}
+        <details class="wa-collection-navigation__directory">
+          <summary class="wa-collection-navigation__directory-toggle">
+            <span>{{ section.settings.browse_label | escape }}</span>
+            {{- 'icon-caret.svg' | inline_asset_content -}}
+          </summary>
+
+          <div class="wa-collection-navigation__directory-panel">
+            {%- for wa_category_link in wa_category_group.links -%}
+              <div class="wa-collection-navigation__directory-group">
+                <a
+                  class="wa-collection-navigation__directory-heading"
+                  href="{{ wa_category_link.url }}"
+                  {% if wa_category_link.type == 'collection_link' and wa_category_link.object.handle == collection.handle %}
+                    aria-current="page"
+                  {% endif %}
+                >
+                  {{ wa_category_link.title | escape }}
+                </a>
+
+                {%- if wa_category_link.links.size > 0 -%}
+                  <ul role="list">
+                    {%- for wa_nested_link in wa_category_link.links -%}
+                      <li>
+                        <a
+                          href="{{ wa_nested_link.url }}"
+                          {% if wa_nested_link.type == 'collection_link' and wa_nested_link.object.handle == collection.handle %}
+                            aria-current="page"
+                          {% endif %}
+                        >
+                          {{ wa_nested_link.title | escape }}
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          </div>
+        </details>
+      {%- endif -%}
+    </div>
+  </nav>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "WA collection navigation",
+  "tag": "section",
+  "class": "section",
+  "enabled_on": {
+    "templates": ["collection"]
+  },
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Category menu"
+    },
+    {
+      "type": "text",
+      "id": "heading_prefix",
+      "label": "Heading prefix",
+      "default": "Shop"
+    },
+    {
+      "type": "text",
+      "id": "browse_label",
+      "label": "Directory label",
+      "default": "Browse all categories"
+    },
+    {
+      "type": "range",
+      "id": "max_visible",
+      "min": 4,
+      "max": 10,
+      "step": 1,
+      "label": "Visible category links",
+      "default": 7
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "WA collection navigation"
+    }
+  ]
+}
+{% endschema %}

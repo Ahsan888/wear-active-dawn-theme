@@ -4,8 +4,12 @@
    ========================================================================== */
 
 .wa-compact-collection {
-  color: var(--wa-color-evergreen);
-  background: var(--wa-color-parchment);
+  color: rgb(var(--color-foreground));
+  background: rgb(var(--color-background));
+}
+
+.wa-compact-collection.gradient {
+  background-image: none;
 }
 
 .wa-compact-collection__inner {
@@ -30,9 +34,28 @@
 
 .wa-compact-collection__subheading {
   margin: 1rem 0 0;
-  color: rgba(var(--wa-color-evergreen-rgb), 0.7);
+  color: rgba(var(--color-foreground), 0.7);
   font-size: var(--wa-text-sm);
   line-height: var(--wa-leading-normal);
+}
+
+.wa-compact-collection__swipe-cue {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  margin: -1rem 0 1.2rem;
+  color: rgba(var(--color-foreground), 0.62);
+  font-size: var(--wa-text-xs);
+  font-weight: var(--wa-weight-semibold);
+  letter-spacing: var(--wa-tracking-wider);
+  line-height: var(--wa-leading-snug);
+  text-transform: uppercase;
+}
+
+.wa-compact-collection__swipe-arrow {
+  font-size: 1.6rem;
+  line-height: 1;
 }
 
 .wa-compact-collection__products {
@@ -58,6 +81,16 @@
   min-width: 0;
   scroll-snap-align: start;
   scroll-snap-stop: normal;
+}
+
+.wa-compact-collection .wa-product-card .card__inner {
+  background: color-mix(in srgb, rgb(var(--color-foreground)) 4%, rgb(var(--color-background)));
+}
+
+.wa-compact-collection .wa-product-card .card__media .media img {
+  padding: 0.8rem;
+  object-fit: contain;
+  object-position: center center;
 }
 
 .wa-compact-collection .wa-product-card .card__information {
@@ -97,9 +130,9 @@
   gap: 0.8rem;
   min-height: 4.4rem;
   padding: 1.1rem 1.8rem;
-  border: 0.1rem solid var(--wa-color-evergreen);
-  color: var(--wa-color-parchment);
-  background: var(--wa-color-evergreen);
+  border: 0.1rem solid rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+  background: rgb(var(--color-foreground));
   font-size: var(--wa-text-xs);
   font-weight: var(--wa-weight-semibold);
   letter-spacing: var(--wa-tracking-wider);
@@ -111,7 +144,7 @@
 
 @media (hover: hover) and (pointer: fine) {
   .wa-compact-collection__cta:hover {
-    color: var(--wa-color-evergreen);
+    color: rgb(var(--color-foreground));
     background: transparent;
   }
 }
@@ -130,9 +163,13 @@
     font-size: var(--wa-text-base);
   }
 
+  .wa-compact-collection__swipe-cue {
+    display: none;
+  }
+
   .wa-compact-collection__products {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.6rem;
     margin: 0;
     padding: 0;
@@ -164,6 +201,12 @@
 @media screen and (min-width: 990px) {
   .wa-compact-collection__inner {
     padding-inline: 6rem;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .wa-compact-collection__products {
+    grid-template-columns: repeat(var(--wa-compact-columns, 4), minmax(0, 1fr));
   }
 }
 

@@ -27,6 +27,26 @@
   margin-top: 0;
 }
 
+/* Ensure customer-uploaded review photos/videos render on every review item, not just the first page. */
+.wa-product-reviews__widget .jdgm-rev__pics,
+.wa-product-reviews__widget .jm-review-item__media {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.wa-product-reviews__widget .jdgm-rev__pic-link,
+.wa-product-reviews__widget .jdgm-rev__pic-img,
+.wa-product-reviews__widget .jm-review-item__media img {
+  display: block !important;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 16rem;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
 .wa-product-reviews-summary {
   margin: 0 0 1.2rem;
 }

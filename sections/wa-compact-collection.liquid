@@ -10,6 +10,7 @@
 
 {%- style -%}
   .wa-compact-collection--{{ section.id }} {
+    --wa-compact-columns: {{ section.settings.products_to_show | at_most: 6 }};
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
@@ -23,7 +24,7 @@
 {%- endstyle -%}
 
 <section
-  class="wa-compact-collection wa-compact-collection--{{ section.id }}"
+  class="wa-compact-collection wa-compact-collection--{{ section.id }} color-{{ section.settings.color_scheme }} gradient"
   aria-labelledby="WaCompactCollectionHeading-{{ section.id }}"
 >
   <div class="wa-compact-collection__inner">
@@ -38,6 +39,11 @@
         <p class="wa-compact-collection__subheading">{{ section.settings.subheading | escape }}</p>
       {%- endif -%}
     </header>
+
+    <p class="wa-compact-collection__swipe-cue" aria-hidden="true">
+      <span>Swipe to explore</span>
+      <span class="wa-compact-collection__swipe-arrow">→</span>
+    </p>
 
     <ul class="wa-compact-collection__products" role="list">
       {%- if section.settings.collection != blank and section.settings.collection.products.size > 0 -%}
@@ -119,10 +125,10 @@
       "type": "range",
       "id": "products_to_show",
       "min": 2,
-      "max": 4,
+      "max": 8,
       "step": 1,
       "label": "Products to show",
-      "default": 4
+      "default": 6
     },
     {
       "type": "checkbox",
@@ -141,6 +147,12 @@
       "id": "cta_label",
       "label": "Button label",
       "default": "Shop all best sellers"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
     },
     {
       "type": "header",

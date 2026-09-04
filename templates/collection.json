@@ -8,6 +8,16 @@
         "color_scheme": "scheme-1"
       }
     },
+    "wa_collection_navigation": {
+      "type": "wa-collection-navigation",
+      "settings": {
+        "menu": "main-menu-v2",
+        "heading_prefix": "Shop",
+        "browse_label": "Browse all categories",
+        "max_visible": 7,
+        "color_scheme": "scheme-1"
+      }
+    },
     "product-grid": {
       "type": "main-collection-product-grid",
       "settings": {
@@ -31,6 +41,7 @@
   },
   "order": [
     "banner",
+    "wa_collection_navigation",
     "product-grid"
   ]
 }

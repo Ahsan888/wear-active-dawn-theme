@@ -23,7 +23,7 @@
             "filter_custom_tags": "",
             "show_media_only": false,
             "display_order": "media_first",
-            "card_grouping": "per_media",
+            "card_grouping": "per_review",
             "columns_desktop": 3,
             "rows_desktop": 3,
             "columns_mobile": "1",
