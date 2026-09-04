@@ -27,8 +27,8 @@
     assign wa_bundle_collection = collections[block.settings.tee_collection_handle]
     assign wa_save_2 = block.settings.tee_save_2
     assign wa_save_3 = block.settings.tee_save_3
-    assign wa_item_label = 'tee'
-    assign wa_item_plural = 'tees'
+    assign wa_item_label = 'top'
+    assign wa_item_plural = 'tops'
   elsif wa_bundle_kind == 'bottom'
     assign wa_bundle_collection = collections[block.settings.bottom_collection_handle]
     assign wa_save_2 = block.settings.bottom_save_2
@@ -179,6 +179,7 @@
         "title": {{ product.title | json }},
         "color": {{ wa_current_color | json }},
         "image": {{ product.featured_image | image_url: width: 180 | json }},
+        "audiences": [{% if product.tags contains 'gender-men' %}"men"{% endif %}{% if product.tags contains 'gender-women' %}{% if product.tags contains 'gender-men' %},{% endif %}"women"{% endif %}],
         "options": {{ product.options | json }},
         "variants": [
           {%- for variant in product.variants -%}
@@ -219,6 +220,7 @@
               "color": {{ wa_product_color | json }},
               "url": {{ wa_product.url | json }},
               "image": {{ wa_product.featured_image | image_url: width: 180 | json }},
+              "audiences": [{% if wa_product.tags contains 'gender-men' %}"men"{% endif %}{% if wa_product.tags contains 'gender-women' %}{% if wa_product.tags contains 'gender-men' %},{% endif %}"women"{% endif %}],
               "options": {{ wa_product.options | json }},
               "variants": [
                 {%- for variant in wa_product.variants -%}

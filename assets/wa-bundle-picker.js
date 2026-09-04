@@ -25,7 +25,12 @@ if (!customElements.get('wa-bundle-picker')) {
 
         this.currentProduct = this.parseJson('[data-wa-current-product]', null);
         const collectionProducts = this.parseJson('[data-wa-bundle-products]', []);
-        this.products = this.uniqueProducts([this.currentProduct, ...collectionProducts].filter(Boolean));
+        const allProducts = this.uniqueProducts([this.currentProduct, ...collectionProducts].filter(Boolean));
+        const currentAudiences = new Set(this.currentProduct?.audiences || []);
+        this.products = allProducts.filter((product) => {
+          if (currentAudiences.size === 0) return String(product.id) === String(this.currentProduct?.id);
+          return (product.audiences || []).some((audience) => currentAudiences.has(audience));
+        });
         if (!this.form || !this.submitButton || !this.currentProduct || this.products.length === 0) return;
 
         this.originalSubmitLabel = this.submitLabel?.textContent.trim() || 'Add to cart';
