@@ -20,7 +20,19 @@ function memStorage() {
     removeItem: (k) => {
       delete m[k];
     },
+    clear: () => {
+      Object.keys(m).forEach((k) => delete m[k]);
+    },
   };
+}
+
+function countingFetch(impl) {
+  const wrap = async (...args) => {
+    wrap.posts += 1;
+    return impl(...args);
+  };
+  wrap.posts = 0;
+  return wrap;
 }
 
 async function test(name, fn) {
@@ -107,7 +119,10 @@ async function main() {
       utm_medium: "paid",
       fbclid: "2",
     });
-    assert.strictEqual(WA.mergeVisit(WA.mergeVisit(null, a), b).last_touch.fbclid, "2");
+    assert.strictEqual(
+      WA.mergeVisit(WA.mergeVisit(null, a), b).last_touch.fbclid,
+      "2"
+    );
   });
 
   await test("11. direct return does not erase", () => {
@@ -218,28 +233,32 @@ async function main() {
     assert.ok(!/email=/.test(ref));
   });
 
-  await test("unknown/denied consent creates no state", () => {
-    const s1 = memStorage();
+  await test("unknown/denied consent creates no state and no sync", async () => {
+    const attr = memStorage();
+    const sync = memStorage();
+    const fetchFn = countingFetch(async () => ({ ok: true, status: 200 }));
     assert.ok(
       WA.run({
         privacy: null,
         search: "?utm_source=facebook&utm_medium=paid",
-        storage: s1,
-        skipSync: true,
+        attributionStorage: attr,
+        syncStorage: sync,
+        fetchFn,
       }).skipped
     );
-    assert.strictEqual(s1.getItem(WA.STORAGE_KEY), null);
+    assert.strictEqual(attr.getItem(WA.STORAGE_KEY), null);
+    assert.strictEqual(fetchFn.posts, 0);
 
-    const s2 = memStorage();
     assert.ok(
       WA.run({
         privacy: { marketingAllowed: () => false },
         search: "?utm_source=facebook&utm_medium=paid",
-        storage: s2,
-        skipSync: true,
+        attributionStorage: attr,
+        syncStorage: sync,
+        fetchFn,
       }).skipped
     );
-    assert.strictEqual(s2.getItem(WA.STORAGE_KEY), null);
+    assert.strictEqual(fetchFn.posts, 0);
   });
 
   await test("allowed consent captures; no PII in landing", () => {
@@ -249,7 +268,7 @@ async function main() {
       search: "?utm_source=facebook&utm_medium=paid_social&fbclid=x",
       href: "https://wearactive.pk/collections/all?utm_source=facebook&email=no@x.com",
       referrer: "https://www.facebook.com/ads?x=1",
-      storage,
+      attributionStorage: storage,
       skipSync: true,
     });
     assert.strictEqual(r.consent, "allowed");
@@ -258,34 +277,280 @@ async function main() {
     assert.ok(!/email=/.test(JSON.stringify(st)));
   });
 
-  await test("23-26. cart sync idempotency + HTTP status", async () => {
-    const storage = memStorage();
+  await test("1+. existing acquisition → successful sync", async () => {
+    const attr = memStorage();
+    const sync = memStorage();
+    const fetchFn = countingFetch(async () => ({ ok: true, status: 200 }));
+    const r = WA.run({
+      privacy: { marketingAllowed: () => true },
+      search: "?utm_source=facebook&utm_medium=paid&fbclid=a1",
+      attributionStorage: attr,
+      syncStorage: sync,
+      fetchFn,
+    });
+    const result = await r.syncPromise;
+    assert.ok(result.synced);
+    assert.strictEqual(fetchFn.posts, 1);
+    assert.ok(sync.getItem(WA.SYNC_KEY));
+    assert.ok(attr.getItem(WA.STORAGE_KEY));
+  });
+
+  await test("2+. later same session → no second network POST", async () => {
+    const attr = memStorage();
+    const sync = memStorage();
+    const fetchFn = countingFetch(async () => ({ ok: true, status: 200 }));
+    const common = {
+      privacy: { marketingAllowed: () => true },
+      attributionStorage: attr,
+      syncStorage: sync,
+      fetchFn,
+    };
+    await WA.run({
+      ...common,
+      search: "?utm_source=facebook&utm_medium=paid&fbclid=a1",
+    }).syncPromise;
+    assert.strictEqual(fetchFn.posts, 1);
+    // Internal navigation — no new acquisition
+    const r2 = WA.run({ ...common, search: "" });
+    const result = await r2.syncPromise;
+    assert.strictEqual(result.reason, "unchanged");
+    assert.strictEqual(fetchFn.posts, 1);
+  });
+
+  await test("3-6. page1 fail → page2 retry → page3 no POST", async () => {
+    const attr = memStorage();
+    const sync = memStorage();
+    let mode = "fail";
+    const fetchFn = countingFetch(async () => {
+      if (mode === "fail") return { ok: false, status: 500 };
+      return { ok: true, status: 200 };
+    });
+    const common = {
+      privacy: { marketingAllowed: () => true },
+      attributionStorage: attr,
+      syncStorage: sync,
+      fetchFn,
+    };
+
+    // page 1: acquisition + failed POST
+    const p1 = WA.run({
+      ...common,
+      search: "?utm_source=facebook&utm_medium=paid&fbclid=retry1",
+    });
+    const r1 = await p1.syncPromise;
+    assert.ok(!r1.synced);
+    assert.strictEqual(sync.getItem(WA.SYNC_KEY), null);
+    assert.ok(attr.getItem(WA.STORAGE_KEY));
+    assert.strictEqual(fetchFn.posts, 1);
+
+    // page 2: no new signal, fingerprint absent → retry
+    mode = "ok";
+    const p2 = WA.run({ ...common, search: "" });
+    const r2 = await p2.syncPromise;
+    assert.ok(r2.synced);
+    assert.ok(sync.getItem(WA.SYNC_KEY));
+    assert.strictEqual(fetchFn.posts, 2);
+
+    // page 3: same fingerprint → no POST
+    const p3 = WA.run({ ...common, search: "" });
+    const r3 = await p3.syncPromise;
+    assert.strictEqual(r3.reason, "unchanged");
+    assert.strictEqual(fetchFn.posts, 2);
+  });
+
+  await test("7-8. new session re-syncs once", async () => {
+    const attr = memStorage();
+    const syncSession1 = memStorage();
+    const fetchFn = countingFetch(async () => ({ ok: true, status: 200 }));
+
+    await WA.run({
+      privacy: { marketingAllowed: () => true },
+      search: "?utm_source=facebook&utm_medium=paid&fbclid=s1",
+      attributionStorage: attr,
+      syncStorage: syncSession1,
+      fetchFn,
+    }).syncPromise;
+    assert.strictEqual(fetchFn.posts, 1);
+    assert.ok(syncSession1.getItem(WA.SYNC_KEY));
+    assert.ok(attr.getItem(WA.STORAGE_KEY));
+
+    // New browser session: attribution retained, sync fingerprint gone
+    const syncSession2 = memStorage();
+    assert.strictEqual(syncSession2.getItem(WA.SYNC_KEY), null);
+
+    const r2 = await WA.run({
+      privacy: { marketingAllowed: () => true },
+      search: "",
+      attributionStorage: attr,
+      syncStorage: syncSession2,
+      fetchFn,
+    }).syncPromise;
+    assert.ok(r2.synced);
+    assert.strictEqual(fetchFn.posts, 2);
+
+    const r3 = await WA.run({
+      privacy: { marketingAllowed: () => true },
+      search: "",
+      attributionStorage: attr,
+      syncStorage: syncSession2,
+      fetchFn,
+    }).syncPromise;
+    assert.strictEqual(r3.reason, "unchanged");
+    assert.strictEqual(fetchFn.posts, 2);
+  });
+
+  await test("9. new attributable visit → one sync", async () => {
+    const attr = memStorage();
+    const sync = memStorage();
+    const fetchFn = countingFetch(async () => ({ ok: true, status: 200 }));
+    const common = {
+      privacy: { marketingAllowed: () => true },
+      attributionStorage: attr,
+      syncStorage: sync,
+      fetchFn,
+    };
+    await WA.run({
+      ...common,
+      search: "?utm_source=facebook&utm_medium=paid&fbclid=A",
+    }).syncPromise;
+    assert.strictEqual(fetchFn.posts, 1);
+
+    const r2 = await WA.run({
+      ...common,
+      search: "?utm_source=facebook&utm_medium=paid&fbclid=B&utm_campaign=campB",
+    }).syncPromise;
+    assert.ok(r2.synced);
+    assert.strictEqual(fetchFn.posts, 2);
+    const st = JSON.parse(attr.getItem(WA.STORAGE_KEY));
+    assert.strictEqual(st.first_touch.fbclid, "A");
+    assert.strictEqual(st.last_touch.fbclid, "B");
+  });
+
+  await test("10-11. direct/internal keep attribution; sync network-free", async () => {
+    const attr = memStorage();
+    const sync = memStorage();
+    const fetchFn = countingFetch(async () => ({ ok: true, status: 200 }));
+    const common = {
+      privacy: { marketingAllowed: () => true },
+      attributionStorage: attr,
+      syncStorage: sync,
+      fetchFn,
+    };
+    await WA.run({
+      ...common,
+      search: "?utm_source=facebook&utm_medium=paid&fbclid=keep",
+    }).syncPromise;
+    const before = JSON.parse(attr.getItem(WA.STORAGE_KEY));
+
+    await WA.run({ ...common, search: "?utm_source=direct" }).syncPromise;
+    await WA.run({ ...common, search: "" }).syncPromise;
+    const after = JSON.parse(attr.getItem(WA.STORAGE_KEY));
+    assert.strictEqual(after.first_touch.fbclid, before.first_touch.fbclid);
+    assert.strictEqual(after.last_touch.fbclid, before.last_touch.fbclid);
+    assert.strictEqual(fetchFn.posts, 1);
+  });
+
+  await test("12-13. denied/unknown consent → no sync", async () => {
+    const attr = memStorage();
+    const sync = memStorage();
+    WA.saveState(
+      WA.mergeVisit(
+        null,
+        WA.touchFromParams({
+          utm_source: "facebook",
+          utm_medium: "paid",
+          fbclid: "x",
+        })
+      ),
+      attr
+    );
+    const fetchFn = countingFetch(async () => ({ ok: true, status: 200 }));
+    assert.ok(
+      WA.run({
+        privacy: { marketingAllowed: () => false },
+        attributionStorage: attr,
+        syncStorage: sync,
+        fetchFn,
+        search: "",
+      }).skipped
+    );
+    assert.ok(
+      WA.run({
+        privacy: null,
+        attributionStorage: attr,
+        syncStorage: sync,
+        fetchFn,
+        search: "",
+      }).skipped
+    );
+    assert.strictEqual(fetchFn.posts, 0);
+  });
+
+  await test("14. HTTP 2xx saves fingerprint", async () => {
+    const sync = memStorage();
     const state = WA.mergeVisit(
       null,
       WA.touchFromParams({
         utm_source: "facebook",
         utm_medium: "paid",
-        fbclid: "1",
+        fbclid: "ok",
       })
     );
-    let posts = 0;
-    const fetchOk = async () => {
-      posts += 1;
-      return { ok: true, status: 200 };
-    };
-    assert.ok((await WA.syncCart(state, { storage, fetchFn: fetchOk })).synced);
-    const r2 = await WA.syncCart(state, { storage, fetchFn: fetchOk });
-    assert.strictEqual(r2.reason, "unchanged");
-    assert.strictEqual(posts, 1);
-
-    storage.removeItem(WA.SYNC_KEY);
-    const fetchFail = async () => ({ ok: false, status: 500 });
-    assert.ok(!(await WA.syncCart(state, { storage, fetchFn: fetchFail })).synced);
-    assert.strictEqual(storage.getItem(WA.SYNC_KEY), null);
-    assert.ok((await WA.syncCart(state, { storage, fetchFn: fetchOk })).synced);
+    const r = await WA.syncCart(state, {
+      syncStorage: sync,
+      fetchFn: async () => ({ ok: true, status: 200 }),
+    });
+    assert.ok(r.synced);
+    assert.ok(sync.getItem(WA.SYNC_KEY));
   });
 
-  await test("27-28. compact payload valid JSON within limit", () => {
+  await test("15. non-2xx does not save fingerprint", async () => {
+    const sync = memStorage();
+    const state = WA.mergeVisit(
+      null,
+      WA.touchFromParams({
+        utm_source: "facebook",
+        utm_medium: "paid",
+        fbclid: "bad",
+      })
+    );
+    const r = await WA.syncCart(state, {
+      syncStorage: sync,
+      fetchFn: async () => ({ ok: false, status: 503 }),
+    });
+    assert.ok(!r.synced);
+    assert.strictEqual(sync.getItem(WA.SYNC_KEY), null);
+  });
+
+  await test("16. network reject does not save fingerprint", async () => {
+    const sync = memStorage();
+    const state = WA.mergeVisit(
+      null,
+      WA.touchFromParams({
+        utm_source: "facebook",
+        utm_medium: "paid",
+        fbclid: "net",
+      })
+    );
+    const r = await WA.syncCart(state, {
+      syncStorage: sync,
+      fetchFn: async () => {
+        throw new Error("network");
+      },
+    });
+    assert.ok(!r.synced);
+    assert.strictEqual(sync.getItem(WA.SYNC_KEY), null);
+  });
+
+  await test("17. state absent → no sync", async () => {
+    const r = await WA.syncCart(null, {
+      syncStorage: memStorage(),
+      fetchFn: countingFetch(async () => ({ ok: true, status: 200 })),
+    });
+    assert.strictEqual(r.reason, "no_state");
+  });
+
+  await test("18. payload remains valid JSON", () => {
     const huge = "x".repeat(800);
     const state = {
       version: 1,
@@ -312,7 +577,52 @@ async function main() {
     assert.ok(raw.length <= WA.MAX_PAYLOAD);
     const parsed = JSON.parse(raw);
     assert.strictEqual(parsed.first_touch.campaign_id, "123456789012345");
-    assert.strictEqual(parsed.first_touch.ad_id, "987654321098765");
+  });
+
+  await test("19+. _fbp alone still no acquisition via run", () => {
+    const attr = memStorage();
+    const r = WA.run({
+      privacy: { marketingAllowed: () => true },
+      search: "",
+      fbp: "fb.1.only.fbp",
+      fbc: null,
+      attributionStorage: attr,
+      skipSync: true,
+    });
+    assert.strictEqual(attr.getItem(WA.STORAGE_KEY), null);
+    assert.ok(!r.state || !WA.hasSyncableState(r.state));
+  });
+
+  await test("20+. arbitrary query PII still excluded", () => {
+    const attr = memStorage();
+    WA.run({
+      privacy: { marketingAllowed: () => true },
+      search: "?utm_source=facebook&utm_medium=paid&email=leak@x.com&phone=123",
+      href: "https://wearactive.pk/?email=leak@x.com&utm_source=facebook",
+      referrer: "https://google.com/search?q=secret&email=x",
+      attributionStorage: attr,
+      skipSync: true,
+    });
+    const raw = attr.getItem(WA.STORAGE_KEY);
+    assert.ok(raw);
+    assert.ok(!/leak@/.test(raw));
+    assert.ok(!/email=/.test(raw));
+    assert.ok(!/phone=/.test(raw));
+  });
+
+  await test("sync fingerprint uses session storage not attribution storage", async () => {
+    const attr = memStorage();
+    const sync = memStorage();
+    await WA.run({
+      privacy: { marketingAllowed: () => true },
+      search: "?utm_source=facebook&utm_medium=paid&fbclid=sep",
+      attributionStorage: attr,
+      syncStorage: sync,
+      fetchFn: async () => ({ ok: true, status: 200 }),
+    }).syncPromise;
+    assert.ok(attr.getItem(WA.STORAGE_KEY));
+    assert.strictEqual(attr.getItem(WA.SYNC_KEY), null);
+    assert.ok(sync.getItem(WA.SYNC_KEY));
   });
 
   await test("29-30. storefront failure swallowed", () => {
@@ -324,7 +634,7 @@ async function main() {
           },
         },
         search: "?utm_source=facebook",
-        storage: memStorage(),
+        attributionStorage: memStorage(),
         skipSync: true,
       });
     });

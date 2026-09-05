@@ -4,12 +4,13 @@
  * Storefront = capture evidence only.
  * Reporting repo = authoritative status / confidence / classification.
  *
- * - localStorage: wa_attribution_v1
- * - cart sync fingerprint: wa_attribution_cart_sync_v1
+ * - localStorage: wa_attribution_v1 (30-day attribution evidence)
+ * - sessionStorage: wa_attribution_cart_sync_v1 (session-scoped sync fingerprint)
  * - cart payload: _wa_attr (valid compact JSON) + flattened helpers
- * - Consent: allowed | denied | unknown — capture only when allowed
+ * - Consent: allowed | denied | unknown — capture/sync only when allowed
  * - _fbp alone is NOT an acquisition signal
  * - landing/referrer strip arbitrary query strings
+ * - Failed cart sync retries on later navigation (idempotent syncCart)
  * - Fails silently; never breaks cart/checkout
  *
  * Buy Now / Shop Pay / accelerated checkout may bypass cart attributes on
@@ -361,9 +362,26 @@
     }
   }
 
-  function loadState(storage) {
+  function defaultAttributionStorage() {
     try {
-      var store = storage || (typeof localStorage !== "undefined" ? localStorage : null);
+      return typeof localStorage !== "undefined" ? localStorage : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function defaultSyncStorage() {
+    try {
+      return typeof sessionStorage !== "undefined" ? sessionStorage : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /** Attribution evidence — localStorage (30-day retention). */
+  function loadState(attributionStorage) {
+    try {
+      var store = attributionStorage || defaultAttributionStorage();
       if (!store) return null;
       var raw = store.getItem(STORAGE_KEY);
       if (!raw) return null;
@@ -373,17 +391,22 @@
     }
   }
 
-  function saveState(state, storage) {
+  function saveState(state, attributionStorage) {
     try {
-      var store = storage || (typeof localStorage !== "undefined" ? localStorage : null);
+      var store = attributionStorage || defaultAttributionStorage();
       if (!store) return;
       store.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch (e) {}
   }
 
-  function loadSyncHash(storage) {
+  /**
+   * Cart-sync fingerprint — sessionStorage by default.
+   * Survives same-tab navigations; cleared when the browser session ends
+   * so a fresh session re-syncs into the current Shopify cart.
+   */
+  function loadSyncHash(syncStorage) {
     try {
-      var store = storage || (typeof localStorage !== "undefined" ? localStorage : null);
+      var store = syncStorage || defaultSyncStorage();
       if (!store) return null;
       return store.getItem(SYNC_KEY);
     } catch (e) {
@@ -391,12 +414,32 @@
     }
   }
 
-  function saveSyncHash(hash, storage) {
+  function saveSyncHash(hash, syncStorage) {
     try {
-      var store = storage || (typeof localStorage !== "undefined" ? localStorage : null);
+      var store = syncStorage || defaultSyncStorage();
       if (!store) return;
       store.setItem(SYNC_KEY, hash);
     } catch (e) {}
+  }
+
+  function pruneExpiredState(state, nowMs) {
+    if (!state) return null;
+    nowMs = nowMs || Date.now();
+    var first = state.first_touch;
+    var last = state.last_touch;
+    if (first && expired(first, nowMs)) first = null;
+    if (last && expired(last, nowMs)) last = null;
+    if (!first && !last) return null;
+    return {
+      version: state.version || VERSION,
+      first_touch: first,
+      last_touch: last,
+      updated_at: state.updated_at || new Date(nowMs).toISOString(),
+    };
+  }
+
+  function hasSyncableState(state) {
+    return Boolean(state && (state.first_touch || state.last_touch));
   }
 
   function buildCartHelpers(state) {
@@ -419,13 +462,19 @@
 
   function syncCart(state, opts) {
     opts = opts || {};
-    if (!state) return Promise.resolve({ synced: false, reason: "no_state" });
+    if (!state || !hasSyncableState(state)) {
+      return Promise.resolve({ synced: false, reason: "no_state" });
+    }
     var payloadJson = buildCompactPayload(state);
     var helpers = buildCartHelpers(state);
     var fp = simpleHash(syncFingerprint(payloadJson, helpers));
-    var storage = opts.storage;
-    if (loadSyncHash(storage) === fp) {
-      return Promise.resolve({ synced: false, reason: "unchanged", fingerprint: fp });
+    var syncStorage = opts.syncStorage;
+    if (loadSyncHash(syncStorage) === fp) {
+      return Promise.resolve({
+        synced: false,
+        reason: "unchanged",
+        fingerprint: fp,
+      });
     }
 
     var attributes = {};
@@ -459,7 +508,7 @@
       })
         .then(function (res) {
           if (res && res.ok) {
-            saveSyncHash(fp, storage);
+            saveSyncHash(fp, syncStorage);
             return { synced: true, fingerprint: fp, status: res.status };
           }
           return {
@@ -513,16 +562,32 @@
         timestamp: opts.nowIso,
       });
 
-      var storage = opts.storage;
-      var state = loadState(storage);
+      var attributionStorage = opts.attributionStorage || opts.storage;
+      var syncStorage = opts.syncStorage;
+      var state = pruneExpiredState(loadState(attributionStorage), opts.nowMs);
+
       if (signal || attributable(visit)) {
         state = mergeVisit(state, visit, opts.nowMs);
-        saveState(state, storage);
-        if (!opts.skipSync) syncCart(state, opts);
-        return { skipped: false, consent: consent, state: state, synced: true };
+        saveState(state, attributionStorage);
       }
-      // No new acquisition — do not write/sync on every page load
-      return { skipped: false, consent: consent, state: state, synced: false };
+
+      // Always attempt idempotent cart sync when syncable state exists.
+      // syncCart skips the network when the session fingerprint matches.
+      var syncPromise = null;
+      if (hasSyncableState(state) && !opts.skipSync) {
+        syncPromise = syncCart(state, {
+          syncStorage: syncStorage,
+          fetchFn: opts.fetchFn,
+          cartUrl: opts.cartUrl,
+        });
+      }
+
+      return {
+        skipped: false,
+        consent: consent,
+        state: state,
+        syncPromise: syncPromise,
+      };
     } catch (e) {
       return { skipped: true, error: true };
     }
@@ -552,6 +617,11 @@
     loadState: loadState,
     saveState: saveState,
     loadSyncHash: loadSyncHash,
+    saveSyncHash: saveSyncHash,
+    pruneExpiredState: pruneExpiredState,
+    hasSyncableState: hasSyncableState,
+    defaultAttributionStorage: defaultAttributionStorage,
+    defaultSyncStorage: defaultSyncStorage,
     simpleHash: simpleHash,
     run: run,
   };
