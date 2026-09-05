@@ -8,6 +8,7 @@
  * - sessionStorage: wa_attribution_cart_sync_v1 (session-scoped sync fingerprint)
  * - cart payload: _wa_attr (valid compact JSON) + flattened helpers
  * - Consent: allowed | denied | unknown — capture/sync only when allowed
+ * - Bootstrap retries while consent is unknown until privacy initializes (bounded)
  * - _fbp alone is NOT an acquisition signal
  * - landing/referrer strip arbitrary query strings
  * - Failed cart sync retries on later navigation (idempotent syncCart)
@@ -25,10 +26,10 @@
     if (typeof document !== "undefined") {
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", function () {
-          api.run();
+          api.bootstrap();
         });
       } else {
-        api.run();
+        api.bootstrap();
       }
     }
   }
@@ -40,6 +41,8 @@
   var RETENTION_DAYS = 30;
   var MAX_PAYLOAD = 1800;
   var MAX = 240;
+  /** Absolute delays (ms) from bootstrap start while consent stays unknown. */
+  var BOOTSTRAP_DELAYS_MS = [0, 250, 750, 1500, 3000];
   var ALLOWED = {
     utm_source: 1,
     utm_medium: 1,
@@ -593,6 +596,92 @@
     }
   }
 
+  var bootstrapStarted = false;
+  var bootstrapResolved = false;
+
+  function resetBootstrapState() {
+    bootstrapStarted = false;
+    bootstrapResolved = false;
+  }
+
+  /**
+   * Lifecycle entry: call run() immediately, then retry on a bounded schedule
+   * while consent remains "unknown" (Shopify privacy still initializing).
+   * Never treats unknown as allowed. Stops on allowed, denied, or exhaustion.
+   */
+  function bootstrap(opts) {
+    opts = opts || {};
+    if (bootstrapStarted && !opts.force) {
+      return {
+        started: false,
+        reason: "already_started",
+        resolved: bootstrapResolved,
+      };
+    }
+    bootstrapStarted = true;
+    bootstrapResolved = false;
+
+    var delays = opts.delaysMs || BOOTSTRAP_DELAYS_MS;
+    var scheduleFn =
+      opts.scheduleFn ||
+      function (fn, ms) {
+        return setTimeout(fn, ms);
+      };
+    var history = [];
+    var outcome = {
+      started: true,
+      resolved: false,
+      status: null,
+      result: null,
+      history: history,
+      attempts: 0,
+    };
+
+    function resolve(status, result) {
+      if (bootstrapResolved) return;
+      bootstrapResolved = true;
+      outcome.resolved = true;
+      outcome.status = status;
+      outcome.result = result;
+      if (typeof opts.onResolved === "function") {
+        try {
+          opts.onResolved(outcome);
+        } catch (e) {}
+      }
+    }
+
+    for (var i = 0; i < delays.length; i++) {
+      (function (delay, index) {
+        scheduleFn(function () {
+          if (bootstrapResolved) return;
+          var result = run(opts);
+          outcome.attempts += 1;
+          history.push({
+            attempt: outcome.attempts,
+            delay_ms: delay,
+            consent: result.consent || null,
+            skipped: !!result.skipped,
+          });
+
+          if (result.consent === "allowed") {
+            resolve("allowed", result);
+            return;
+          }
+          if (result.consent === "denied") {
+            resolve("denied", result);
+            return;
+          }
+          // unknown — wait for later scheduled attempt
+          if (index === delays.length - 1) {
+            resolve("unknown_exhausted", result);
+          }
+        }, delay);
+      })(delays[i], i);
+    }
+
+    return outcome;
+  }
+
   return {
     STORAGE_KEY: STORAGE_KEY,
     SYNC_KEY: SYNC_KEY,
@@ -600,6 +689,7 @@
     VERSION: VERSION,
     RETENTION_DAYS: RETENTION_DAYS,
     MAX_PAYLOAD: MAX_PAYLOAD,
+    BOOTSTRAP_DELAYS_MS: BOOTSTRAP_DELAYS_MS,
     clean: clean,
     pickParams: pickParams,
     minimizeLanding: minimizeLanding,
@@ -624,5 +714,7 @@
     defaultSyncStorage: defaultSyncStorage,
     simpleHash: simpleHash,
     run: run,
+    bootstrap: bootstrap,
+    resetBootstrapState: resetBootstrapState,
   };
 });

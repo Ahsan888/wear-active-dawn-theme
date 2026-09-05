@@ -640,6 +640,301 @@ async function main() {
     });
   });
 
+  function fakeScheduler() {
+    const tasks = [];
+    return {
+      scheduleFn(fn, ms) {
+        tasks.push({ fn, ms: Number(ms) || 0 });
+      },
+      flush(upToMs) {
+        const due = tasks
+          .filter((t) => t.ms <= upToMs)
+          .sort((a, b) => a.ms - b.ms);
+        // run each due task once; keep later tasks
+        const remaining = tasks.filter((t) => t.ms > upToMs);
+        tasks.length = 0;
+        remaining.forEach((t) => tasks.push(t));
+        due.forEach((t) => t.fn());
+      },
+      flushAll() {
+        const all = tasks.slice().sort((a, b) => a.ms - b.ms);
+        tasks.length = 0;
+        all.forEach((t) => t.fn());
+      },
+      pending() {
+        return tasks.length;
+      },
+    };
+  }
+
+  const taggedSearch =
+    "?utm_source=facebook&utm_medium=paid_social&utm_campaign=999000111222333&utm_content=999000111222444&utm_term=999000111222555&fbclid=phase5-validation-test";
+
+  await test("B1. initial allowed → runs once immediately", async () => {
+    WA.resetBootstrapState();
+    const attr = memStorage();
+    const sync = memStorage();
+    const fetchFn = countingFetch(async () => ({ ok: true, status: 200 }));
+    const sched = fakeScheduler();
+    const outcome = WA.bootstrap({
+      privacy: { marketingAllowed: () => true },
+      search: taggedSearch,
+      attributionStorage: attr,
+      syncStorage: sync,
+      fetchFn,
+      scheduleFn: sched.scheduleFn,
+      delaysMs: WA.BOOTSTRAP_DELAYS_MS,
+    });
+    sched.flush(0);
+    assert.strictEqual(outcome.status, "allowed");
+    assert.strictEqual(outcome.attempts, 1);
+    assert.ok(attr.getItem(WA.STORAGE_KEY));
+    await outcome.result.syncPromise;
+    assert.strictEqual(fetchFn.posts, 1);
+    // later scheduled attempts must no-op
+    sched.flushAll();
+    assert.strictEqual(outcome.attempts, 1);
+    assert.strictEqual(fetchFn.posts, 1);
+  });
+
+  await test("B2. initial denied → no capture, no retries after deny", () => {
+    WA.resetBootstrapState();
+    const attr = memStorage();
+    const fetchFn = countingFetch(async () => ({ ok: true, status: 200 }));
+    const sched = fakeScheduler();
+    const outcome = WA.bootstrap({
+      privacy: { marketingAllowed: () => false },
+      search: taggedSearch,
+      attributionStorage: attr,
+      syncStorage: memStorage(),
+      fetchFn,
+      scheduleFn: sched.scheduleFn,
+      delaysMs: WA.BOOTSTRAP_DELAYS_MS,
+    });
+    sched.flush(0);
+    assert.strictEqual(outcome.status, "denied");
+    assert.strictEqual(attr.getItem(WA.STORAGE_KEY), null);
+    assert.strictEqual(fetchFn.posts, 0);
+    sched.flushAll();
+    assert.strictEqual(outcome.attempts, 1);
+  });
+
+  await test("B3. unknown → allowed on second attempt → captures once", async () => {
+    WA.resetBootstrapState();
+    const attr = memStorage();
+    const sync = memStorage();
+    const fetchFn = countingFetch(async () => ({ ok: true, status: 200 }));
+    const sched = fakeScheduler();
+    const privacy = {}; // no methods → unknown
+    const outcome = WA.bootstrap({
+      privacy,
+      search: taggedSearch,
+      attributionStorage: attr,
+      syncStorage: sync,
+      fetchFn,
+      scheduleFn: sched.scheduleFn,
+      delaysMs: [0, 250, 750],
+    });
+    sched.flush(0);
+    assert.strictEqual(attr.getItem(WA.STORAGE_KEY), null);
+    assert.strictEqual(fetchFn.posts, 0);
+    assert.ok(!outcome.resolved);
+    privacy.marketingAllowed = () => true;
+    sched.flush(250);
+    assert.strictEqual(outcome.status, "allowed");
+    assert.ok(attr.getItem(WA.STORAGE_KEY));
+    await outcome.result.syncPromise;
+    assert.strictEqual(fetchFn.posts, 1);
+    sched.flushAll();
+    assert.strictEqual(outcome.attempts, 2);
+    assert.strictEqual(fetchFn.posts, 1);
+  });
+
+  await test("B4. unknown → allowed after several attempts", async () => {
+    WA.resetBootstrapState();
+    const attr = memStorage();
+    const sync = memStorage();
+    const fetchFn = countingFetch(async () => ({ ok: true, status: 200 }));
+    const sched = fakeScheduler();
+    const privacy = {};
+    const outcome = WA.bootstrap({
+      privacy,
+      search: taggedSearch,
+      attributionStorage: attr,
+      syncStorage: sync,
+      fetchFn,
+      scheduleFn: sched.scheduleFn,
+      delaysMs: [0, 250, 750, 1500, 3000],
+    });
+    sched.flush(0);
+    sched.flush(250);
+    sched.flush(750);
+    assert.strictEqual(attr.getItem(WA.STORAGE_KEY), null);
+    assert.strictEqual(fetchFn.posts, 0);
+    privacy.marketingAllowed = () => true;
+    sched.flush(1500);
+    assert.strictEqual(outcome.status, "allowed");
+    await outcome.result.syncPromise;
+    assert.strictEqual(fetchFn.posts, 1);
+    assert.strictEqual(outcome.attempts, 4);
+  });
+
+  await test("B5. unknown → denied → stops without capture", () => {
+    WA.resetBootstrapState();
+    const attr = memStorage();
+    const fetchFn = countingFetch(async () => ({ ok: true, status: 200 }));
+    const sched = fakeScheduler();
+    const privacy = {};
+    const outcome = WA.bootstrap({
+      privacy,
+      search: taggedSearch,
+      attributionStorage: attr,
+      syncStorage: memStorage(),
+      fetchFn,
+      scheduleFn: sched.scheduleFn,
+      delaysMs: [0, 250, 750],
+    });
+    sched.flush(0);
+    assert.ok(!outcome.resolved);
+    assert.strictEqual(attr.getItem(WA.STORAGE_KEY), null);
+    privacy.marketingAllowed = () => false;
+    sched.flush(250);
+    assert.strictEqual(outcome.status, "denied");
+    assert.strictEqual(attr.getItem(WA.STORAGE_KEY), null);
+    assert.strictEqual(fetchFn.posts, 0);
+    sched.flushAll();
+    assert.strictEqual(outcome.attempts, 2);
+  });
+
+  await test("B6. unknown forever → stops after max retries", () => {
+    WA.resetBootstrapState();
+    const attr = memStorage();
+    const fetchFn = countingFetch(async () => ({ ok: true, status: 200 }));
+    const sched = fakeScheduler();
+    const outcome = WA.bootstrap({
+      privacy: null, // always unknown
+      search: taggedSearch,
+      attributionStorage: attr,
+      syncStorage: memStorage(),
+      fetchFn,
+      scheduleFn: sched.scheduleFn,
+      delaysMs: [0, 250, 750],
+    });
+    sched.flush(0);
+    assert.strictEqual(attr.getItem(WA.STORAGE_KEY), null);
+    sched.flush(250);
+    assert.strictEqual(attr.getItem(WA.STORAGE_KEY), null);
+    sched.flush(750);
+    assert.strictEqual(outcome.status, "unknown_exhausted");
+    assert.strictEqual(attr.getItem(WA.STORAGE_KEY), null);
+    assert.strictEqual(fetchFn.posts, 0);
+    assert.strictEqual(outcome.attempts, 3);
+  });
+
+  await test("B7-8. retries do not write storage or cart before allowed", () => {
+    WA.resetBootstrapState();
+    const attr = memStorage();
+    const sync = memStorage();
+    const fetchFn = countingFetch(async () => ({ ok: true, status: 200 }));
+    const sched = fakeScheduler();
+    const privacy = {};
+    WA.bootstrap({
+      privacy,
+      search: taggedSearch,
+      attributionStorage: attr,
+      syncStorage: sync,
+      fetchFn,
+      scheduleFn: sched.scheduleFn,
+      delaysMs: [0, 250, 750],
+    });
+    sched.flush(0);
+    sched.flush(250);
+    assert.strictEqual(attr.getItem(WA.STORAGE_KEY), null);
+    assert.strictEqual(sync.getItem(WA.SYNC_KEY), null);
+    assert.strictEqual(fetchFn.posts, 0);
+    privacy.marketingAllowed = () => true;
+  });
+
+  await test("B9. allowed resolution produces one cart POST", async () => {
+    WA.resetBootstrapState();
+    const attr = memStorage();
+    const sync = memStorage();
+    const fetchFn = countingFetch(async () => ({ ok: true, status: 200 }));
+    const sched = fakeScheduler();
+    const privacy = {};
+    const outcome = WA.bootstrap({
+      privacy,
+      search: taggedSearch,
+      attributionStorage: attr,
+      syncStorage: sync,
+      fetchFn,
+      scheduleFn: sched.scheduleFn,
+      delaysMs: [0, 250],
+    });
+    sched.flush(0);
+    privacy.marketingAllowed = () => true;
+    sched.flush(250);
+    await outcome.result.syncPromise;
+    assert.strictEqual(fetchFn.posts, 1);
+    assert.ok(sync.getItem(WA.SYNC_KEY));
+  });
+
+  await test("B10. duplicate bootstrap does not create duplicate retry chains", () => {
+    WA.resetBootstrapState();
+    const sched = fakeScheduler();
+    const common = {
+      privacy: null,
+      search: taggedSearch,
+      attributionStorage: memStorage(),
+      scheduleFn: sched.scheduleFn,
+      delaysMs: [0, 250, 750],
+      skipSync: true,
+    };
+    const first = WA.bootstrap(common);
+    const second = WA.bootstrap(common);
+    assert.strictEqual(second.started, false);
+    assert.strictEqual(second.reason, "already_started");
+    assert.strictEqual(sched.pending(), 3); // only first chain scheduled
+    sched.flushAll();
+    assert.strictEqual(first.status, "unknown_exhausted");
+  });
+
+  await test("B11. tagged URL params survive delayed capture", async () => {
+    WA.resetBootstrapState();
+    const attr = memStorage();
+    const sync = memStorage();
+    const fetchFn = countingFetch(async () => ({ ok: true, status: 200 }));
+    const sched = fakeScheduler();
+    const privacy = {};
+    const outcome = WA.bootstrap({
+      privacy,
+      search: taggedSearch,
+      href: "https://wearactive.pk/" + taggedSearch,
+      attributionStorage: attr,
+      syncStorage: sync,
+      fetchFn,
+      scheduleFn: sched.scheduleFn,
+      delaysMs: [0, 250],
+    });
+    sched.flush(0);
+    assert.strictEqual(attr.getItem(WA.STORAGE_KEY), null);
+    privacy.marketingAllowed = () => true;
+    sched.flush(250);
+    const st = JSON.parse(attr.getItem(WA.STORAGE_KEY));
+    assert.strictEqual(st.first_touch.source, "facebook");
+    assert.strictEqual(st.first_touch.medium, "paid_social");
+    assert.strictEqual(st.first_touch.campaign_id, "999000111222333");
+    assert.strictEqual(st.first_touch.ad_id, "999000111222444");
+    assert.strictEqual(st.first_touch.adset_id, "999000111222555");
+    assert.strictEqual(st.first_touch.fbclid, "phase5-validation-test");
+    await outcome.result.syncPromise;
+    assert.strictEqual(fetchFn.posts, 1);
+  });
+
+  await test("B12. bootstrap delays match production schedule", () => {
+    assert.deepStrictEqual(WA.BOOTSTRAP_DELAYS_MS, [0, 250, 750, 1500, 3000]);
+  });
+
   console.log(`\n${passed} passed, ${failed} failed`);
   if (failed) process.exitCode = 1;
 }
