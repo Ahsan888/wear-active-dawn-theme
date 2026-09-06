@@ -6,6 +6,7 @@
   const MOBILE_QUERY = window.matchMedia('(max-width: 749px)');
   const LITE_FRAME_SELECTOR = '#smile-lite-launcher-frame';
   const STYLE_ID = 'wa-smile-launcher-compact';
+  let launcherObserver;
 
   function isMobile() {
     return MOBILE_QUERY.matches;
@@ -13,9 +14,16 @@
 
   function syncLift() {
     const root = document.documentElement;
-    const shouldLift = isMobile() && Boolean(document.querySelector('.wa-sticky-atc--visible'));
+    const cartDrawerOpen = Boolean(document.querySelector('cart-drawer.active'));
+    const cartHasItems = document.body.classList.contains('template-cart') &&
+      !document.getElementById('main-cart-footer')?.classList.contains('is-empty');
+    const shouldLift =
+      isMobile() && (Boolean(document.querySelector('.wa-sticky-atc--visible')) || cartHasItems);
 
-    if (shouldLift) {
+    if (cartDrawerOpen) root.dataset.waSmileHidden = 'cart-drawer';
+    else delete root.dataset.waSmileHidden;
+
+    if (shouldLift && !cartDrawerOpen) {
       root.dataset.waSmileLift = 'sticky-atc';
       return;
     }
@@ -75,38 +83,70 @@
   }
 
   function scanForLaunchers() {
-    if (!isMobile()) return;
+    if (!isMobile()) return false;
 
-    document.querySelectorAll(LITE_FRAME_SELECTOR).forEach(setupLiteIframe);
+    const launchers = document.querySelectorAll(LITE_FRAME_SELECTOR);
+    launchers.forEach(setupLiteIframe);
+    return launchers.length > 0;
   }
 
-  function observeStickyAtc() {
+  function observeLiftTargets() {
     const sticky = document.querySelector('wa-sticky-atc');
-    if (!sticky) return;
+    const cartFooter = document.getElementById('main-cart-footer');
+    const cartDrawer = document.querySelector('cart-drawer');
 
     syncLift();
-    new MutationObserver(syncLift).observe(sticky, {
-      attributes: true,
-      attributeFilter: ['class'],
-    });
+
+    if (sticky) {
+      new MutationObserver(syncLift).observe(sticky, {
+        attributes: true,
+        attributeFilter: ['class'],
+      });
+    }
+
+    if (cartFooter) {
+      new MutationObserver(syncLift).observe(cartFooter, {
+        attributes: true,
+        attributeFilter: ['class'],
+      });
+    }
+
+    if (cartDrawer) {
+      new MutationObserver(syncLift).observe(cartDrawer, {
+        attributes: true,
+        attributeFilter: ['class'],
+      });
+    }
   }
 
   function observeSmileInjection() {
-    scanForLaunchers();
+    if (!isMobile() || launcherObserver) return;
+    if (scanForLaunchers()) return;
 
-    new MutationObserver(scanForLaunchers).observe(document.body, {
+    launcherObserver = new MutationObserver(() => {
+      if (!scanForLaunchers()) return;
+      launcherObserver.disconnect();
+      launcherObserver = null;
+    });
+    launcherObserver.observe(document.body, {
       childList: true,
       subtree: true,
     });
   }
 
+  function stopObservingSmileInjection() {
+    launcherObserver?.disconnect();
+    launcherObserver = null;
+  }
+
   function onViewportChange() {
     syncLift();
-    scanForLaunchers();
+    if (isMobile()) observeSmileInjection();
+    else stopObservingSmileInjection();
   }
 
   function init() {
-    observeStickyAtc();
+    observeLiftTargets();
     observeSmileInjection();
     syncLift();
     MOBILE_QUERY.addEventListener('change', onViewportChange);

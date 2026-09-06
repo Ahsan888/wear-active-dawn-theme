@@ -1,26 +1,62 @@
 {% comment %}
   Wear Active custom code start — wa-cart-assurance.liquid
   Factual cart reassurance shared by the cart page and cart drawer.
+
+  Accepts:
+  - mode: {String} "compact" for the drawer; defaults to the expanded cart-page treatment.
 {% endcomment %}
 
 {%- liquid
   assign wa_whatsapp_digits = settings.wa_whatsapp_number | remove: '+' | remove: ' ' | remove: '-'
   assign wa_whatsapp_message = 'Hi Wear Active, I need help with my order.' | url_encode
+  assign wa_cart_assurance_compact = false
+  if mode == 'compact'
+    assign wa_cart_assurance_compact = true
+  endif
 -%}
 
-<aside class="wa-cart-assurance" aria-label="Delivery, exchange and payment information">
-  <h2 class="wa-cart-assurance__heading">Order with confidence</h2>
+<aside
+  class="wa-cart-assurance{% if wa_cart_assurance_compact %} wa-cart-assurance--compact{% endif %}"
+  aria-label="Delivery, exchange and payment information"
+>
+  {%- if wa_cart_assurance_compact -%}
+    <p class="wa-cart-assurance__summary">
+      {% render 'wa-brand-icon', icon: 'secure', class: 'wa-cart-assurance__summary-icon' %}
+      Secure Shopify checkout · Free delivery · COD available
+    </p>
+    <details class="wa-cart-assurance__details">
+      <summary>Delivery, payment and exchanges</summary>
+  {%- else -%}
+    <h2 class="wa-cart-assurance__heading">Order with confidence</h2>
+  {%- endif -%}
   <ul class="wa-cart-assurance__list" role="list">
     <li class="wa-cart-assurance__item">
-      <strong>Free delivery across Pakistan</strong> in {{ settings.wa_delivery_window | escape }} via
-      {{ settings.wa_couriers | escape }}. Tracking is shared on WhatsApp.
+      {% render 'wa-brand-icon', icon: 'dispatch', class: 'wa-cart-assurance__icon' %}
+      <span>
+        <strong>Free delivery</strong>
+        <small>{{ settings.wa_delivery_window | escape }} across Pakistan</small>
+      </span>
     </li>
     <li class="wa-cart-assurance__item">
-      <strong>Size exchange:</strong> {% render 'wa-exchange-policy' %}
+      {% render 'wa-brand-icon', icon: 'hanger', class: 'wa-cart-assurance__icon' %}
+      <span>
+        <strong>Size exchange</strong>
+        <small>{% render 'wa-exchange-policy', mode: 'label' %}</small>
+      </span>
     </li>
     <li class="wa-cart-assurance__item">
-      <strong>Payment options:</strong> {{ settings.wa_payment_methods | escape }}.
-      {%- if settings.wa_cod_confirmation %} COD orders are confirmed on WhatsApp.{% endif -%}
+      {% render 'wa-brand-icon', icon: 'payment', class: 'wa-cart-assurance__icon' %}
+      <span>
+        <strong>Flexible payment</strong>
+        <small>{{ settings.wa_payment_methods | escape }}</small>
+      </span>
+    </li>
+    <li class="wa-cart-assurance__item">
+      {% render 'wa-brand-icon', icon: 'secure', class: 'wa-cart-assurance__icon' %}
+      <span>
+        <strong>Secure checkout</strong>
+        <small>Protected by Shopify</small>
+      </span>
     </li>
   </ul>
   <a
@@ -29,6 +65,9 @@
     target="_blank"
     rel="noopener"
   >
-    Need help? Chat on WhatsApp →
+    Questions before checkout? Chat on WhatsApp →
   </a>
+  {%- if wa_cart_assurance_compact -%}
+    </details>
+  {%- endif -%}
 </aside>

@@ -466,6 +466,16 @@
   font-weight: var(--wa-weight-semibold);
 }
 
+.wa-bundle-picker__loading {
+  margin: 0.7rem 0 0;
+  color: rgba(var(--color-foreground), 0.68);
+  font-size: var(--wa-text-xs);
+}
+
+.wa-bundle-picker__tier[aria-busy='true'] {
+  cursor: wait;
+}
+
 .wa-bundle-picker__error {
   margin: 0.7rem 0 0;
   color: #9f1d1d;

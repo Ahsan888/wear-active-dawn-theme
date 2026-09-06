@@ -64,7 +64,10 @@
         </div>
       {%- endif -%}
       <div class="drawer__header">
-        <h2 class="drawer__heading">{{ 'sections.cart.title' | t }}</h2>
+        <h2 class="drawer__heading">
+          Your bag
+          <span class="wa-cart-drawer__count" aria-label="{{ cart.item_count }} items">({{ cart.item_count }})</span>
+        </h2>
         <button
           class="drawer__close"
           type="button"
@@ -156,24 +159,24 @@
                             {{- item.product.title | escape -}}
                           </a>
 
-                          {%- if item.original_price != item.final_price -%}
+                          {%- if item.original_line_price != item.final_line_price -%}
                             <div class="cart-item__discounted-prices">
                               <span class="visually-hidden">
                                 {{ 'products.product.price.regular_price' | t }}
                               </span>
                               <s class="cart-item__old-price product-option">
-                                {{- item.original_price | money -}}
+                                {{- item.original_line_price | money -}}
                               </s>
                               <span class="visually-hidden">
                                 {{ 'products.product.price.sale_price' | t }}
                               </span>
                               <strong class="cart-item__final-price product-option">
-                                {{ item.final_price | money }}
+                                {{ item.final_line_price | money }}
                               </strong>
                             </div>
                           {%- else -%}
                             <div class="product-option">
-                              {{ item.original_price | money }}
+                              {{ item.original_line_price | money }}
                             </div>
                           {%- endif -%}
 
@@ -235,7 +238,7 @@
                           </ul>
                         </td>
 
-                        <td class="cart-item__totals right" role="cell" headers="CartDrawer-ColumnTotal">
+                        <td class="cart-item__totals right" role="cell" headers="CartDrawer-ColumnTotal" aria-hidden="true">
                           {%- render 'loading-spinner' -%}
                           <div class="cart-item__price-wrapper">
                             {%- if item.original_line_price != item.final_line_price -%}
@@ -352,16 +355,14 @@
                               >
                                 <button
                                   type="button"
-                                  class="button button--tertiary cart-remove-button"
+                                  class="button button--tertiary cart-remove-button{% if item.instructions and item.instructions.can_remove == false %} hidden{% endif %}"
                                   aria-label="{{ 'sections.cart.remove_title' | t: title: item.title | escape }}"
                                   data-variant-id="{{ item.variant.id }}"
-                                  {% if item.instructions and item.instructions.can_remove == false %}
-                                    class="hidden"
-                                  {% endif %}
                                 >
                                   <span class="svg-wrapper">
                                     {{- 'icon-remove.svg' | inline_asset_content -}}
                                   </span>
+                                  <span class="wa-cart-remove-label">Remove</span>
                                 </button>
                               </cart-remove-button>
                             </div>
@@ -475,9 +476,9 @@
           </div>
           <div id="CartDrawer-CartErrors" role="alert"></div>
         </form>
+        {% render 'wa-cart-bundle-progress' %}
         {% render 'wa-cart-complete-look' %}
       </cart-drawer-items>
-      {% render 'wa-cart-bundle-progress' %}
       <div class="drawer__footer">
         {%- if settings.show_cart_note -%}
           <details id="Details-CartDrawer">
@@ -527,7 +528,6 @@
 
         <!-- CTAs -->
 
-        {% render 'wa-cart-assurance' %}
         <div class="cart__ctas" {{ block.shopify_attributes }}>
           <button
             type="submit"
@@ -542,6 +542,7 @@
             {{ 'sections.cart.checkout' | t }}
           </button>
         </div>
+        {% render 'wa-cart-assurance', mode: 'compact' %}
       </div>
     </div>
   </div>

@@ -1,0 +1,60 @@
+{% comment %}
+  Wear Active custom code start — wa-bundle-product-data.liquid
+
+  On-demand bundle catalogue payload. Request this section against an eligible
+  collection URL through Shopify's Section Rendering API. Keeping this data out
+  of the product document avoids rendering every eligible product and variant
+  for shoppers who only want one item.
+{% endcomment %}
+
+<script type="application/json" data-wa-bundle-products>
+  [
+    {%- assign wa_first_bundle_product = true -%}
+    {%- for wa_product in collection.products limit: 50 -%}
+      {%- if wa_product.available -%}
+        {%- capture wa_product_color_data -%}
+          {%- render 'wa-color-from-product', product: wa_product -%}
+        {%- endcapture -%}
+        {%- assign wa_product_color = wa_product_color_data | strip | split: '|' | first | strip -%}
+        {%- for wa_option in wa_product.options_with_values -%}
+          {%- assign wa_option_name = wa_option.name | downcase -%}
+          {%- if wa_option_name == 'color' or wa_option_name == 'colour' -%}
+            {%- assign wa_product_color = wa_option.selected_value | strip -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- unless wa_first_bundle_product -%},{%- endunless -%}
+        {
+          "id": {{ wa_product.id | json }},
+          "title": {{ wa_product.title | json }},
+          "color": {{ wa_product_color | json }},
+          "url": {{ wa_product.url | json }},
+          "image": {{ wa_product.featured_image | image_url: width: 180 | json }},
+          "audiences": [{% if wa_product.tags contains 'gender-men' %}"men"{% endif %}{% if wa_product.tags contains 'gender-women' %}{% if wa_product.tags contains 'gender-men' %},{% endif %}"women"{% endif %}],
+          "options": {{ wa_product.options | json }},
+          "variants": [
+            {%- for variant in wa_product.variants -%}
+              {%- unless forloop.first -%},{%- endunless -%}
+              {
+                "id": {{ variant.id | json }},
+                "title": {{ variant.title | json }},
+                "available": {{ variant.available | json }},
+                "price": {{ variant.price | json }},
+                "sku": {{ variant.sku | json }},
+                "options": {{ variant.options | json }}
+              }
+            {%- endfor -%}
+          ]
+        }
+        {%- assign wa_first_bundle_product = false -%}
+      {%- endif -%}
+    {%- endfor -%}
+  ]
+</script>
+
+{% schema %}
+{
+  "name": "WA bundle product data",
+  "settings": []
+}
+{% endschema %}

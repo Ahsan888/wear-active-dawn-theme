@@ -16,24 +16,35 @@
     <ul class="wa-product-trust__list" role="list">
       <li class="wa-product-trust__item">
         {% render 'wa-brand-icon', icon: 'hanger', class: 'wa-product-trust__icon' %}
-        <span class="wa-product-trust__text">{% render 'wa-exchange-policy', mode: 'label' %}</span>
+        <span class="wa-product-trust__text">
+          <strong>{% render 'wa-exchange-policy', mode: 'label' %}</strong>
+          <small>Unused items with tags · {{ settings.wa_exchange_fee | escape }} delivery fee</small>
+        </span>
       </li>
       <li class="wa-product-trust__item">
-        {% render 'wa-brand-icon', icon: 'payment', class: 'wa-product-trust__icon' %}
-        <span class="wa-product-trust__text">COD · Bank · JazzCash</span>
+        {% render 'wa-brand-icon', icon: 'secure', class: 'wa-product-trust__icon' %}
+        <span class="wa-product-trust__text">
+          <strong>Secure checkout</strong>
+          <small>Checkout protected by Shopify</small>
+        </span>
       </li>
     </ul>
 
-    <a
-      class="wa-product-trust__support"
-      href="https://wa.me/{{ wa_whatsapp_digits }}?text={{ wa_whatsapp_message }}"
-      target="_blank"
-      rel="noopener"
-    >
-      {% render 'wa-brand-icon', icon: 'whatsapp', class: 'wa-product-trust__support-icon' %}
-      <span>Need sizing help?</span>
-      <strong>Chat on WhatsApp</strong>
-      <span class="wa-product-trust__support-arrow" aria-hidden="true">→</span>
-    </a>
+    <div class="wa-product-trust__meta">
+      <span class="wa-product-trust__payment">
+        {% render 'wa-brand-icon', icon: 'payment', class: 'wa-product-trust__meta-icon' %}
+        {{ settings.wa_payment_methods | escape }}
+      </span>
+      <a
+        class="wa-product-trust__support"
+        href="https://wa.me/{{ wa_whatsapp_digits }}?text={{ wa_whatsapp_message }}"
+        target="_blank"
+        rel="noopener"
+      >
+        {% render 'wa-brand-icon', icon: 'whatsapp', class: 'wa-product-trust__support-icon' %}
+        Sizing help on WhatsApp
+        <span class="wa-product-trust__support-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
   </aside>
 {%- endif -%}

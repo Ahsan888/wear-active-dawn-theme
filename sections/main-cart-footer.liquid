@@ -38,6 +38,7 @@
       {%- endif -%}
 
       <div class="cart__blocks">
+        <h2 class="wa-cart-summary__heading">Order summary</h2>
         {% for block in section.blocks %}
           {%- case block.type -%}
             {%- when '@app' -%}
@@ -64,9 +65,23 @@
                 </div>
 
                 <small class="tax-note caption-large rte">Free standard delivery across Pakistan.</small>
+                <div class="wa-cart-mobile-checkout" aria-label="Cart total and checkout">
+                  <span class="wa-cart-mobile-checkout__total">
+                    <small>{{ 'sections.cart.estimated_total' | t }}</small>
+                    <strong>{{ cart.total_price | money_with_currency }}</strong>
+                  </span>
+                  <button
+                    type="submit"
+                    class="wa-cart-mobile-checkout__button button"
+                    name="checkout"
+                    form="cart"
+                    {% if cart == empty %}disabled{% endif %}
+                  >
+                    {{ 'sections.cart.checkout' | t }}
+                  </button>
+                </div>
               </div>
             {%- else -%}
-              {% render 'wa-cart-assurance' %}
               <div class="cart__ctas" {{ block.shopify_attributes }}>
                 <button
                   type="submit"
@@ -87,6 +102,8 @@
                   {{ content_for_additional_checkout_buttons }}
                 </div>
               {%- endif -%}
+
+              {% render 'wa-cart-assurance' %}
           {%- endcase -%}
         {% endfor %}
 

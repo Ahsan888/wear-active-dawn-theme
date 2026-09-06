@@ -52,6 +52,7 @@
       <div class="cart__items" id="main-cart-items" data-id="{{ section.id }}">
         <div class="js-contents">
           {%- if cart != empty -%}
+            {% render 'wa-cart-bundle-progress' %}
             <table class="cart-items">
               <caption class="visually-hidden">
                 {{ 'sections.cart.title' | t }}
@@ -307,6 +308,7 @@
                               <span class="svg-wrapper">
                                 {{- 'icon-remove.svg' | inline_asset_content -}}
                               </span>
+                              <span class="wa-cart-remove-label">Remove</span>
                             </a>
                           </cart-remove-button>
                         </div>

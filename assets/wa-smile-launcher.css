@@ -4,6 +4,16 @@
    Desktop launcher styling is unchanged.
    ========================================================================== */
 
+/* Keep loyalty UI from covering the cart drawer's checkout controls. */
+html[data-wa-smile-hidden='cart-drawer'] body #smile-ui-lite-launcher-frame-container,
+html[data-wa-smile-hidden='cart-drawer'] body #smile-lite-launcher-frame,
+html[data-wa-smile-hidden='cart-drawer'] body #smile-ui-lite-container .smile-launcher-frame-container,
+html[data-wa-smile-hidden='cart-drawer'] body .smile-launcher-frame-container {
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+
 @media screen and (max-width: 749px) {
   :root {
     --wa-smile-launcher-size: 4.8rem;

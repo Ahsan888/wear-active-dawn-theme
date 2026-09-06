@@ -21,21 +21,20 @@ if (!customElements.get('wa-bundle-picker')) {
         this.productGrid = this.querySelector('[data-wa-bundle-product-grid]');
         this.search = this.querySelector('[data-wa-bundle-search]');
         this.emptyState = this.querySelector('[data-wa-bundle-empty]');
+        this.loadingState = this.querySelector('[data-wa-bundle-loading]');
         this.quantity = 1;
 
         this.currentProduct = this.parseJson('[data-wa-current-product]', null);
-        const collectionProducts = this.parseJson('[data-wa-bundle-products]', []);
-        const allProducts = this.uniqueProducts([this.currentProduct, ...collectionProducts].filter(Boolean));
-        const currentAudiences = new Set(this.currentProduct?.audiences || []);
-        this.products = allProducts.filter((product) => {
-          if (currentAudiences.size === 0) return String(product.id) === String(this.currentProduct?.id);
-          return (product.audiences || []).some((audience) => currentAudiences.has(audience));
-        });
+        this.products = this.filterProducts([this.currentProduct].filter(Boolean));
+        this.productsLoaded = false;
+        this.productsPromise = null;
         if (!this.form || !this.submitButton || !this.currentProduct || this.products.length === 0) return;
 
         this.originalSubmitLabel = this.submitLabel?.textContent.trim() || 'Add to cart';
         this.querySelectorAll('[data-wa-bundle-tier]').forEach((button) => {
-          button.addEventListener('click', () => this.selectTier(Number(button.dataset.waBundleTier || 1)));
+          button.addEventListener('click', () => {
+            this.selectTier(Number(button.dataset.waBundleTier || 1));
+          });
         });
         this.querySelector('[data-wa-bundle-dialog-close]')?.addEventListener('click', () => this.closeProductDialog());
         this.dialog?.addEventListener('click', (event) => {
@@ -79,6 +78,56 @@ if (!customElements.get('wa-bundle-picker')) {
         });
       }
 
+      filterProducts(products) {
+        const allProducts = this.uniqueProducts(products);
+        const currentAudiences = new Set(this.currentProduct?.audiences || []);
+        return allProducts.filter((product) => {
+          if (currentAudiences.size === 0) return String(product.id) === String(this.currentProduct?.id);
+          return (product.audiences || []).some((audience) => currentAudiences.has(audience));
+        });
+      }
+
+      async loadProducts() {
+        if (this.productsLoaded) return this.products;
+        if (this.productsPromise) return this.productsPromise;
+
+        const url = this.dataset.productsUrl;
+        if (!url) throw new Error('Bundle choices are temporarily unavailable.');
+
+        this.setCatalogueLoading(true);
+        this.productsPromise = fetch(url, {
+          headers: { Accept: 'text/html' },
+          credentials: 'same-origin',
+        })
+          .then((response) => {
+            if (!response.ok) throw new Error('Could not load bundle choices.');
+            return response.text();
+          })
+          .then((markup) => {
+            const documentFragment = new DOMParser().parseFromString(markup, 'text/html');
+            const payload = documentFragment.querySelector('[data-wa-bundle-products]');
+            if (!payload) throw new Error('Bundle choices are temporarily unavailable.');
+
+            let collectionProducts;
+            try {
+              collectionProducts = JSON.parse(payload.textContent || '[]');
+            } catch (_error) {
+              throw new Error('Bundle choices are temporarily unavailable.');
+            }
+
+            this.products = this.filterProducts([this.currentProduct, ...collectionProducts].filter(Boolean));
+            this.productsLoaded = true;
+            return this.products;
+          })
+          .catch((error) => {
+            this.productsPromise = null;
+            throw error;
+          })
+          .finally(() => this.setCatalogueLoading(false));
+
+        return this.productsPromise;
+      }
+
       currentVariant() {
         const id = String(this.form?.querySelector('[name="id"]')?.value || this.dataset.currentVariantId || '');
         return (
@@ -100,7 +149,17 @@ if (!customElements.get('wa-bundle-picker')) {
         this.refreshPrices();
       }
 
-      selectTier(quantity) {
+      async selectTier(quantity) {
+        if (quantity > 1 && !this.productsLoaded) {
+          this.setError('');
+          try {
+            await this.loadProducts();
+          } catch (error) {
+            this.setError(`${error.message || 'Could not load bundle choices.'} Please try again.`);
+            return;
+          }
+        }
+
         this.quantity = quantity;
         this.querySelectorAll('[data-wa-bundle-tier]').forEach((button) => {
           const selected = Number(button.dataset.waBundleTier) === quantity;
@@ -400,6 +459,14 @@ if (!customElements.get('wa-bundle-picker')) {
         this.submitButton?.toggleAttribute('disabled', loading);
         this.submitButton?.classList.toggle('loading', loading);
         this.submitButton?.querySelector('.loading__spinner')?.classList.toggle('hidden', !loading);
+      }
+
+      setCatalogueLoading(loading) {
+        if (this.loadingState) this.loadingState.hidden = !loading;
+        this.querySelectorAll('[data-wa-bundle-tier]').forEach((button) => {
+          button.toggleAttribute('disabled', loading);
+          button.toggleAttribute('aria-busy', loading && Number(button.dataset.waBundleTier) > 1);
+        });
       }
 
       setError(message) {

@@ -269,13 +269,31 @@
     {{ 'wa-components.css' | asset_url | stylesheet_tag }}
     {{ 'wa-trust.css' | asset_url | stylesheet_tag }}
     {{ 'wa-header.css' | asset_url | stylesheet_tag }}
-    {{ 'wa-footer.css' | asset_url | stylesheet_tag }}
-    {{ 'wa-smile-launcher.css' | asset_url | stylesheet_tag }}
-    <script src="{{ 'wa-card-swatch-preview.js' | asset_url }}" defer="defer"></script>
+    <link rel="stylesheet" href="{{ 'wa-footer.css' | asset_url }}" media="print" onload="this.media='all'">
+    <noscript>{{ 'wa-footer.css' | asset_url | stylesheet_tag }}</noscript>
+    <link rel="stylesheet" href="{{ 'wa-smile-launcher.css' | asset_url }}" media="print" onload="this.media='all'">
+    <noscript>{{ 'wa-smile-launcher.css' | asset_url | stylesheet_tag }}</noscript>
+    {%- if request.page_type == 'index'
+      or request.page_type == 'collection'
+      or request.page_type == 'search'
+      or request.page_type == 'product'
+    -%}
+      <script src="{{ 'wa-card-swatch-preview.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
     <script src="{{ 'wa-smile-launcher.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'wa-modal.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'wa-aov-analytics.js' | asset_url }}" defer="defer"></script>
+    {%- if request.page_type == 'product' -%}
+      <script src="{{ 'wa-modal.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+    {%- if request.page_type == 'product' or settings.cart_type == 'drawer' -%}
+      <script src="{{ 'wa-aov-analytics.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
     <script src="{{ 'wa-attribution.js' | asset_url }}" defer="defer"></script>
+    {%- if request.page_type == 'cart' -%}
+      {{ 'wa-cart.css' | asset_url | stylesheet_tag }}
+    {%- elsif settings.cart_type == 'drawer' -%}
+      <link rel="stylesheet" href="{{ 'wa-cart.css' | asset_url }}" media="print" onload="this.media='all'">
+      <noscript>{{ 'wa-cart.css' | asset_url | stylesheet_tag }}</noscript>
+    {%- endif -%}
     {%- if template.name == 'collection' -%}
       {{ 'wa-collection.css' | asset_url | stylesheet_tag }}
       <script src="{{ 'wa-collection-description.js' | asset_url }}" defer="defer"></script>
@@ -283,7 +301,8 @@
     {%- if template.name == 'product' -%}
       {{ 'wa-product.css' | asset_url | stylesheet_tag }}
       {{ 'wa-product-gallery.css' | asset_url | stylesheet_tag }}
-      {{ 'wa-sticky-atc.css' | asset_url | stylesheet_tag }}
+      <link rel="stylesheet" href="{{ 'wa-sticky-atc.css' | asset_url }}" media="print" onload="this.media='all'">
+      <noscript>{{ 'wa-sticky-atc.css' | asset_url | stylesheet_tag }}</noscript>
       <script src="{{ 'wa-product-gallery.js' | asset_url }}" defer="defer"></script>
       <script src="{{ 'wa-sticky-atc.js' | asset_url }}" defer="defer"></script>
       <script src="{{ 'wa-product.js' | asset_url }}" defer="defer"></script>
