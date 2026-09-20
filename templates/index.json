@@ -82,6 +82,18 @@
       ],
       "settings": {}
     },
+    "wa_movement_gallery": {
+      "type": "wa-movement-gallery",
+      "settings": {
+        "eyebrow": "SEEN IN MOTION",
+        "heading": "See how it moves.",
+        "heading_size": "h1",
+        "text": "Real fit, fabric and movement—shown by the people who wear it.",
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 56
+      }
+    },
     "wa_shop_by_category": {
       "type": "wa-shop-by-category",
       "blocks": {
@@ -409,6 +421,7 @@
   "order": [
     "wa_hero_carousel",
     "wa_trust_strip",
+    "wa_movement_gallery",
     "wa_shop_by_category",
     "wa_campaign_story",
     "wa_performance_features",

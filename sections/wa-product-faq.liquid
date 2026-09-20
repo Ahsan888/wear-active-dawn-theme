@@ -1,0 +1,67 @@
+{{ 'wa-product-faq.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .wa-product-faq--{{ section.id }} { padding-top: {{ section.settings.padding_top | times: 0.75 | round }}px; padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round }}px; }
+  @media screen and (min-width: 750px) { .wa-product-faq--{{ section.id }} { padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; } }
+{%- endstyle -%}
+
+<section class="wa-product-faq wa-product-faq--{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="wa-product-faq__inner">
+      <header class="wa-product-faq__header">
+        {%- if section.settings.eyebrow != blank -%}<p class="wa-product-faq__eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+        <h2 class="wa-product-faq__heading {{ section.settings.heading_size }}">{{ section.settings.heading | escape }}</h2>
+      </header>
+
+      <div class="wa-product-faq__items">
+        <details class="wa-product-faq__item">
+          <summary><h3 class="wa-product-faq__question">How do I choose the right size?</h3><span class="wa-product-faq__icon" aria-hidden="true"></span></summary>
+          <div class="wa-product-faq__answer rte"><p>Use the Size Guide beside the size options and compare it with a similar item you already own. If you are between sizes, message us on WhatsApp for fit help before ordering.</p></div>
+        </details>
+        <details class="wa-product-faq__item">
+          <summary><h3 class="wa-product-faq__question">When will my order arrive?</h3><span class="wa-product-faq__icon" aria-hidden="true"></span></summary>
+          <div class="wa-product-faq__answer rte"><p>Delivery is free across Pakistan and normally takes {{ settings.wa_delivery_window | escape }}. Tracking is shared on WhatsApp after dispatch.</p></div>
+        </details>
+        <details class="wa-product-faq__item">
+          <summary><h3 class="wa-product-faq__question">Can I exchange the size?</h3><span class="wa-product-faq__icon" aria-hidden="true"></span></summary>
+          <div class="wa-product-faq__answer rte"><p>{% render 'wa-exchange-policy' %}</p></div>
+        </details>
+        <details class="wa-product-faq__item">
+          <summary><h3 class="wa-product-faq__question">Which payment methods can I use?</h3><span class="wa-product-faq__icon" aria-hidden="true"></span></summary>
+          <div class="wa-product-faq__answer rte"><p>We accept {{ settings.wa_payment_methods | escape }}. Checkout is securely processed by Shopify.</p></div>
+        </details>
+        {%- for block in section.blocks -%}
+          {%- if block.settings.question != blank and block.settings.answer != blank -%}
+            <details class="wa-product-faq__item" {{ block.shopify_attributes }}>
+              <summary><h3 class="wa-product-faq__question">{{ block.settings.question | escape }}</h3><span class="wa-product-faq__icon" aria-hidden="true"></span></summary>
+              <div class="wa-product-faq__answer rte">{{ block.settings.answer }}</div>
+            </details>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "WA product FAQ",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "NEED TO KNOW" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Questions, answered." },
+    { "type": "select", "id": "heading_size", "label": "Heading size", "options": [{ "value": "h2", "label": "Small" }, { "value": "h1", "label": "Medium" }, { "value": "h0", "label": "Large" }], "default": "h1" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 48 }
+  ],
+  "blocks": [
+    { "type": "question", "name": "Additional question", "settings": [
+      { "type": "text", "id": "question", "label": "Question" },
+      { "type": "richtext", "id": "answer", "label": "Answer" }
+    ] }
+  ],
+  "presets": [{ "name": "WA product FAQ" }]
+}
+{% endschema %}

@@ -19,10 +19,10 @@
           case block.settings.default_artwork
             when 'hero_1'
               assign desktop_asset = 'wa-home-hero-01.webp'
-              assign mobile_asset = 'wa-home-hero-01-mobile.webp'
+              assign mobile_asset = 'wa-lifestyle-00930-mobile.webp'
             when 'hero_2'
               assign desktop_asset = 'wa-home-hero-02.webp'
-              assign mobile_asset = 'wa-home-hero-02-mobile.webp'
+              assign mobile_asset = 'wa-lifestyle-01080-mobile.webp'
           endcase
 
           assign image_alt = block.settings.alt_text
@@ -52,17 +52,31 @@
           {%- endif -%}
 
           {%- if block.settings.image != blank -%}
-            {{
-              block.settings.image
-              | image_url: width: 2400
-              | image_tag:
-                class: 'wa-hero-carousel__image',
-                widths: '480, 750, 960, 1280, 1600, 2048, 2400',
-                sizes: '100vw',
-                loading: loading_strategy,
-                fetchpriority: fetch_priority,
-                alt: image_alt
-            }}
+            <picture class="wa-hero-carousel__picture">
+              {%- if block.settings.mobile_image != blank -%}
+                <source
+                  media="(max-width: 749px)"
+                  srcset="
+                    {{ block.settings.mobile_image | image_url: width: 480 }} 480w,
+                    {{ block.settings.mobile_image | image_url: width: 750 }} 750w,
+                    {{ block.settings.mobile_image | image_url: width: 960 }} 960w,
+                    {{ block.settings.mobile_image | image_url: width: 1200 }} 1200w
+                  "
+                  sizes="100vw"
+                >
+              {%- endif -%}
+              {{
+                block.settings.image
+                | image_url: width: 2400
+                | image_tag:
+                  class: 'wa-hero-carousel__image',
+                  widths: '480, 750, 960, 1280, 1600, 2048, 2400',
+                  sizes: '100vw',
+                  loading: loading_strategy,
+                  fetchpriority: fetch_priority,
+                  alt: image_alt
+              }}
+            </picture>
           {%- elsif desktop_asset != blank -%}
             <picture class="wa-hero-carousel__picture">
               <source media="(max-width: 749px)" srcset="{{ mobile_asset | asset_url }}">
@@ -198,7 +212,13 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Custom image"
+          "label": "Custom desktop image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Custom mobile image",
+          "info": "Use a portrait 4:5 image. When blank, the desktop image is cropped for mobile."
         },
         {
           "type": "select",

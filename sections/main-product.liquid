@@ -29,6 +29,7 @@
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
   {{ 'wa-purchase-panel.css' | asset_url | stylesheet_tag }}
+  {{ 'wa-cro.css' | asset_url | stylesheet_tag }}
 
   {% unless product.has_only_default_variant %}
     {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
@@ -131,11 +132,9 @@
                     product: product,
                     use_variant: true,
                     show_badges: true,
+                    show_savings: true,
                     price_class: 'price--large'
                   -%}
-                  {%- comment -%} Wear Active custom code start {%- endcomment -%}
-                  {% render 'wa-product-card-pack-save', product: product, mode: 'price' %}
-                  {%- comment -%} Wear Active custom code end {%- endcomment -%}
                 </div>
                 {%- if product.quantity_price_breaks_configured? -%}
                   <div class="volume-pricing-note" id="Volume-Note-{{ section.id }}">
@@ -528,6 +527,10 @@
                 {%- comment -%} Wear Active custom code start {%- endcomment -%}
                 {% render 'wa-bundle-save', block: block, product: product, product_form_id: product_form_id %}
                 {%- comment -%} Wear Active custom code end {%- endcomment -%}
+              {%- when 'wa_buyer_highlights' -%}
+                {%- comment -%} Wear Active CRO custom code start {%- endcomment -%}
+                {% render 'wa-buyer-highlights', block: block, product: product %}
+                {%- comment -%} Wear Active CRO custom code end {%- endcomment -%}
               {%- when 'wa_complete_look' -%}
                 {%- comment -%} Wear Active custom code start {%- endcomment -%}
                 {% render 'wa-complete-look', block: block, product: product, section: section %}
@@ -987,6 +990,47 @@
           "default": true,
           "label": "t:sections.main-product.blocks.buy_buttons.settings.show_gift_card_recipient.label",
           "info": "t:sections.main-product.blocks.buy_buttons.settings.show_gift_card_recipient.info"
+        }
+      ]
+    },
+    {
+      "type": "wa_buyer_highlights",
+      "name": "Key buying points",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enable",
+          "default": true,
+          "label": "Show key buying points"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Good to know",
+          "label": "Heading"
+        },
+        {
+          "type": "paragraph",
+          "content": "A product list metafield at custom.key_features overrides the default points below."
+        },
+        {
+          "type": "text",
+          "id": "point_1",
+          "default": "Free delivery in 2–5 working days",
+          "label": "Default point 1"
+        },
+        {
+          "type": "text",
+          "id": "point_2",
+          "default": "7-day size exchange",
+          "label": "Default point 2"
+        },
+        {
+          "type": "text",
+          "id": "point_3",
+          "default": "Sizing help available on WhatsApp",
+          "label": "Default point 3"
         }
       ]
     },

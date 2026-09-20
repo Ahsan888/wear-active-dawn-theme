@@ -89,9 +89,86 @@
   text-transform: uppercase;
 }
 
+/* Full-width PDP placement keeps recommendations compact and prevents the
+   purchase column from creating an empty gallery-sized gutter while scrolling. */
+.wa-complete-look--section {
+  margin-top: 0;
+  padding: clamp(1.8rem, 2.5vw, 2.8rem);
+}
+
+.wa-complete-look--section .wa-complete-look__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.6rem;
+}
+
+.wa-complete-look--section .wa-complete-look__header h3 {
+  font-size: clamp(2rem, 2.2vw, 2.8rem);
+}
+
+.wa-complete-look--section .wa-complete-look__list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.wa-complete-look--section .wa-complete-look__item,
+.wa-complete-look--section .wa-complete-look__item:first-child {
+  min-width: 0;
+  padding: 1.2rem;
+  border: 0.1rem solid rgba(var(--wa-color-evergreen-rgb), 0.12);
+  background: rgba(var(--wa-color-parchment-rgb), 0.56);
+}
+
+.wa-complete-look--section .card--horizontal {
+  grid-template-columns: 10rem minmax(0, 1fr);
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.wa-complete-look--section .card--horizontal .card__inner {
+  width: 10rem;
+  min-height: 12.5rem;
+}
+
+.wa-complete-look--section .card__heading {
+  font-size: var(--wa-text-sm);
+}
+
+@media screen and (max-width: 989px) {
+  .wa-complete-look--section .wa-complete-look__list {
+    display: grid;
+    grid-auto-columns: minmax(27rem, 78%);
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    overflow-x: auto;
+    padding-bottom: 0.8rem;
+    scroll-padding-inline: 0;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+  }
+
+  .wa-complete-look--section .wa-complete-look__item {
+    scroll-snap-align: start;
+  }
+}
+
 @media screen and (max-width: 749px) {
   .wa-complete-look {
     padding: 1.3rem;
   }
-}
 
+  .wa-complete-look--section .wa-complete-look__header {
+    margin-bottom: 1.2rem;
+  }
+
+  .wa-complete-look--section .card--horizontal {
+    grid-template-columns: 8rem minmax(0, 1fr);
+  }
+
+  .wa-complete-look--section .card--horizontal .card__inner {
+    width: 8rem;
+    min-height: 10rem;
+  }
+}

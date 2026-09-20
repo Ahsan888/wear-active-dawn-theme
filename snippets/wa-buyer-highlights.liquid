@@ -1,0 +1,30 @@
+{% comment %}
+  Wear Active CRO: scannable decision points above the primary purchase action.
+  Products can override the defaults with a list metafield at custom.key_features.
+{% endcomment %}
+
+{%- if block.settings.enable -%}
+  {%- assign wa_key_features = product.metafields.custom.key_features -%}
+  <div class="wa-buyer-highlights quick-add-hidden" {{ block.shopify_attributes }}>
+    {%- if block.settings.heading != blank -%}
+      <p class="wa-buyer-highlights__heading">{{ block.settings.heading | escape }}</p>
+    {%- endif -%}
+    <ul class="wa-buyer-highlights__list" role="list">
+      {%- if wa_key_features != blank and wa_key_features.type contains 'list.' -%}
+        {%- for feature in wa_key_features.value limit: 3 -%}
+          <li><span class="svg-wrapper">{{ 'icon-checkmark.svg' | inline_asset_content }}</span><span>{{ feature | escape }}</span></li>
+        {%- endfor -%}
+      {%- elsif wa_key_features != blank -%}
+        <li><span class="svg-wrapper">{{ 'icon-checkmark.svg' | inline_asset_content }}</span><span>{{ wa_key_features.value | escape }}</span></li>
+      {%- else -%}
+        {%- for index in (1..3) -%}
+          {%- assign setting_id = 'point_' | append: index -%}
+          {%- assign point = block.settings[setting_id] -%}
+          {%- if point != blank -%}
+            <li><span class="svg-wrapper">{{ 'icon-checkmark.svg' | inline_asset_content }}</span><span>{{ point | escape }}</span></li>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </ul>
+  </div>
+{%- endif -%}
