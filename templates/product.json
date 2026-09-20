@@ -40,15 +40,6 @@
             "show_gift_card_recipient": true
           }
         },
-        "wa_complete_look": {
-          "type": "wa_complete_look",
-          "settings": {
-            "enable": true,
-            "heading": "Complete Your Look",
-            "products_to_show": 3,
-            "enable_quick_add": true
-          }
-        },
         "wa_trust_block": {
           "type": "wa_trust_block",
           "settings": {
@@ -65,6 +56,16 @@
             "tee_collection_handle": "bundle-eligible-tees",
             "bottom_save_2": 200,
             "bottom_collection_handle": "bundle-eligible-bottoms"
+          }
+        },
+        "wa_buyer_highlights": {
+          "type": "wa_buyer_highlights",
+          "settings": {
+            "enable": true,
+            "heading": "Good to know",
+            "point_1": "Free delivery in 2–5 working days",
+            "point_2": "7-day size exchange",
+            "point_3": "Sizing help available on WhatsApp"
           }
         },
         "wa_product_info": {
@@ -84,8 +85,8 @@
         "price",
         "variant_picker",
         "wa_bundle_save",
+        "wa_buyer_highlights",
         "buy_buttons",
-        "wa_complete_look",
         "wa_trust_block",
         "wa_product_info"
       ],
@@ -103,6 +104,29 @@
         "enable_video_looping": false,
         "padding_top": 36,
         "padding_bottom": 12
+      }
+    },
+    "wa_complete_look": {
+      "type": "wa-product-complete-look",
+      "settings": {
+        "enable": true,
+        "heading": "Complete Your Look",
+        "products_to_show": 3,
+        "enable_quick_add": true,
+        "color_scheme": "scheme-1",
+        "padding_top": 20,
+        "padding_bottom": 28
+      }
+    },
+    "wa_product_faq": {
+      "type": "wa-product-faq",
+      "settings": {
+        "eyebrow": "NEED TO KNOW",
+        "heading": "Questions, answered.",
+        "heading_size": "h1",
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 48
       }
     },
     "related-products": {
@@ -150,6 +174,8 @@
   },
   "order": [
     "main",
+    "wa_complete_look",
+    "wa_product_faq",
     "17814682545f14b709",
     "related-products"
   ]

@@ -157,6 +157,14 @@
     --wa-carousel-control-size: 3.6rem;
   }
 
+  .wa-hero-carousel__slide {
+    aspect-ratio: 4 / 5;
+  }
+
+  .wa-hero-carousel__image {
+    object-fit: cover;
+  }
+
   .wa-hero-carousel__control--previous {
     left: 1rem;
   }

@@ -1,0 +1,104 @@
+{%- comment -%}
+  Wear Active custom code start — wa-product-complete-look.liquid
+
+  A compact, full-width placement for product recommendations. Keeping this
+  outside main-product prevents a tall cross-sell stack from stretching the
+  purchase column beyond the product gallery.
+{%- endcomment -%}
+
+{%- assign wa_complete_products = product.metafields.custom.complete_the_look.value -%}
+
+{%- if section.settings.enable and wa_complete_products != blank -%}
+  {%- style -%}
+    .wa-product-complete-look--{{ section.id }} {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+      .wa-product-complete-look--{{ section.id }} {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+  {%- endstyle -%}
+
+  <section class="wa-product-complete-look wa-product-complete-look--{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+    <div class="page-width">
+      {% render 'wa-complete-look',
+        block: section,
+        product: product,
+        section: section,
+        layout: 'section'
+      %}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "WA complete look",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable",
+      "default": true,
+      "label": "Enable Complete Your Look"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Complete Your Look",
+      "label": "Heading"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 3,
+      "label": "Products to show"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_add",
+      "default": true,
+      "label": "Enable quick add"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 28
+    }
+  ],
+  "presets": [
+    {
+      "name": "WA complete look"
+    }
+  ]
+}
+{% endschema %}

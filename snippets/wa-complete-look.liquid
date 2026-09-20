@@ -8,9 +8,11 @@
   - block: {Object} Theme editor block settings.
   - product: {Object} Current product.
   - section: {Object} Current product section.
+  - layout: {String} Optional presentation. Defaults to "panel".
 {% endcomment %}
 
 {%- assign wa_complete_products = product.metafields.custom.complete_the_look.value -%}
+{%- assign wa_complete_layout = layout | default: 'panel' -%}
 
 {%- if block.settings.enable and wa_complete_products != blank -%}
   {{ 'component-card.css' | asset_url | stylesheet_tag }}
@@ -21,7 +23,7 @@
     <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
 
-  <aside class="wa-complete-look" aria-labelledby="WaCompleteLookTitle-{{ block.id }}" {{ block.shopify_attributes }}>
+  <aside class="wa-complete-look wa-complete-look--{{ wa_complete_layout }}" aria-labelledby="WaCompleteLookTitle-{{ block.id }}" {{ block.shopify_attributes }}>
     <div class="wa-complete-look__header">
       <p class="wa-complete-look__eyebrow">Style it together</p>
       <h3 id="WaCompleteLookTitle-{{ block.id }}">{{ block.settings.heading | escape }}</h3>
@@ -53,4 +55,3 @@
     </ul>
   </aside>
 {%- endif -%}
-
